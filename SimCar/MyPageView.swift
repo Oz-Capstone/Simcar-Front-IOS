@@ -48,6 +48,14 @@ struct MyPageView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
+                
+                NavigationLink(destination: ProfileView()) {
+                    Text("회원 정보 조회")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
             }
             .navigationTitle("마이페이지")
         }

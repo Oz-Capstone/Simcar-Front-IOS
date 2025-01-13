@@ -24,6 +24,7 @@
 		4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53F62D35587400248FDC /* DetailCarView.swift */; };
 		4BDD53F92D355ADF00248FDC /* AICarDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53F82D355ADF00248FDC /* AICarDiagnosisView.swift */; };
 		4BDD53FB2D355B7500248FDC /* RegistrationCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53FA2D355B7500248FDC /* RegistrationCarView.swift */; };
+		4BDD53FD2D35868300248FDC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53FC2D35868300248FDC /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		4BDD53F62D35587400248FDC /* DetailCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCarView.swift; sourceTree = "<group>"; };
 		4BDD53F82D355ADF00248FDC /* AICarDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICarDiagnosisView.swift; sourceTree = "<group>"; };
 		4BDD53FA2D355B7500248FDC /* RegistrationCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCarView.swift; sourceTree = "<group>"; };
+		4BDD53FC2D35868300248FDC /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				4BDD53EE2D3552C600248FDC /* EditProfileView.swift */,
 				4BDD53F02D3553B500248FDC /* DeleteAccountView.swift */,
 				4BDD53F22D35550100248FDC /* FavoriteCarView.swift */,
+				4BDD53FC2D35868300248FDC /* ProfileView.swift */,
 			);
 			path = MyPageViews;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				4BDD53F32D35550100248FDC /* FavoriteCarView.swift in Sources */,
 				4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */,
 				4BDD53EA2D354F9F00248FDC /* SignUpView.swift in Sources */,
+				4BDD53FD2D35868300248FDC /* ProfileView.swift in Sources */,
 				4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
