@@ -10,10 +10,20 @@
 		4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B52D34C89300248FDC /* SimCarApp.swift */; };
 		4BDD53B82D34C89300248FDC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B72D34C89300248FDC /* ContentView.swift */; };
 		4BDD53BA2D34C89500248FDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BDD53B92D34C89500248FDC /* Assets.xcassets */; };
-		4BDD53BD2D34C89500248FDC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BDD53BC2D34C89500248FDC /* Preview Assets.xcassets */; };
 		4BDD53C72D34C89500248FDC /* SimCarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53C62D34C89500248FDC /* SimCarTests.swift */; };
 		4BDD53D12D34C89500248FDC /* SimCarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53D02D34C89500248FDC /* SimCarUITests.swift */; };
 		4BDD53D32D34C89500248FDC /* SimCarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53D22D34C89500248FDC /* SimCarUITestsLaunchTests.swift */; };
+		4BDD53E02D3547E300248FDC /* BuyCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53DF2D3547E300248FDC /* BuyCarView.swift */; };
+		4BDD53E22D35480800248FDC /* SellCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53E12D35480800248FDC /* SellCarView.swift */; };
+		4BDD53E62D354DE700248FDC /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53E52D354DE700248FDC /* MyPageView.swift */; };
+		4BDD53EA2D354F9F00248FDC /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53E92D354F9F00248FDC /* SignUpView.swift */; };
+		4BDD53ED2D35523300248FDC /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53EC2D35523300248FDC /* LogInView.swift */; };
+		4BDD53EF2D3552C600248FDC /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53EE2D3552C600248FDC /* EditProfileView.swift */; };
+		4BDD53F12D3553B500248FDC /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53F02D3553B500248FDC /* DeleteAccountView.swift */; };
+		4BDD53F32D35550100248FDC /* FavoriteCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53F22D35550100248FDC /* FavoriteCarView.swift */; };
+		4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53F62D35587400248FDC /* DetailCarView.swift */; };
+		4BDD53F92D355ADF00248FDC /* AICarDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53F82D355ADF00248FDC /* AICarDiagnosisView.swift */; };
+		4BDD53FB2D355B7500248FDC /* RegistrationCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53FA2D355B7500248FDC /* RegistrationCarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,12 +48,22 @@
 		4BDD53B52D34C89300248FDC /* SimCarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarApp.swift; sourceTree = "<group>"; };
 		4BDD53B72D34C89300248FDC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4BDD53B92D34C89500248FDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4BDD53BC2D34C89500248FDC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4BDD53C22D34C89500248FDC /* SimCarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimCarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDD53C62D34C89500248FDC /* SimCarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarTests.swift; sourceTree = "<group>"; };
 		4BDD53CC2D34C89500248FDC /* SimCarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimCarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDD53D02D34C89500248FDC /* SimCarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarUITests.swift; sourceTree = "<group>"; };
 		4BDD53D22D34C89500248FDC /* SimCarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4BDD53DF2D3547E300248FDC /* BuyCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCarView.swift; sourceTree = "<group>"; };
+		4BDD53E12D35480800248FDC /* SellCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellCarView.swift; sourceTree = "<group>"; };
+		4BDD53E52D354DE700248FDC /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		4BDD53E92D354F9F00248FDC /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		4BDD53EC2D35523300248FDC /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		4BDD53EE2D3552C600248FDC /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		4BDD53F02D3553B500248FDC /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
+		4BDD53F22D35550100248FDC /* FavoriteCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCarView.swift; sourceTree = "<group>"; };
+		4BDD53F62D35587400248FDC /* DetailCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCarView.swift; sourceTree = "<group>"; };
+		4BDD53F82D355ADF00248FDC /* AICarDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICarDiagnosisView.swift; sourceTree = "<group>"; };
+		4BDD53FA2D355B7500248FDC /* RegistrationCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,18 +116,15 @@
 			children = (
 				4BDD53B52D34C89300248FDC /* SimCarApp.swift */,
 				4BDD53B72D34C89300248FDC /* ContentView.swift */,
+				4BDD53EB2D3550C900248FDC /* MyPageViews */,
+				4BDD53F42D35566F00248FDC /* BuyCarViews */,
+				4BDD53F52D35574500248FDC /* SellCarViews */,
+				4BDD53E52D354DE700248FDC /* MyPageView.swift */,
+				4BDD53DF2D3547E300248FDC /* BuyCarView.swift */,
+				4BDD53E12D35480800248FDC /* SellCarView.swift */,
 				4BDD53B92D34C89500248FDC /* Assets.xcassets */,
-				4BDD53BB2D34C89500248FDC /* Preview Content */,
 			);
 			path = SimCar;
-			sourceTree = "<group>";
-		};
-		4BDD53BB2D34C89500248FDC /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				4BDD53BC2D34C89500248FDC /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		4BDD53C52D34C89500248FDC /* SimCarTests */ = {
@@ -125,6 +142,35 @@
 				4BDD53D22D34C89500248FDC /* SimCarUITestsLaunchTests.swift */,
 			);
 			path = SimCarUITests;
+			sourceTree = "<group>";
+		};
+		4BDD53EB2D3550C900248FDC /* MyPageViews */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53E92D354F9F00248FDC /* SignUpView.swift */,
+				4BDD53EC2D35523300248FDC /* LogInView.swift */,
+				4BDD53EE2D3552C600248FDC /* EditProfileView.swift */,
+				4BDD53F02D3553B500248FDC /* DeleteAccountView.swift */,
+				4BDD53F22D35550100248FDC /* FavoriteCarView.swift */,
+			);
+			path = MyPageViews;
+			sourceTree = "<group>";
+		};
+		4BDD53F42D35566F00248FDC /* BuyCarViews */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53F62D35587400248FDC /* DetailCarView.swift */,
+				4BDD53F82D355ADF00248FDC /* AICarDiagnosisView.swift */,
+			);
+			path = BuyCarViews;
+			sourceTree = "<group>";
+		};
+		4BDD53F52D35574500248FDC /* SellCarViews */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53FA2D355B7500248FDC /* RegistrationCarView.swift */,
+			);
+			path = SellCarViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +277,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BDD53BD2D34C89500248FDC /* Preview Assets.xcassets in Resources */,
 				4BDD53BA2D34C89500248FDC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,6 +303,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BDD53B82D34C89300248FDC /* ContentView.swift in Sources */,
+				4BDD53ED2D35523300248FDC /* LogInView.swift in Sources */,
+				4BDD53F12D3553B500248FDC /* DeleteAccountView.swift in Sources */,
+				4BDD53EF2D3552C600248FDC /* EditProfileView.swift in Sources */,
+				4BDD53E02D3547E300248FDC /* BuyCarView.swift in Sources */,
+				4BDD53E62D354DE700248FDC /* MyPageView.swift in Sources */,
+				4BDD53E22D35480800248FDC /* SellCarView.swift in Sources */,
+				4BDD53FB2D355B7500248FDC /* RegistrationCarView.swift in Sources */,
+				4BDD53F92D355ADF00248FDC /* AICarDiagnosisView.swift in Sources */,
+				4BDD53F32D35550100248FDC /* FavoriteCarView.swift in Sources */,
+				4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */,
+				4BDD53EA2D354F9F00248FDC /* SignUpView.swift in Sources */,
 				4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,21 +1,24 @@
-//
-//  ContentView.swift
-//  SimCar
-//
-//  Created by 김건우 on 2025/01/13.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("장원영")
+        TabView {
+            BuyCarView()
+                .tabItem {
+                    Label("내차사기", systemImage: "1.circle")
+                }
+            
+            SellCarView()
+                .tabItem {
+                    Label("내차팔기", systemImage: "2.circle")
+                }
+            
+            MyPageView()
+                .tabItem {
+                    Label("마이페이지", systemImage:
+                        "3.circle")
+                }
         }
-        .padding()
     }
 }
 
