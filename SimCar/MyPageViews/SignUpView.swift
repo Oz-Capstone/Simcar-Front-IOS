@@ -1,16 +1,93 @@
-//
-//  SignUpView.swift
-//  SimCar
-//
-//  Created by 김건우 on 2025/01/13.
-//
-
 import SwiftUI
 
 struct SignUpView: View {
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var name: String = ""
+    @State private var phone: String = ""
+    @State private var isLoading: Bool = false
+    @State private var errorMessage: String?
+
     var body: some View {
-        Text("회원가입")
-            .font(.largeTitle)
-            .padding()
+        NavigationView {
+            Form {
+                Section(header: Text("회원가입")) {
+                    TextField("이메일", text: $email)
+                        .keyboardType(.emailAddress)
+                    SecureField("비밀번호", text: $password)
+                    TextField("이름", text: $name)
+                    TextField("전화번호", text: $phone)
+                        .keyboardType(.phonePad)
+                    
+                    Button(action: register) {
+                        Text("회원가입")
+                    }
+                }
+                
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                }
+            }
+            .navigationTitle("회원가입")
+            .overlay(isLoading ? ProgressView() : nil)
+        }
+    }
+
+    private func register() {
+        // API 요청을 위한 함수
+        guard !email.isEmpty, !password.isEmpty, !name.isEmpty, !phone.isEmpty else {
+            errorMessage = "모든 필드를 입력하세요."
+            return
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        // API 요청
+        let url = URL(string: "http://localhost:8080/api/members/join")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let parameters: [String: Any] = [
+            "email": email,
+            "password": password,
+            "name": name,
+            "phone": phone
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            errorMessage = "데이터 변환 오류"
+            isLoading = false
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                isLoading = false
+            }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    errorMessage = "회원가입 실패: \(error.localizedDescription)"
+                }
+                return
+            }
+            
+            // 응답 처리
+            if let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                // 회원가입 성공 처리
+                print("회원가입 성공")
+            } else {
+                DispatchQueue.main.async {
+                    errorMessage = "회원가입 실패"
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
