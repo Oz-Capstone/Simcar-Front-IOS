@@ -33,8 +33,7 @@ struct ProfileView: View {
         errorMessage = nil
         
         // API 요청
-        let memberId = 1 // 실제 회원 ID를 사용해야 함
-        let url = URL(string: "http://localhost:8080/api/members/profile?memberId=\(memberId)")!
+        let url = URL(string: "http://localhost:8080/api/members/profile")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
