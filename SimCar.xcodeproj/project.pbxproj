@@ -1,0 +1,582 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B52D34C89300248FDC /* SimCarApp.swift */; };
+		4BDD53B82D34C89300248FDC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B72D34C89300248FDC /* ContentView.swift */; };
+		4BDD53BA2D34C89500248FDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BDD53B92D34C89500248FDC /* Assets.xcassets */; };
+		4BDD53BD2D34C89500248FDC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BDD53BC2D34C89500248FDC /* Preview Assets.xcassets */; };
+		4BDD53C72D34C89500248FDC /* SimCarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53C62D34C89500248FDC /* SimCarTests.swift */; };
+		4BDD53D12D34C89500248FDC /* SimCarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53D02D34C89500248FDC /* SimCarUITests.swift */; };
+		4BDD53D32D34C89500248FDC /* SimCarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53D22D34C89500248FDC /* SimCarUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4BDD53C32D34C89500248FDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4BDD53AA2D34C89300248FDC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BDD53B12D34C89300248FDC;
+			remoteInfo = SimCar;
+		};
+		4BDD53CD2D34C89500248FDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4BDD53AA2D34C89300248FDC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BDD53B12D34C89300248FDC;
+			remoteInfo = SimCar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4BDD53B22D34C89300248FDC /* SimCar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimCar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BDD53B52D34C89300248FDC /* SimCarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarApp.swift; sourceTree = "<group>"; };
+		4BDD53B72D34C89300248FDC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4BDD53B92D34C89500248FDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4BDD53BC2D34C89500248FDC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4BDD53C22D34C89500248FDC /* SimCarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimCarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BDD53C62D34C89500248FDC /* SimCarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarTests.swift; sourceTree = "<group>"; };
+		4BDD53CC2D34C89500248FDC /* SimCarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimCarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BDD53D02D34C89500248FDC /* SimCarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarUITests.swift; sourceTree = "<group>"; };
+		4BDD53D22D34C89500248FDC /* SimCarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4BDD53AF2D34C89300248FDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BDD53BF2D34C89500248FDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BDD53C92D34C89500248FDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4BDD53A92D34C89300248FDC = {
+			isa = PBXGroup;
+			children = (
+				4BDD53B42D34C89300248FDC /* SimCar */,
+				4BDD53C52D34C89500248FDC /* SimCarTests */,
+				4BDD53CF2D34C89500248FDC /* SimCarUITests */,
+				4BDD53B32D34C89300248FDC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4BDD53B32D34C89300248FDC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53B22D34C89300248FDC /* SimCar.app */,
+				4BDD53C22D34C89500248FDC /* SimCarTests.xctest */,
+				4BDD53CC2D34C89500248FDC /* SimCarUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4BDD53B42D34C89300248FDC /* SimCar */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53B52D34C89300248FDC /* SimCarApp.swift */,
+				4BDD53B72D34C89300248FDC /* ContentView.swift */,
+				4BDD53B92D34C89500248FDC /* Assets.xcassets */,
+				4BDD53BB2D34C89500248FDC /* Preview Content */,
+			);
+			path = SimCar;
+			sourceTree = "<group>";
+		};
+		4BDD53BB2D34C89500248FDC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53BC2D34C89500248FDC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4BDD53C52D34C89500248FDC /* SimCarTests */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53C62D34C89500248FDC /* SimCarTests.swift */,
+			);
+			path = SimCarTests;
+			sourceTree = "<group>";
+		};
+		4BDD53CF2D34C89500248FDC /* SimCarUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4BDD53D02D34C89500248FDC /* SimCarUITests.swift */,
+				4BDD53D22D34C89500248FDC /* SimCarUITestsLaunchTests.swift */,
+			);
+			path = SimCarUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4BDD53B12D34C89300248FDC /* SimCar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BDD53D62D34C89500248FDC /* Build configuration list for PBXNativeTarget "SimCar" */;
+			buildPhases = (
+				4BDD53AE2D34C89300248FDC /* Sources */,
+				4BDD53AF2D34C89300248FDC /* Frameworks */,
+				4BDD53B02D34C89300248FDC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimCar;
+			productName = SimCar;
+			productReference = 4BDD53B22D34C89300248FDC /* SimCar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4BDD53C12D34C89500248FDC /* SimCarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BDD53D92D34C89500248FDC /* Build configuration list for PBXNativeTarget "SimCarTests" */;
+			buildPhases = (
+				4BDD53BE2D34C89500248FDC /* Sources */,
+				4BDD53BF2D34C89500248FDC /* Frameworks */,
+				4BDD53C02D34C89500248FDC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4BDD53C42D34C89500248FDC /* PBXTargetDependency */,
+			);
+			name = SimCarTests;
+			productName = SimCarTests;
+			productReference = 4BDD53C22D34C89500248FDC /* SimCarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4BDD53CB2D34C89500248FDC /* SimCarUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BDD53DC2D34C89500248FDC /* Build configuration list for PBXNativeTarget "SimCarUITests" */;
+			buildPhases = (
+				4BDD53C82D34C89500248FDC /* Sources */,
+				4BDD53C92D34C89500248FDC /* Frameworks */,
+				4BDD53CA2D34C89500248FDC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4BDD53CE2D34C89500248FDC /* PBXTargetDependency */,
+			);
+			name = SimCarUITests;
+			productName = SimCarUITests;
+			productReference = 4BDD53CC2D34C89500248FDC /* SimCarUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4BDD53AA2D34C89300248FDC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					4BDD53B12D34C89300248FDC = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					4BDD53C12D34C89500248FDC = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4BDD53B12D34C89300248FDC;
+					};
+					4BDD53CB2D34C89500248FDC = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4BDD53B12D34C89300248FDC;
+					};
+				};
+			};
+			buildConfigurationList = 4BDD53AD2D34C89300248FDC /* Build configuration list for PBXProject "SimCar" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4BDD53A92D34C89300248FDC;
+			productRefGroup = 4BDD53B32D34C89300248FDC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4BDD53B12D34C89300248FDC /* SimCar */,
+				4BDD53C12D34C89500248FDC /* SimCarTests */,
+				4BDD53CB2D34C89500248FDC /* SimCarUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4BDD53B02D34C89300248FDC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BDD53BD2D34C89500248FDC /* Preview Assets.xcassets in Resources */,
+				4BDD53BA2D34C89500248FDC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BDD53C02D34C89500248FDC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BDD53CA2D34C89500248FDC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4BDD53AE2D34C89300248FDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BDD53B82D34C89300248FDC /* ContentView.swift in Sources */,
+				4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BDD53BE2D34C89500248FDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BDD53C72D34C89500248FDC /* SimCarTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BDD53C82D34C89500248FDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BDD53D12D34C89500248FDC /* SimCarUITests.swift in Sources */,
+				4BDD53D32D34C89500248FDC /* SimCarUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4BDD53C42D34C89500248FDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BDD53B12D34C89300248FDC /* SimCar */;
+			targetProxy = 4BDD53C32D34C89500248FDC /* PBXContainerItemProxy */;
+		};
+		4BDD53CE2D34C89500248FDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BDD53B12D34C89300248FDC /* SimCar */;
+			targetProxy = 4BDD53CD2D34C89500248FDC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4BDD53D42D34C89500248FDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4BDD53D52D34C89500248FDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4BDD53D72D34C89500248FDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SimCar/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geonu.SimCar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4BDD53D82D34C89500248FDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SimCar/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geonu.SimCar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4BDD53DA2D34C89500248FDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geonu.SimCarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimCar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SimCar";
+			};
+			name = Debug;
+		};
+		4BDD53DB2D34C89500248FDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geonu.SimCarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimCar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SimCar";
+			};
+			name = Release;
+		};
+		4BDD53DD2D34C89500248FDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geonu.SimCarUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SimCar;
+			};
+			name = Debug;
+		};
+		4BDD53DE2D34C89500248FDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.geonu.SimCarUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SimCar;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BDD53AD2D34C89300248FDC /* Build configuration list for PBXProject "SimCar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BDD53D42D34C89500248FDC /* Debug */,
+				4BDD53D52D34C89500248FDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BDD53D62D34C89500248FDC /* Build configuration list for PBXNativeTarget "SimCar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BDD53D72D34C89500248FDC /* Debug */,
+				4BDD53D82D34C89500248FDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BDD53D92D34C89500248FDC /* Build configuration list for PBXNativeTarget "SimCarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BDD53DA2D34C89500248FDC /* Debug */,
+				4BDD53DB2D34C89500248FDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BDD53DC2D34C89500248FDC /* Build configuration list for PBXNativeTarget "SimCarUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BDD53DD2D34C89500248FDC /* Debug */,
+				4BDD53DE2D34C89500248FDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4BDD53AA2D34C89300248FDC /* Project object */;
+}
