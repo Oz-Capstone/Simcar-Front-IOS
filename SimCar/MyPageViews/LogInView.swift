@@ -5,6 +5,8 @@ struct LogInView: View {
     @State private var password: String = ""
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
 
     var body: some View {
         NavigationView {
@@ -26,6 +28,11 @@ struct LogInView: View {
             }
             .navigationTitle("로그인")
             .overlay(isLoading ? ProgressView() : nil)
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("알림"),
+                      message: Text(alertMessage),
+                      dismissButton: .default(Text("확인")))
+            }
         }
     }
 
@@ -74,8 +81,11 @@ struct LogInView: View {
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     // 로그인 성공 처리
-                    print("로그인 성공")
-                    // 여기서 추가적인 성공 후 처리 작업을 할 수 있습니다 (예: 화면 전환 등)
+                    DispatchQueue.main.async {
+                        alertMessage = "로그인 성공했습니다!"
+                        showAlert = true
+                    }
+
                 } else {
                     // 서버에서 에러 메시지 파싱
                     if let errorResponse = try? JSONSerialization.jsonObject(with: data) as? [String: Any],

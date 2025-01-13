@@ -7,6 +7,8 @@ struct SignUpView: View {
     @State private var phone: String = ""
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
 
     var body: some View {
         NavigationView {
@@ -31,6 +33,11 @@ struct SignUpView: View {
             }
             .navigationTitle("회원가입")
             .overlay(isLoading ? ProgressView() : nil)
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("알림"),
+                      message: Text(alertMessage),
+                      dismissButton: .default(Text("확인")))
+            }
         }
     }
 
@@ -78,12 +85,17 @@ struct SignUpView: View {
             }
             
             // 응답 처리
-            if let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                // 회원가입 성공 처리
-                print("회원가입 성공")
-            } else {
-                DispatchQueue.main.async {
-                    errorMessage = "회원가입 실패"
+            if let data = data, let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    // 회원가입 성공 처리
+                    DispatchQueue.main.async {
+                        alertMessage = "회원가입 성공했습니다!"
+                        showAlert = true
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        errorMessage = "회원가입 실패"
+                    }
                 }
             }
         }
