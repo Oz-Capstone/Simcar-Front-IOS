@@ -7,6 +7,8 @@ struct LogInView: View {
     @State private var errorMessage: String?
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+    
+    @EnvironmentObject var userSettings: UserSettings // UserSettings 참조
 
     var body: some View {
         NavigationView {
@@ -46,14 +48,13 @@ struct LogInView: View {
         isLoading = true
         errorMessage = nil
         
-        // API 요청
-        let url = URL(string: "http://localhost:8080/api/members/login")! // HTTP로 변경
+        let url = URL(string: "http://localhost:8080/api/members/login")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let parameters: [String: Any] = [
-            "email": email, // 아이디 대신 이메일로 변경
+            "email": email,
             "password": password
         ]
         
@@ -77,17 +78,15 @@ struct LogInView: View {
                 return
             }
             
-            // 응답 처리
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
-                    // 로그인 성공 처리
                     DispatchQueue.main.async {
+                        // 로그인 성공 시 상태 변경
+                        userSettings.isLoggedIn = true
                         alertMessage = "로그인 성공했습니다!"
                         showAlert = true
                     }
-
                 } else {
-                    // 서버에서 에러 메시지 파싱
                     if let errorResponse = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                        let message = errorResponse["message"] as? String {
                         DispatchQueue.main.async {

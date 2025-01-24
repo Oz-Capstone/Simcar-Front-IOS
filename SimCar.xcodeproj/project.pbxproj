@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B5F2BEB2D42A2EF0076DA60 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */; };
 		4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B52D34C89300248FDC /* SimCarApp.swift */; };
 		4BDD53B82D34C89300248FDC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B72D34C89300248FDC /* ContentView.swift */; };
 		4BDD53BA2D34C89500248FDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BDD53B92D34C89500248FDC /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		4BDD53B22D34C89300248FDC /* SimCar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimCar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDD53B52D34C89300248FDC /* SimCarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarApp.swift; sourceTree = "<group>"; };
 		4BDD53B72D34C89300248FDC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,7 +99,6 @@
 			isa = PBXGroup;
 			children = (
 				4BDD53B42D34C89300248FDC /* SimCar */,
-				4BDD53C52D34C89500248FDC /* SimCarTests */,
 				4BDD53CF2D34C89500248FDC /* SimCarUITests */,
 				4BDD53B32D34C89300248FDC /* Products */,
 			);
@@ -124,6 +125,8 @@
 				4BDD53E52D354DE700248FDC /* MyPageView.swift */,
 				4BDD53DF2D3547E300248FDC /* BuyCarView.swift */,
 				4BDD53E12D35480800248FDC /* SellCarView.swift */,
+				4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */,
+				4BDD53C52D34C89500248FDC /* SimCarTests */,
 				4BDD53B92D34C89500248FDC /* Assets.xcassets */,
 			);
 			path = SimCar;
@@ -318,6 +321,7 @@
 				4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */,
 				4BDD53EA2D354F9F00248FDC /* SignUpView.swift in Sources */,
 				4BDD53FD2D35868300248FDC /* ProfileView.swift in Sources */,
+				4B5F2BEB2D42A2EF0076DA60 /* UserSettings.swift in Sources */,
 				4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

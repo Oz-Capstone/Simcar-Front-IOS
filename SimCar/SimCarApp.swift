@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct SimCarApp: App {
+    @StateObject private var userSettings = UserSettings() // UserSettings 인스턴스 생성
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(UserSettings())
         }
     }
 }

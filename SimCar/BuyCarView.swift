@@ -30,3 +30,9 @@ struct BuyCarView: View {
     }
 }
 
+struct ContentView_Previews: PreviewProvider {
+    @StateObject private var userSettings = UserSettings() // UserSettings 인스턴스 생성
+    static var previews: some View {
+        ContentView().environmentObject(UserSettings())
+    }
+}
