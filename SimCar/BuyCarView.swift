@@ -5,9 +5,7 @@ struct BuyCarView: View {
         NavigationView {
             VStack(alignment: .leading) { // VStack의 정렬을 왼쪽으로 설정
                 // 차량 검색 버튼
-                Button(action: {
-                    // 검색 화면으로 이동
-                }) {
+                NavigationLink(destination: CarSearchView()) {
                     Text("차량 검색")
                         .font(.largeTitle)
                         .frame(maxWidth: .infinity)
@@ -16,7 +14,7 @@ struct BuyCarView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                .padding(.top, 20) // 상단 여백 조정 (필요에 따라 조정)
+                .padding(.top, 20)
 
                 // 차량 리스트
                 List(carList) { car in
@@ -41,27 +39,23 @@ struct CarRow: View {
                 image
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+//                    .frame(width: 100, height: 100)
+                    .cornerRadius(10) // 모서리 둥글게 설정
             } placeholder: {
                 ProgressView() // 로딩 중 표시
             }
             
             VStack(alignment: .leading) {
-                Text(car.manufacturer + " " + car.model) // 제조사와 차량 이름
+                Text(car.brand + " " + car.model) // 제조사와 차량 이름
                     .font(.headline)
                 
                 let yearString = String(car.year)
                 
-                Text("\(yearString) | \(car.mileage) km | \(car.fuel) | \(car.price) 원") // 연식, 키로수, 연료, 가격
+                // 정보 표시: 연식, 키로수, 연료, 지역, 가격
+                Text("\(yearString) · \(car.mileage) km · \(car.fuelType) · \(car.region) · \(car.price) 원")
                     .font(.subheadline)
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject private var userSettings = UserSettings() // UserSettings 인스턴스 생성
-    static var previews: some View {
-        ContentView().environmentObject(UserSettings())
-    }
-}

@@ -7,3 +7,6 @@ struct AICarDiagnosisView: View {
             .padding()
     }
 }
+
+
+

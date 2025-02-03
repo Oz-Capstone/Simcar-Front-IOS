@@ -1,101 +1,207 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @EnvironmentObject var userSettings: UserSettings // UserSettings 참조
-    @State private var showAlert = false
-    @State private var alertMessage = ""
+    @EnvironmentObject var userSettings: UserSettings
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var isLoading: Bool = false
+    @State private var errorMessage: String?
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
 
     var body: some View {
         NavigationView {
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundColor(.accentColor)
-                Text("마이페이지 입니다")
-                
+            VStack(spacing: 20) {
                 if userSettings.isLoggedIn {
-                    Text("로그인 상태입니다.")
-                } else {
-                    Text("로그인하지 않은 상태입니다.")
-                }
-                
-                // 로그인하지 않은 상태에서 보이는 버튼
-                if !userSettings.isLoggedIn {
-                    NavigationLink(destination: SignUpView()) {
-                        Text("회원가입")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
+                    // 로그인된 상태
+                    Text("마이페이지")
+                        .font(.largeTitle)
+                        .bold()
                     
-                    NavigationLink(destination: LogInView()) {
-                        Text("로그인")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                }
-                
-                // 로그인한 상태에서만 보이는 버튼
-                if userSettings.isLoggedIn {
-                    NavigationLink(destination: EditProfileView()) {
-                        Text("회원 정보 수정")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    NavigationLink(destination: DeleteAccountView()) {
-                        Text("회원 탈퇴")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    NavigationLink(destination: FavoriteCarView()) {
-                        Text("찜한 차량 조회")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    NavigationLink(destination: ProfileView()) {
-                        Text("회원 정보 조회")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    // 로그아웃 버튼
-                    Button(action: {
-                        if userSettings.isLoggedIn {
-                            logout()
-                        } else {
-                            alertMessage = "로그인이 필요합니다."
-                            showAlert = true // 알림창 표시
+                    VStack(spacing: 20) {
+                        
+                        
+                        NavigationLink(destination: FavoriteCarView()) {
+                            Text("찜한 차량 조회")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                                .padding(.top)
+                                .padding(.horizontal)
                         }
-                    }) {
-                        Text("로그아웃")
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        
+                        NavigationLink(destination: EditProfileView()) {
+                            Text("회원 정보 수정")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                                .padding(.horizontal)
+                        }
+                        
+                        
+                        NavigationLink(destination: ProfileView()) {
+                            Text("회원 정보 조회")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                                .padding(.horizontal)
+                        }
+                        
+                        NavigationLink(destination: DeleteAccountView()) {
+                            Text("회원 탈퇴")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                                .padding(.horizontal)
+                        }
+                        
+                        Button(action: logout) {
+                            Text("로그아웃")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                                .padding(.horizontal)
+                                .padding(.bottom)
+                        }
+                        
                     }
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("알림"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 25)) // 둥근 테두리 적용
+                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    .padding()
+                    
+                } else {
+                    // 로그인되지 않은 상태
+
+                    Text("SIM Car")
+                        .font(.largeTitle)
+                        .bold()
+                    
+                    VStack(spacing: 20) {
+                        
+                        
+                        
+                        TextField("이메일", text: $email)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .autocapitalization(.none)
+                            .keyboardType(.emailAddress)
+                            .padding(.top)
+                            .padding(.horizontal)
+                        
+                        SecureField("비밀번호", text: $password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                        
+                        Button(action: login) {
+                            Text("로그인")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                        }
+                        .padding(.horizontal)
+                        
+                        NavigationLink(destination: SignUpView()) {
+                            Text("회원가입")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                        
+                        if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                        }
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 25)) // 둥근 테두리 적용
+                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    .padding()
+                }
+            }
+            .padding()
+            .overlay(isLoading ? ProgressView() : nil)
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("알림"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
+            }
+        }
+            
+    }
+    
+    private func login() {
+        guard !email.isEmpty, !password.isEmpty else {
+            errorMessage = "모든 필드를 입력하세요."
+            return
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        let url = URL(string: "http://localhost:8080/api/members/login")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let parameters: [String: Any] = [
+            "email": email,
+            "password": password
+        ]4
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        } catch {
+            errorMessage = "데이터 변환 오류"
+            isLoading = false
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                isLoading = false
+            }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    errorMessage = "로그인 실패: \(error.localizedDescription)"
+                }
+                return
+            }
+            
+            if let data = data, let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        userSettings.isLoggedIn = true
+                        alertMessage = "로그인 성공했습니다!"
+                        showAlert = true
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        errorMessage = "로그인 실패"
                     }
                 }
             }
-            .navigationTitle("마이페이지")
         }
+        
+        task.resume()
     }
     
-    // 로그아웃 API 요청 함수
     private func logout() {
         guard let url = URL(string: "http://localhost:8080/api/members/logout") else { return }
         
@@ -108,16 +214,24 @@ struct MyPageView: View {
                 return
             }
             
-            // 서버 응답 처리
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                 DispatchQueue.main.async {
-                    userSettings.isLoggedIn = false // 로그인 상태 변경
+                    userSettings.isLoggedIn = false
                     alertMessage = "로그아웃이 완료되었습니다."
-                    showAlert = true // 알림창 표시
+                    showAlert = true
                 }
             }
         }
         
         task.resume()
+    }
+}
+
+
+
+struct ContentView_Previews: PreviewProvider {
+    @StateObject private var userSettings = UserSettings() // UserSettings 인스턴스 생성
+    static var previews: some View {
+        MyPageView().environmentObject(UserSettings())
     }
 }

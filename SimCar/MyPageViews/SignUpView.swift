@@ -10,6 +10,8 @@ struct SignUpView: View {
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
 
+    @Environment(\.presentationMode) var presentationMode // 현재 화면을 닫기 위해 추가
+
     var body: some View {
         NavigationView {
             Form {
@@ -36,13 +38,14 @@ struct SignUpView: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("알림"),
                       message: Text(alertMessage),
-                      dismissButton: .default(Text("확인")))
+                      dismissButton: .default(Text("확인")) {
+                          presentationMode.wrappedValue.dismiss() // 회원가입 성공 후 마이페이지로 이동
+                      })
             }
         }
     }
 
     private func register() {
-        // API 요청을 위한 함수
         guard !email.isEmpty, !password.isEmpty, !name.isEmpty, !phone.isEmpty else {
             errorMessage = "모든 필드를 입력하세요."
             return
@@ -51,7 +54,6 @@ struct SignUpView: View {
         isLoading = true
         errorMessage = nil
         
-        // API 요청
         let url = URL(string: "http://localhost:8080/api/members/join")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -84,10 +86,8 @@ struct SignUpView: View {
                 return
             }
             
-            // 응답 처리
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
-                    // 회원가입 성공 처리
                     DispatchQueue.main.async {
                         alertMessage = "회원가입 성공했습니다!"
                         showAlert = true
@@ -103,3 +103,5 @@ struct SignUpView: View {
         task.resume()
     }
 }
+
+

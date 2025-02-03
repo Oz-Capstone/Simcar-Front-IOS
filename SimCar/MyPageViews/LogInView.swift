@@ -8,7 +8,8 @@ struct LogInView: View {
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
     
-    @EnvironmentObject var userSettings: UserSettings // UserSettings 참조
+    @EnvironmentObject var userSettings: UserSettings
+    @Environment(\.presentationMode) var presentationMode // 현재 화면을 닫기 위해 추가
 
     var body: some View {
         NavigationView {
@@ -33,13 +34,14 @@ struct LogInView: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("알림"),
                       message: Text(alertMessage),
-                      dismissButton: .default(Text("확인")))
+                      dismissButton: .default(Text("확인")) {
+                          presentationMode.wrappedValue.dismiss() // 로그인 성공 시 마이페이지로 이동
+                      })
             }
         }
     }
 
     private func login() {
-        // API 요청을 위한 함수
         guard !email.isEmpty, !password.isEmpty else {
             errorMessage = "모든 필드를 입력하세요."
             return
@@ -81,7 +83,6 @@ struct LogInView: View {
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     DispatchQueue.main.async {
-                        // 로그인 성공 시 상태 변경
                         userSettings.isLoggedIn = true
                         alertMessage = "로그인 성공했습니다!"
                         showAlert = true
@@ -104,3 +105,5 @@ struct LogInView: View {
         task.resume()
     }
 }
+
+

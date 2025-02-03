@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B5F2BEB2D42A2EF0076DA60 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */; };
 		4B9F1B412D436AB7007A9336 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F1B402D436AB7007A9336 /* Car.swift */; };
+		4B9F1B432D439357007A9336 /* CarSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F1B422D439357007A9336 /* CarSearchView.swift */; };
 		4BDD53B62D34C89300248FDC /* SimCarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B52D34C89300248FDC /* SimCarApp.swift */; };
 		4BDD53B82D34C89300248FDC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD53B72D34C89300248FDC /* ContentView.swift */; };
 		4BDD53BA2D34C89500248FDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BDD53B92D34C89500248FDC /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		4B9F1B402D436AB7007A9336 /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		4B9F1B422D439357007A9336 /* CarSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarSearchView.swift; sourceTree = "<group>"; };
 		4BDD53B22D34C89300248FDC /* SimCar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimCar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDD53B52D34C89300248FDC /* SimCarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimCarApp.swift; sourceTree = "<group>"; };
 		4BDD53B72D34C89300248FDC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				4BDD53F62D35587400248FDC /* DetailCarView.swift */,
 				4BDD53F82D355ADF00248FDC /* AICarDiagnosisView.swift */,
+				4B9F1B422D439357007A9336 /* CarSearchView.swift */,
 			);
 			path = BuyCarViews;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				4BDD53E22D35480800248FDC /* SellCarView.swift in Sources */,
 				4BDD53FB2D355B7500248FDC /* RegistrationCarView.swift in Sources */,
 				4BDD53F92D355ADF00248FDC /* AICarDiagnosisView.swift in Sources */,
+				4B9F1B432D439357007A9336 /* CarSearchView.swift in Sources */,
 				4BDD53F32D35550100248FDC /* FavoriteCarView.swift in Sources */,
 				4B9F1B412D436AB7007A9336 /* Car.swift in Sources */,
 				4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */,
