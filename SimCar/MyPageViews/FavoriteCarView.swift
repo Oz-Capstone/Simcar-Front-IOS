@@ -10,11 +10,11 @@ struct FavoriteCarView: View {
                         .padding()
                     
                     // 차량 리스트
-                    List(carList) { car in
-                        NavigationLink(destination: DetailCarView(car: car)) {
-                            CarRow(car: car)
-                        }
-                    }
+//                    List(carList) { car in
+//                        NavigationLink(destination: DetailCarView(car: car)) {
+//                            CarRow(car: car)
+//                        }
+//                    }
                     .listStyle(PlainListStyle())
                 }
             }

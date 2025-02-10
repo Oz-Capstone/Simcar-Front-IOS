@@ -162,7 +162,7 @@ struct MyPageView: View {
         let parameters: [String: Any] = [
             "email": email,
             "password": password
-        ]4
+        ]
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
@@ -229,9 +229,3 @@ struct MyPageView: View {
 
 
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject private var userSettings = UserSettings() // UserSettings 인스턴스 생성
-    static var previews: some View {
-        MyPageView().environmentObject(UserSettings())
-    }
-}
