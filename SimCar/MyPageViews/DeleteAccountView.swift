@@ -9,7 +9,7 @@ struct DeleteAccountView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("회원 탈퇴")
+                Text("회원을 탈퇴하시겠습니까?")
                     .font(.largeTitle)
                     .padding()
 

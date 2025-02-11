@@ -8,21 +8,21 @@ struct CarModel: Identifiable, Codable {
     var model: String
     var year: Int
     var imageUrl: String
-    var region: String? // 지역은 옵셔널
-    var mileage: Int? // 차량의 키로수는 옵셔널
-    var fuelType: String? // 연료 타입은 옵셔널
-    var createdAt: String // 생성일 추가 (예: "2025-01-25T17:49:35.446236")
+    var region: String?      // 지역은 옵셔널
+    var mileage: Int?        // 차량의 키로수는 옵셔널
+    var fuelType: String?    // 연료 타입은 옵셔널
+    var createdAt: String    // 생성일 (예: "2025-01-25T17:49:35.446236")
 }
 
 struct BuyCarView: View {
-    @State private var cars: [CarModel] = [] // 서버에서 가져온 데이터 저장
-    @State private var isLoading = true // 로딩 상태 관리
-    @State private var errorMessage: String? // 오류 메시지 관리
-    
+    @State private var cars: [CarModel] = []       // 서버에서 가져온 데이터 저장
+    @State private var isLoading = true            // 로딩 상태 관리
+    @State private var errorMessage: String?       // 오류 메시지 관리
+    @Binding var selectedTab: Int                  // ContentView에서 전달받은 바텀 탭 상태
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                                
                 Text("SIM Car")
                     .font(.largeTitle)
                     .bold()
@@ -50,12 +50,12 @@ struct BuyCarView: View {
                 } else {
                     // 차량 리스트 표시
                     List(cars) { car in
-                        CarRow(car: car)
+                        // CarRow에 selectedTab 바인딩 전달
+                        CarRow(car: car, selectedTab: $selectedTab)
                     }
                     .listStyle(PlainListStyle())
                 }
             }
-           
             .padding(.horizontal)
             .onAppear {
                 fetchCars() // 화면이 나타날 때 데이터 로드
@@ -63,7 +63,7 @@ struct BuyCarView: View {
         }
     }
     
-    // 🚀 서버에서 차량 목록 가져오는 함수
+    // 🚀 서버에서 차량 목록을 가져오는 함수
     private func fetchCars() {
         guard let url = URL(string: "http://localhost:8080/api/cars") else {
             errorMessage = "잘못된 URL입니다."
@@ -79,7 +79,8 @@ struct BuyCarView: View {
                     return
                 }
                 
-                if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                if let httpResponse = response as? HTTPURLResponse,
+                   !(200...299).contains(httpResponse.statusCode) {
                     errorMessage = "서버 오류: \(httpResponse.statusCode)"
                     isLoading = false
                     return
@@ -93,6 +94,7 @@ struct BuyCarView: View {
                 
                 do {
                     let decodedCars = try JSONDecoder().decode([CarModel].self, from: data)
+                    // 최신순으로 표시하기 위해 배열을 뒤집음
                     self.cars = decodedCars.reversed()
                 } catch {
                     errorMessage = "데이터 파싱 오류: \(error.localizedDescription)"
@@ -106,9 +108,11 @@ struct BuyCarView: View {
 
 struct CarRow: View {
     var car: CarModel
+    @Binding var selectedTab: Int  // ContentView에서 전달받은 바인딩
 
     var body: some View {
-        NavigationLink(destination: DetailCarView(carId: car.id)) {
+        // DetailCarView에도 selectedTab 바인딩을 전달해야 함
+        NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
             HStack {
                 AsyncImage(url: URL(string: car.imageUrl)) { image in
                     image

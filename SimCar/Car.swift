@@ -22,3 +22,24 @@ struct Car: Identifiable, Codable {
     var createdAt: String?
     var updatedAt: String?
 }
+
+struct CarDetail: Identifiable, Codable {
+    var id: Int
+    var type: String
+    var imageUrl: String
+    var brand: String
+    var model: String
+    var year: Int
+    var mileage: Int?
+    var fuelType: String?
+    var price: Int
+    var carNumber: String
+    var insuranceHistory: Int?
+    var inspectionHistory: Int?
+    var color: String
+    var transmission: String
+    var region: String?
+    var contactNumber: String?
+}
+
+

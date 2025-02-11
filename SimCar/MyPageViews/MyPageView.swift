@@ -8,6 +8,7 @@ struct MyPageView: View {
     @State private var errorMessage: String?
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+    @Binding var selectedTab: Int                  // ContentView에서 전달받은 바텀 탭 상태
 
     var body: some View {
         NavigationView {
@@ -21,7 +22,7 @@ struct MyPageView: View {
                     VStack(spacing: 20) {
                         
                         
-                        NavigationLink(destination: FavoriteCarView()) {
+                        NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab)) {
                             Text("찜한 차량 조회")
                                 .padding()
                                 .frame(maxWidth: .infinity)

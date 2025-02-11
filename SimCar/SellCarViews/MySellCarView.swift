@@ -1,30 +1,33 @@
 import SwiftUI
 
-struct FavoriteCarView: View {
-    @State private var favorites: [CarModel] = []     // 서버에서 가져온 찜한 차량 목록 저장
-    @State private var isLoading = true               // 로딩 상태 관리
-    @State private var errorMessage: String?          // 오류 메시지 관리
-    @Binding var selectedTab: Int                     // ContentView에서 전달받은 탭 상태
+struct MySellCarView: View {
+    @State private var cars: [CarModel] = []       // 서버에서 가져온 본인 등록 차량 데이터 저장
+    @State private var isLoading = true            // 로딩 상태 관리
+    @State private var errorMessage: String?       // 오류 메시지 관리
+    @Binding var selectedTab: Int                  // ContentView에서 전달받은 탭 상태
+    
+    init(selectedTab: Binding<Int>) {
+        _selectedTab = selectedTab
+        UITableView.appearance().tableHeaderView = UIView(frame: .zero)
+    }
 
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
                 
+                // 데이터 로딩 중이면 ProgressView 표시
                 if isLoading {
-                    ProgressView("찜한 차량 목록 불러오는 중...")
+                    ProgressView("차량 목록 불러오는 중...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let errorMessage = errorMessage {
+                    // 오류 발생 시 오류 메시지 표시
                     Text("오류: \(errorMessage)")
                         .foregroundColor(.red)
                         .padding()
-                } else if favorites.isEmpty {
-                    // 찜한 차량 목록이 비어 있을 경우 표시할 텍스트
-                    Text("찜한 차량이 없습니다")
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
-                    List(favorites) { car in
-                        NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
+                    // 차량 리스트 표시
+                    List(cars) { car in
+                        NavigationLink(destination: CarManageView(carId: car.id, selectedTab: $selectedTab)) {
                             CarRow(car: car, selectedTab: $selectedTab)
                         }
                     }
@@ -32,16 +35,17 @@ struct FavoriteCarView: View {
                 }
             }
             .padding(.horizontal)
-            .navigationTitle("찜한 차량 조회")
+            .navigationTitle("내가 등록한 차량")
             .onAppear {
-                fetchFavorites()
+                fetchMySellCars()
             }
+            .navigationBarHidden(true)
         }
     }
     
-    /// 찜한 차량 목록을 서버에서 가져오는 함수
-    private func fetchFavorites() {
-        guard let url = URL(string: "http://localhost:8080/api/members/favorites") else {
+    /// 본인이 등록한 차량 목록을 서버에서 가져오는 함수
+    private func fetchMySellCars() {
+        guard let url = URL(string: "http://localhost:8080/api/members/sales") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -69,9 +73,9 @@ struct FavoriteCarView: View {
                 }
                 
                 do {
-                    let decodedFavorites = try JSONDecoder().decode([CarModel].self, from: data)
+                    let decodedCars = try JSONDecoder().decode([CarModel].self, from: data)
                     // 최신순으로 표시하려면 배열을 뒤집습니다.
-                    self.favorites = decodedFavorites.reversed()
+                    self.cars = decodedCars.reversed()
                 } catch {
                     errorMessage = "데이터 파싱 오류: \(error.localizedDescription)"
                 }
