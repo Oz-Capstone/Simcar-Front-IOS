@@ -26,8 +26,6 @@ struct AICarDiagnosisView: View {
                         .foregroundColor(.red)
                 } else if let diagnosis = diagnosis {
                     VStack(spacing: 10) {
-                        Text("차량 ID: \(diagnosis.carId)")
-                            .font(.headline)
                         Text("신뢰도 점수: \(diagnosis.reliabilityScore)")
                             .font(.title)
                         Text("평가 코멘트:")

@@ -13,6 +13,8 @@ struct CarManageView: View {
     // 로그인 여부 체크 및 로그인 화면으로 전환하기 위한 상태 변수
     @State private var showLoginAlert: Bool = false
     
+    @State private var showDiagnosisModal: Bool = false  // AI 진단 모달을 위한 상태 변수
+    
     // 환경 객체와 화면 닫기를 위한 환경 변수
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.presentationMode) var presentationMode
@@ -86,14 +88,24 @@ struct CarManageView: View {
                     }
                     .font(.subheadline)
                     
-//                    NavigationLink(destination: AICarDiagnosisView()) {
-//                        Text("AI 차량 진단")
-//                            .padding()
-//                            .frame(maxWidth: .infinity)
-//                            .background(Color.blue)
-//                            .foregroundColor(.white)
-//                            .cornerRadius(8)
-//                    }
+                    // AI 차량 진단 버튼: 버튼을 눌러 모달을 띄움
+                    Button(action: {
+                        showDiagnosisModal = true
+                    }) {
+                        Text("AI 차량 진단")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                            .padding(.top, 10)
+                    }
+                    .sheet(isPresented: $showDiagnosisModal) {
+                        // 모달로 AICarDiagnosisView를 띄움 (car.id 사용)
+                        if let car = car {
+                            AICarDiagnosisView(carId: car.id)
+                        }
+                    }
                     
                     // 차량 수정 및 제거 버튼
                     HStack(spacing: 20) {
