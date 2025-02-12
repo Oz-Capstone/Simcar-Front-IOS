@@ -15,10 +15,42 @@ struct CarModel: Identifiable, Codable {
 }
 
 struct BuyCarView: View {
-    @State private var cars: [CarModel] = []       // 서버에서 가져온 데이터 저장
+    @State private var cars: [CarModel] = []       // 서버에서 받아온 전체 차량 데이터
     @State private var isLoading = true            // 로딩 상태 관리
     @State private var errorMessage: String?       // 오류 메시지 관리
-    @Binding var selectedTab: Int                  // ContentView에서 전달받은 바텀 탭 상태
+    @Binding var selectedTab: Int                  // ContentView에서 전달받은 탭 상태
+
+    // 검색 조건 상태 변수들
+    @State private var searchManufacturer: String = ""
+    @State private var searchModel: String = ""
+    @State private var searchYear: String = ""
+    @State private var searchType: String = ""       // 차량 유형 (예: SUV, 세단 등)
+    @State private var searchRegion: String = ""
+    @State private var searchPrice: Double = 200000000 // 최대값으로 초기화 (전체 검색)
+
+    // 검색 조건에 따라 차량 데이터를 필터링하는 계산 프로퍼티
+    var filteredCars: [CarModel] {
+        cars.filter { car in
+            let matchesManufacturer = searchManufacturer.isEmpty ||
+                car.brand.localizedCaseInsensitiveContains(searchManufacturer)
+            let matchesModel = searchModel.isEmpty ||
+                car.model.localizedCaseInsensitiveContains(searchModel)
+            let matchesYear = searchYear.isEmpty ||
+                String(car.year) == searchYear
+            let matchesType = searchType.isEmpty ||
+                car.type.localizedCaseInsensitiveContains(searchType)
+            let matchesRegion = searchRegion.isEmpty ||
+                (car.region?.localizedCaseInsensitiveContains(searchRegion) ?? false)
+            let matchesPrice = (searchPrice < 200000000) ? Double(car.price) <= searchPrice : true
+
+            return matchesManufacturer &&
+                   matchesModel &&
+                   matchesYear &&
+                   matchesType &&
+                   matchesRegion &&
+                   matchesPrice
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -27,8 +59,15 @@ struct BuyCarView: View {
                     .font(.largeTitle)
                     .bold()
                 
-                // 차량 검색 버튼
-                NavigationLink(destination: CarSearchView()) {
+                // 차량 검색 버튼: 검색 조건의 바인딩을 CarSearchView로 전달
+                NavigationLink(destination: CarSearchView(
+                    manufacturer: $searchManufacturer,
+                    model: $searchModel,
+                    year: $searchYear,
+                    type: $searchType,
+                    region: $searchRegion,
+                    price: $searchPrice
+                )) {
                     Text("차량 검색")
                         .font(.largeTitle)
                         .frame(maxWidth: .infinity)
@@ -38,19 +77,16 @@ struct BuyCarView: View {
                         .cornerRadius(10)
                 }
                 
-                // 데이터 로딩 중이면 ProgressView 표시
+                // 로딩 중, 오류 발생, 또는 필터링된 차량 리스트 표시
                 if isLoading {
                     ProgressView("차량 목록 불러오는 중...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let errorMessage = errorMessage {
-                    // 오류 발생 시 오류 메시지 표시
                     Text("오류: \(errorMessage)")
                         .foregroundColor(.red)
                         .padding()
                 } else {
-                    // 차량 리스트 표시
-                    List(cars) { car in
-                        // CarRow에 selectedTab 바인딩 전달
+                    List(filteredCars) { car in
                         CarRow(car: car, selectedTab: $selectedTab)
                     }
                     .listStyle(PlainListStyle())
@@ -58,12 +94,12 @@ struct BuyCarView: View {
             }
             .padding(.horizontal)
             .onAppear {
-                fetchCars() // 화면이 나타날 때 데이터 로드
+                fetchCars()  // 화면이 나타날 때 서버에서 데이터 로드
             }
         }
     }
     
-    // 🚀 서버에서 차량 목록을 가져오는 함수
+    // 차량 데이터를 서버에서 받아오는 함수
     private func fetchCars() {
         guard let url = URL(string: "http://localhost:8080/api/cars") else {
             errorMessage = "잘못된 URL입니다."
@@ -106,12 +142,14 @@ struct BuyCarView: View {
     }
 }
 
+
+// CarRow 뷰 추가
 struct CarRow: View {
     var car: CarModel
     @Binding var selectedTab: Int  // ContentView에서 전달받은 바인딩
 
     var body: some View {
-        // DetailCarView에도 selectedTab 바인딩을 전달해야 함
+        // DetailCarView로 이동하는 NavigationLink 예시
         NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
             HStack {
                 AsyncImage(url: URL(string: car.imageUrl)) { image in
@@ -125,9 +163,8 @@ struct CarRow: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Text(car.brand + " " + car.model)
+                    Text("\(car.brand) \(car.model)")
                         .font(.headline)
-
                     Text("\(car.year) · \(car.type) · \(car.region ?? "정보 없음") · \(car.price) 원")
                         .font(.subheadline)
                 }
