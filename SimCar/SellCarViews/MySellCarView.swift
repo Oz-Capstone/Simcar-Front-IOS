@@ -45,7 +45,7 @@ struct MySellCarView: View {
     
     /// 본인이 등록한 차량 목록을 서버에서 가져오는 함수
     private func fetchMySellCars() {
-        guard let url = URL(string: "http://localhost:8080/api/members/sales") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/members/sales") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return

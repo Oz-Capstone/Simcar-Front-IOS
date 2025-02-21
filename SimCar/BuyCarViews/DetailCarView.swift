@@ -10,7 +10,7 @@ struct DetailCarView: View {
     @State private var errorMessage: String?
     
     @State private var showLoginAlert: Bool = false
-    @State private var showDiagnosisModal: Bool = false  // AI 진단 모달을 위한 상태 변수
+    @State private var showDiagnosisModal: Bool = false  // AI 진단 모달 상태 변수
     
     @EnvironmentObject var userSettings: UserSettings
 
@@ -24,18 +24,43 @@ struct DetailCarView: View {
                     .foregroundColor(.red)
                     .padding()
             } else if let car = car {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 16) {
+                    // 이미지 영역: TabView를 사용하여 여러 이미지를 좌우 스와이프로 확인, 높이를 200으로 줄임
                     ZStack(alignment: .topTrailing) {
-                        AsyncImage(url: URL(string: car.imageUrl)) { image in
-                            image
+                        if let images = car.images, !images.isEmpty {
+                            TabView {
+                                ForEach(images) { image in
+                                    if let url = URL(string: image.fullImageUrl) {
+                                        AsyncImage(url: url) { img in
+                                            img
+                                                .resizable()
+                                                .frame(height: 200)
+                                                .cornerRadius(20)
+                                                .clipped()
+                                        } placeholder: {
+                                            ProgressView()
+                                                .frame(height: 200)
+                                        }
+                                    } else {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 200)
+                                    }
+                                }
+                            }
+                            .tabViewStyle(PageTabViewStyle())
+                            .frame(height: 200)
+                        } else {
+                            Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
+                                .frame(height: 200)
                                 .cornerRadius(20)
-                                .frame(height: 300)
-                        } placeholder: {
-                            ProgressView()
+                                .clipped()
                         }
                         
+                        // 찜하기 버튼 - 이미지 영역 오른쪽 상단에 오버레이
                         Button(action: {
                             if userSettings.isLoggedIn {
                                 if isFavorite {
@@ -50,19 +75,17 @@ struct DetailCarView: View {
                             Image(systemName: isFavorite ? "heart.fill" : "heart")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(isFavorite ? .red : .gray)
-                                .padding()
-                                .background(Color.white.opacity(0.7))
-                                .clipShape(Circle())
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(isFavorite ? .red : .white)
+                                .padding(8)
                         }
-                        .padding(.top, 50)
+                        .padding(.top, 16)
                         .padding(.trailing, 16)
-                    }
+                    } // End ZStack
                     
-                    Text(car.brand + " " + car.model)
+                    // 차량 정보
+                    Text("\(car.brand) \(car.model)")
                         .font(.largeTitle)
-                        .padding(.top, 10)
                     
                     VStack(alignment: .leading, spacing: 5) {
                         Text("연식: \(car.year)")
@@ -72,7 +95,6 @@ struct DetailCarView: View {
                         Text("차량 번호: \(car.carNumber)")
                     }
                     .font(.subheadline)
-                    .padding(.top, 5)
                     
                     VStack(alignment: .leading, spacing: 5) {
                         Text("유형: \(car.type)")
@@ -82,9 +104,8 @@ struct DetailCarView: View {
                         Text("연락처: \(car.contactNumber ?? "없음")")
                     }
                     .font(.subheadline)
-                    .padding(.top, 5)
                     
-                    // AI 차량 진단 버튼: 버튼을 눌러 모달을 띄움
+                    // AI 차량 진단 버튼
                     Button(action: {
                         showDiagnosisModal = true
                     }) {
@@ -94,10 +115,8 @@ struct DetailCarView: View {
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
-                            .padding(.top, 10)
                     }
                     .sheet(isPresented: $showDiagnosisModal) {
-                        // 모달로 AICarDiagnosisView를 띄움 (car.id 사용)
                         if let car = car {
                             AICarDiagnosisView(carId: car.id)
                         }
@@ -108,20 +127,23 @@ struct DetailCarView: View {
         }
         .navigationTitle("상세 보기")
         .alert(isPresented: $showLoginAlert) {
-            Alert(title: Text("알림"),
-                  message: Text("로그인 후 이용해 주세요"),
-                  dismissButton: .default(Text("확인"), action: {
+            Alert(
+                title: Text("알림"),
+                message: Text("로그인 후 이용해 주세요"),
+                dismissButton: .default(Text("확인"), action: {
                     selectedTab = 2
-                  }))
+                })
+            )
         }
         .onAppear {
             fetchCarDetail(carId: carId)
         }
     }
     
-    // 이하 fetchCarDetail, fetchFavoriteStatus, addFavorite, removeFavorite 함수는 그대로 유지
+    // MARK: - API 호출 함수
+    
     private func fetchCarDetail(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -159,7 +181,7 @@ struct DetailCarView: View {
     }
     
     private func fetchFavoriteStatus() {
-        guard let url = URL(string: "http://localhost:8080/api/members/favorites") else { return }
+        guard let url = URL(string: "http://13.124.141.50:8080/api/members/favorites") else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let data = data {
@@ -175,7 +197,7 @@ struct DetailCarView: View {
     }
     
     private func addFavorite(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
@@ -187,7 +209,8 @@ struct DetailCarView: View {
                     errorMessage = "찜하기 실패: \(error.localizedDescription)"
                     return
                 }
-                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                if let httpResponse = response as? HTTPURLResponse,
+                   (200...299).contains(httpResponse.statusCode) {
                     isFavorite = true
                 } else {
                     errorMessage = "찜하기 실패: 서버 오류"
@@ -197,7 +220,7 @@ struct DetailCarView: View {
     }
     
     private func removeFavorite(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
@@ -209,7 +232,8 @@ struct DetailCarView: View {
                     errorMessage = "찜하기 취소 실패: \(error.localizedDescription)"
                     return
                 }
-                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                if let httpResponse = response as? HTTPURLResponse,
+                   (200...299).contains(httpResponse.statusCode) {
                     isFavorite = false
                 } else {
                     errorMessage = "찜하기 취소 실패: 서버 오류"

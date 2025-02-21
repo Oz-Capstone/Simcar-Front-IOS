@@ -54,7 +54,7 @@ struct SignUpView: View {
         isLoading = true
         errorMessage = nil
         
-        let url = URL(string: "http://localhost:8080/api/members/join")!
+        let url = URL(string: "http://13.124.141.50:8080/api/members/join")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

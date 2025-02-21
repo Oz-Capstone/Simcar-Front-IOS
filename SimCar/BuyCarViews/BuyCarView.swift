@@ -1,19 +1,5 @@
 import SwiftUI
 
-struct CarModel: Identifiable, Codable {
-    var id: Int
-    var type: String
-    var price: Int
-    var brand: String
-    var model: String
-    var year: Int
-    var imageUrl: String
-    var region: String?      // 지역은 옵셔널
-    var mileage: Int?        // 차량의 키로수는 옵셔널
-    var fuelType: String?    // 연료 타입은 옵셔널
-    var createdAt: String    // 생성일 (예: "2025-01-25T17:49:35.446236")
-}
-
 struct BuyCarView: View {
     @State private var cars: [CarModel] = []       // 서버에서 받아온 전체 차량 데이터
     @State private var isLoading = true            // 로딩 상태 관리
@@ -101,7 +87,7 @@ struct BuyCarView: View {
     
     // 차량 데이터를 서버에서 받아오는 함수
     private func fetchCars() {
-        guard let url = URL(string: "http://localhost:8080/api/cars") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/cars") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -142,24 +128,31 @@ struct BuyCarView: View {
     }
 }
 
-
 // CarRow 뷰 추가
 struct CarRow: View {
     var car: CarModel
-    @Binding var selectedTab: Int  // ContentView에서 전달받은 바인딩
+    @Binding var selectedTab: Int
 
     var body: some View {
-        // DetailCarView로 이동하는 NavigationLink 예시
         NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
             HStack {
-                AsyncImage(url: URL(string: car.imageUrl)) { image in
-                    image
+                if let url = URL(string: car.fullImageUrl) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .cornerRadius(10)
+                            .frame(width: 100, height: 100)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width: 100, height: 100)
+                    }
+                } else {
+                    Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
-                        .cornerRadius(10)
                         .frame(width: 100, height: 100)
-                } placeholder: {
-                    ProgressView()
+                        .foregroundColor(.gray)
                 }
                 
                 VStack(alignment: .leading) {
@@ -172,3 +165,4 @@ struct CarRow: View {
         }
     }
 }
+

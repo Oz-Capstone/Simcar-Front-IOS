@@ -23,10 +23,43 @@ struct Car: Identifiable, Codable {
     var updatedAt: String?
 }
 
+struct CarModel: Identifiable, Codable {
+    var id: Int
+    var type: String
+    var price: Int
+    var brand: String
+    var model: String
+    var year: Int
+    var imageUrl: String       // 서버에서 받은 값 (예: "/uploads/cars/xxx.png")
+    var region: String?
+    var createdAt: String
+
+    // 전체 URL을 반환하는 계산 프로퍼티
+    var fullImageUrl: String {
+        if imageUrl.hasPrefix("http") {
+            return imageUrl
+        } else {
+            return "http://13.124.141.50:8080" + imageUrl
+        }
+    }
+}
+
+struct CarImage: Identifiable, Codable {
+    var id: Int
+    var originalFileName: String
+    var filePath: String
+    var thumbnail: Bool  // JSON에서는 "thumbnail"으로 내려옴
+
+    // 상대 경로에 base URL을 붙여 전체 URL 생성
+    var fullImageUrl: String {
+        return "http://13.124.141.50:8080" + filePath
+    }
+}
+
 struct CarDetail: Identifiable, Codable {
     var id: Int
     var type: String
-    var imageUrl: String
+    var images: [CarImage]?   // 여러 이미지
     var brand: String
     var model: String
     var year: Int
@@ -40,6 +73,16 @@ struct CarDetail: Identifiable, Codable {
     var transmission: String
     var region: String?
     var contactNumber: String?
+    var sellerName: String?
+    var createdAt: String?
+    var updatedAt: String?
+    
+    // 대표 이미지를 썸네일 우선으로 반환 (없으면 첫 번째 이미지 사용)
+    var representativeImageUrl: String? {
+        guard let images = images, !images.isEmpty else { return nil }
+        if let thumb = images.first(where: { $0.thumbnail }) {
+            return thumb.fullImageUrl
+        }
+        return images.first?.fullImageUrl
+    }
 }
-
-

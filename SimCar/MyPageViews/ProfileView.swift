@@ -33,7 +33,7 @@ struct ProfileView: View {
         errorMessage = nil
         
         // API 요청
-        let url = URL(string: "http://localhost:8080/api/members/profile")!
+        let url = URL(string: "http://13.124.141.50:8080/api/members/profile")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

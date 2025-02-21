@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CarManageView: View {
     var carId: Int
-    // 바텀 탭 전환을 위해 외부에서 selectedTab을 binding 받아옴 (예: 로그인 화면 혹은 MyPage 탭의 인덱스)
     @Binding var selectedTab: Int
     
     @State private var car: CarDetail?
@@ -10,12 +9,9 @@ struct CarManageView: View {
     @State private var isLoading: Bool = true
     @State private var errorMessage: String?
     
-    // 로그인 여부 체크 및 로그인 화면으로 전환하기 위한 상태 변수
     @State private var showLoginAlert: Bool = false
+    @State private var showDiagnosisModal: Bool = false  // AI 진단 모달 상태 변수
     
-    @State private var showDiagnosisModal: Bool = false  // AI 진단 모달을 위한 상태 변수
-    
-    // 환경 객체와 화면 닫기를 위한 환경 변수
     @EnvironmentObject var userSettings: UserSettings
     @Environment(\.presentationMode) var presentationMode
 
@@ -30,18 +26,54 @@ struct CarManageView: View {
                     .padding()
             } else if let car = car {
                 VStack(alignment: .leading, spacing: 20) {
+                    // 차량 이미지 영역: car.images가 있을 경우 TabView로 여러 이미지를 스와이프 가능하도록 표시
                     ZStack(alignment: .topTrailing) {
-                        AsyncImage(url: URL(string: car.imageUrl)) { image in
-                            image
+                        if let images = car.images, !images.isEmpty {
+                            TabView {
+                                ForEach(images) { image in
+                                    if let url = URL(string: image.fullImageUrl) {
+                                        AsyncImage(url: url) { img in
+                                            img
+                                                .resizable()
+                                                .frame(height: 200)
+                                                .cornerRadius(20)
+                                                .clipped()
+                                        } placeholder: {
+                                            ProgressView()
+                                                .frame(height: 200)
+                                        }
+                                    } else {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 200)
+                                    }
+                                }
+                            }
+                            .tabViewStyle(PageTabViewStyle())
+                            .frame(height: 200)
+                        } else if let urlString = car.representativeImageUrl,
+                                  let url = URL(string: urlString) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .frame(height: 200)
+                                    .cornerRadius(20)
+                                    .clipped()
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(height: 200)
+                            }
+                        } else {
+                            Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
+                                .frame(height: 200)
                                 .cornerRadius(20)
-                                .frame(height: 300)
-                        } placeholder: {
-                            ProgressView()
+                                .clipped()
                         }
                         
-                        // 하트 버튼: 로그인 여부 및 찜 상태에 따라 동작 분기
+                        // 찜하기 버튼
                         Button(action: {
                             if userSettings.isLoggedIn {
                                 if isFavorite {
@@ -56,20 +88,18 @@ struct CarManageView: View {
                             Image(systemName: isFavorite ? "heart.fill" : "heart")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(isFavorite ? .red : .gray)
-                                .padding()
-                                .background(Color.white.opacity(0.7))
-                                .clipShape(Circle())
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(isFavorite ? .red : .white)
+                                .padding(8)
                         }
-                        .padding(.top, 50)
+                        .padding(.top, 16)
                         .padding(.trailing, 16)
                     }
                     
-                    Text(car.brand + " " + car.model)
+                    Text("\(car.brand) \(car.model)")
                         .font(.largeTitle)
                         .padding(.top, 10)
-
+                    
                     VStack(alignment: .leading, spacing: 5) {
                         Text("연식: \(car.year)")
                         Text("키로수: \(car.mileage ?? 0) km")
@@ -88,7 +118,7 @@ struct CarManageView: View {
                     }
                     .font(.subheadline)
                     
-                    // AI 차량 진단 버튼: 버튼을 눌러 모달을 띄움
+                    // AI 차량 진단 버튼
                     Button(action: {
                         showDiagnosisModal = true
                     }) {
@@ -101,7 +131,6 @@ struct CarManageView: View {
                             .padding(.top, 10)
                     }
                     .sheet(isPresented: $showDiagnosisModal) {
-                        // 모달로 AICarDiagnosisView를 띄움 (car.id 사용)
                         if let car = car {
                             AICarDiagnosisView(carId: car.id)
                         }
@@ -109,7 +138,6 @@ struct CarManageView: View {
                     
                     // 차량 수정 및 제거 버튼
                     HStack(spacing: 20) {
-                        // 차량 수정 버튼 (EditCarView는 별도로 구현)
                         NavigationLink(destination: EditCarView(selectedTab: $selectedTab, car: car, carId: car.id)) {
                             Text("차량 수정")
                                 .padding()
@@ -119,7 +147,6 @@ struct CarManageView: View {
                                 .cornerRadius(8)
                         }
                         
-                        // 차량 제거 버튼
                         Button(action: {
                             deleteCar(carId: car.id)
                         }) {
@@ -137,25 +164,27 @@ struct CarManageView: View {
         }
         .navigationTitle("상세 보기")
         .alert(isPresented: $showLoginAlert) {
-            Alert(title: Text("알림"),
-                  message: Text("로그인 후 이용해 주세요"),
-                  dismissButton: .default(Text("확인"), action: {
+            Alert(
+                title: Text("알림"),
+                message: Text("로그인 후 이용해 주세요"),
+                dismissButton: .default(Text("확인"), action: {
                     selectedTab = 2
-                  }))
+                })
+            )
         }
         .onAppear {
             fetchCarDetail(carId: carId)
         }
     }
     
-    /// 차량 상세 정보를 서버에서 가져오는 함수
+    // MARK: - API 호출 함수들
+    
     private func fetchCarDetail(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
         }
-        
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -188,11 +217,8 @@ struct CarManageView: View {
         }.resume()
     }
     
-    /// 현재 사용자의 찜한 차량 목록을 조회하고, 현재 차량의 찜 여부를 판별하는 함수
     private func fetchFavoriteStatus() {
-        guard let url = URL(string: "http://localhost:8080/api/members/favorites") else {
-            return
-        }
+        guard let url = URL(string: "http://13.124.141.50:8080/api/members/favorites") else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let data = data {
@@ -201,23 +227,19 @@ struct CarManageView: View {
                         if let currentCar = self.car {
                             self.isFavorite = favoritesList.contains(where: { $0.id == currentCar.id })
                         }
-                    } catch {
-                        // 데이터 파싱 오류 처리 (필요시 errorMessage 업데이트)
-                    }
+                    } catch { }
                 }
             }
         }.resume()
     }
     
-    /// 차량 찜하기 API 호출 (POST)
     private func addFavorite(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -234,15 +256,13 @@ struct CarManageView: View {
         }.resume()
     }
     
-    /// 차량 찜하기 취소 API 호출 (DELETE)
     private func removeFavorite(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -259,16 +279,14 @@ struct CarManageView: View {
         }.resume()
     }
     
-    /// 차량 삭제 API 호출 (DELETE)
     private func deleteCar(carId: Int) {
-        guard let url = URL(string: "http://localhost:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     errorMessage = "차량 삭제 실패: \(error.localizedDescription)"
@@ -276,7 +294,6 @@ struct CarManageView: View {
                 }
                 if let httpResponse = response as? HTTPURLResponse,
                    (200...299).contains(httpResponse.statusCode) {
-                    // 차량 삭제 성공 시 화면 닫기
                     presentationMode.wrappedValue.dismiss()
                 } else {
                     errorMessage = "차량 삭제 실패: 서버 오류"
@@ -285,4 +302,3 @@ struct CarManageView: View {
         }.resume()
     }
 }
-

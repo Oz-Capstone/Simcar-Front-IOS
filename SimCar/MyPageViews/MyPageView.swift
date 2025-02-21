@@ -155,7 +155,7 @@ struct MyPageView: View {
         isLoading = true
         errorMessage = nil
         
-        let url = URL(string: "http://localhost:8080/api/members/login")!
+        let url = URL(string: "http://13.124.141.50:8080/api/members/login")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -204,7 +204,7 @@ struct MyPageView: View {
     }
     
     private func logout() {
-        guard let url = URL(string: "http://localhost:8080/api/members/logout") else { return }
+        guard let url = URL(string: "http://13.124.141.50:8080/api/members/logout") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
