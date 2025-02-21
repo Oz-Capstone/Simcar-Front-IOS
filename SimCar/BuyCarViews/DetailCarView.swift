@@ -25,7 +25,7 @@ struct DetailCarView: View {
                     .padding()
             } else if let car = car {
                 VStack(alignment: .leading, spacing: 16) {
-                    // 이미지 영역: TabView를 사용하여 여러 이미지를 좌우 스와이프로 확인, 높이를 200으로 줄임
+                    // 이미지 영역: TabView로 여러 이미지를 좌우 스와이프로 확인 (높이: 200)
                     ZStack(alignment: .topTrailing) {
                         if let images = car.images, !images.isEmpty {
                             TabView {
@@ -60,7 +60,7 @@ struct DetailCarView: View {
                                 .clipped()
                         }
                         
-                        // 찜하기 버튼 - 이미지 영역 오른쪽 상단에 오버레이
+                        // 찜하기 버튼 (오른쪽 상단 오버레이)
                         Button(action: {
                             if userSettings.isLoggedIn {
                                 if isFavorite {
@@ -81,7 +81,7 @@ struct DetailCarView: View {
                         }
                         .padding(.top, 16)
                         .padding(.trailing, 16)
-                    } // End ZStack
+                    }
                     
                     // 차량 정보
                     Text("\(car.brand) \(car.model)")
@@ -143,7 +143,7 @@ struct DetailCarView: View {
     // MARK: - API 호출 함수
     
     private func fetchCarDetail(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: API.car + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -181,7 +181,7 @@ struct DetailCarView: View {
     }
     
     private func fetchFavoriteStatus() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/members/favorites") else { return }
+        guard let url = URL(string: API.members_favorites) else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let data = data {
@@ -190,14 +190,16 @@ struct DetailCarView: View {
                         if let currentCar = self.car {
                             self.isFavorite = favoritesList.contains(where: { $0.id == currentCar.id })
                         }
-                    } catch { }
+                    } catch {
+                        // 오류 처리 생략
+                    }
                 }
             }
         }.resume()
     }
     
     private func addFavorite(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: API.favorites + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
@@ -220,7 +222,7 @@ struct DetailCarView: View {
     }
     
     private func removeFavorite(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: API.favorites + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }

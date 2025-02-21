@@ -9,7 +9,7 @@ struct LogInView: View {
     @State private var alertMessage: String = ""
     
     @EnvironmentObject var userSettings: UserSettings
-    @Environment(\.presentationMode) var presentationMode // 현재 화면을 닫기 위해 추가
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
@@ -35,7 +35,7 @@ struct LogInView: View {
                 Alert(title: Text("알림"),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("확인")) {
-                          presentationMode.wrappedValue.dismiss() // 로그인 성공 시 마이페이지로 이동
+                          presentationMode.wrappedValue.dismiss() // 로그인 성공 시 화면 닫기
                       })
             }
         }
@@ -50,7 +50,12 @@ struct LogInView: View {
         isLoading = true
         errorMessage = nil
         
-        let url = URL(string: "http://13.124.141.50:8080/api/members/login")!
+        guard let url = URL(string: API.login) else {
+            errorMessage = "잘못된 URL입니다."
+            isLoading = false
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -105,5 +110,3 @@ struct LogInView: View {
         task.resume()
     }
 }
-
-

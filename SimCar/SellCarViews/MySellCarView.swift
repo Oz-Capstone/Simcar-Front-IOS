@@ -15,17 +15,14 @@ struct MySellCarView: View {
         NavigationView {
             VStack(alignment: .leading) {
                 
-                // 데이터 로딩 중이면 ProgressView 표시
                 if isLoading {
                     ProgressView("차량 목록 불러오는 중...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let errorMessage = errorMessage {
-                    // 오류 발생 시 오류 메시지 표시
                     Text("오류: \(errorMessage)")
                         .foregroundColor(.red)
                         .padding()
                 } else {
-                    // 차량 리스트 표시
                     List(cars) { car in
                         NavigationLink(destination: CarManageView(carId: car.id, selectedTab: $selectedTab)) {
                             CarRow(car: car, selectedTab: $selectedTab)
@@ -45,7 +42,7 @@ struct MySellCarView: View {
     
     /// 본인이 등록한 차량 목록을 서버에서 가져오는 함수
     private func fetchMySellCars() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/members/sales") else {
+        guard let url = URL(string: API.sales) else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -74,7 +71,6 @@ struct MySellCarView: View {
                 
                 do {
                     let decodedCars = try JSONDecoder().decode([CarModel].self, from: data)
-                    // 최신순으로 표시하려면 배열을 뒤집습니다.
                     self.cars = decodedCars.reversed()
                 } catch {
                     errorMessage = "데이터 파싱 오류: \(error.localizedDescription)"

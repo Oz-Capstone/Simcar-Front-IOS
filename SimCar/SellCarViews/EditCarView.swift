@@ -73,7 +73,6 @@ struct EditCarView: View {
                     
                     if reorderMode {
                         VStack {
-                            // List에 고정 높이 적용
                             List {
                                 ForEach(imageOrder) { image in
                                     HStack {
@@ -97,7 +96,6 @@ struct EditCarView: View {
                                         }
                                         Text("ID: \(image.id)")
                                         Spacer()
-                                        // 썸네일 관련 버튼/라벨 (로컬 상태 변수 사용)
                                         if currentRepresentativeImageUrl == image.fullImageUrl {
                                             Text("대표")
                                                 .foregroundColor(.blue)
@@ -109,7 +107,6 @@ struct EditCarView: View {
                                             .buttonStyle(BorderlessButtonStyle())
                                             .font(.caption)
                                         }
-                                        // 삭제 버튼
                                         Button {
                                             deleteImage(imageId: image.id)
                                         } label: {
@@ -123,7 +120,6 @@ struct EditCarView: View {
                             }
                             .environment(\.editMode, .constant(.active))
                             .listStyle(PlainListStyle())
-                            // 고정 높이 (행당 약 70포인트로 계산하거나 최소 높이를 설정)
                             .frame(height: max(CGFloat(imageOrder.count) * 70, 200))
                             
                             Button("순서 저장") {
@@ -136,7 +132,6 @@ struct EditCarView: View {
                             .cornerRadius(8)
                         }
                     } else {
-                        // 순서 변경 모드가 아닐 때, horizontal 스크롤로 기존 이미지 표시
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(currentImages) { image in
@@ -221,7 +216,6 @@ struct EditCarView: View {
                         }
                     }
                     
-                    // 새 이미지 업로드 버튼 (새로 추가한 이미지가 있을 때)
                     if !newImages.isEmpty {
                         Button("새 이미지 업로드") {
                             addNewImages()
@@ -256,7 +250,6 @@ struct EditCarView: View {
                     title: Text("알림"),
                     message: Text(updateMessage),
                     dismissButton: .default(Text("확인"), action: {
-                        // 오류 메시지인 경우에는 dismiss하지 않음
                         if updateMessage != "대표 이미지는 제거할 수 없습니다" {
                             presentationMode.wrappedValue.dismiss()
                         }
@@ -292,9 +285,9 @@ struct EditCarView: View {
         currentRepresentativeImageUrl = car.representativeImageUrl
     }
     
-    // 새로 서버로부터 최신 차량 정보를 받아와 이미지 목록을 업데이트하는 함수
+    // 서버로부터 최신 차량 정보를 받아와 이미지 목록을 업데이트하는 함수
     private func refreshCarImages() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: API.car + "\(carId)") else {
             updateMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -323,7 +316,7 @@ struct EditCarView: View {
     
     private func updateImageOrder() {
         let order = imageOrder.map { $0.id }
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)/images/order") else {
+        guard let url = URL(string: API.car + "\(carId)/images/order") else {
             updateMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -353,7 +346,7 @@ struct EditCarView: View {
         }.resume()
     }
     
-    // MARK: - 차량 정보 수정 API (PUT /api/cars/{carId})
+    // MARK: - 차량 정보 수정 API
     private func updateCarInfo() {
         let requiredFields = [type, brand, model, fuelType, carNumber, insuranceHistory, inspectionHistory, color, transmission, region, contactNumber]
         if requiredFields.contains(where: { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
@@ -384,7 +377,7 @@ struct EditCarView: View {
             "region": region,
             "contactNumber": contactNumber
         ]
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: API.car + "\(carId)") else {
             updateMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -416,9 +409,9 @@ struct EditCarView: View {
         }.resume()
     }
     
-    // MARK: - 썸네일 변경 API (PUT /api/cars/{carId}/thumbnail/{imageId})
+    // MARK: - 썸네일 변경 API
     private func updateThumbnail(imageId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)/thumbnail/\(imageId)") else {
+        guard let url = URL(string: API.car + "\(carId)/thumbnail/\(imageId)") else {
             updateMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -433,7 +426,6 @@ struct EditCarView: View {
                 if let httpResponse = response as? HTTPURLResponse,
                    (200...299).contains(httpResponse.statusCode) {
                     updateMessage = "대표 이미지가 변경되었습니다."
-                    // 로컬 상태 변수 업데이트
                     if let idx = currentImages.firstIndex(where: { $0.id == imageId }) {
                         currentRepresentativeImageUrl = currentImages[idx].fullImageUrl
                     }
@@ -444,9 +436,9 @@ struct EditCarView: View {
         }.resume()
     }
     
-    // MARK: - 새 이미지 추가 API (POST /api/cars/{carId}/images)
+    // MARK: - 새 이미지 추가 API
     private func addNewImages() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)/images") else {
+        guard let url = URL(string: API.car + "\(carId)/images") else {
             updateMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -476,7 +468,6 @@ struct EditCarView: View {
                    (200...299).contains(httpResponse.statusCode) {
                     updateMessage = "새 이미지가 업로드되었습니다."
                     newImages.removeAll()
-                    // 업로드 성공 후 서버로부터 최신 데이터를 가져와 화면 새로고침
                     refreshCarImages()
                 } else {
                     updateMessage = "이미지 업로드 실패: 서버 오류"
@@ -485,9 +476,8 @@ struct EditCarView: View {
         }.resume()
     }
     
-    // MARK: - 이미지 삭제 API (DELETE /api/cars/{carId}/images/{imageId})
+    // MARK: - 이미지 삭제 API
     private func deleteImage(imageId: Int) {
-        // 삭제할 이미지가 대표 이미지인 경우
         if let idx = currentImages.firstIndex(where: { $0.id == imageId }),
            currentImages[idx].fullImageUrl == currentRepresentativeImageUrl {
             updateMessage = "대표 이미지는 제거할 수 없습니다"
@@ -495,7 +485,7 @@ struct EditCarView: View {
             return
         }
         
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)/images/\(imageId)") else {
+        guard let url = URL(string: API.car + "\(carId)/images/\(imageId)") else {
             updateMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -510,7 +500,6 @@ struct EditCarView: View {
                 if let httpResponse = response as? HTTPURLResponse,
                    (200...299).contains(httpResponse.statusCode) {
                     updateMessage = "이미지가 삭제되었습니다."
-                    // 삭제된 이미지를 currentImages와 imageOrder에서 제거
                     if let idx = currentImages.firstIndex(where: { $0.id == imageId }) {
                         currentImages.remove(at: idx)
                     }
@@ -522,14 +511,5 @@ struct EditCarView: View {
                 }
             }
         }.resume()
-    }
-}
-
-// Data에 String을 추가할 수 있도록 하는 확장
-extension Data {
-    mutating func append(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            append(data)
-        }
     }
 }

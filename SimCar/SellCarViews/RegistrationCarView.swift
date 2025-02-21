@@ -62,7 +62,6 @@ struct RegistrationCarView: View {
                     if !newImages.isEmpty {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                // newImages 배열의 인덱스를 사용하여 ForEach
                                 ForEach(newImages.indices, id: \.self) { index in
                                     ZStack(alignment: .topTrailing) {
                                         Image(uiImage: newImages[index])
@@ -97,7 +96,6 @@ struct RegistrationCarView: View {
                     }
                 }
 
-                
                 Button(action: registerCar) {
                     Text("차량 등록")
                         .frame(maxWidth: .infinity)
@@ -176,7 +174,8 @@ struct RegistrationCarView: View {
     
     // MARK: - 서버 전송 함수 (multipart/form-data)
     private func sendCarRegistrationRequest(carData: [String: Any], images: [UIImage]) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars") else {
+        // API.cars를 사용하여 차량 등록 URL 관리
+        guard let url = URL(string: API.cars) else {
             registrationMessage = "잘못된 서버 주소입니다."
             return
         }
@@ -243,6 +242,15 @@ struct RegistrationCarView: View {
     }
 }
 
+// Data에 String 추가 확장 함수
+extension Data {
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            append(data)
+        }
+    }
+}
+
 // MARK: - ImagePicker (PHPicker 사용)
 struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentationMode
@@ -259,7 +267,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
-        // 별도 업데이트 없음
+        // 업데이트 없음
     }
     
     func makeCoordinator() -> Coordinator {
@@ -290,12 +298,3 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
 }
-
-//// MARK: - Data Extension (multipart/form-data 조합 편의를 위해)
-//extension Data {
-//    mutating func append(_ string: String) {
-//        if let data = string.data(using: .utf8) {
-//            append(data)
-//        }
-//    }
-//}

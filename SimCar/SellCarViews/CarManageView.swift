@@ -180,7 +180,7 @@ struct CarManageView: View {
     // MARK: - API 호출 함수들
     
     private func fetchCarDetail(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: API.car + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -218,7 +218,7 @@ struct CarManageView: View {
     }
     
     private func fetchFavoriteStatus() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/members/favorites") else { return }
+        guard let url = URL(string: API.members_favorites) else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if let data = data {
@@ -234,7 +234,7 @@ struct CarManageView: View {
     }
     
     private func addFavorite(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: API.favorites + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
@@ -257,7 +257,7 @@ struct CarManageView: View {
     }
     
     private func removeFavorite(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/favorites/\(carId)") else {
+        guard let url = URL(string: API.favorites + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }
@@ -280,7 +280,7 @@ struct CarManageView: View {
     }
     
     private func deleteCar(carId: Int) {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)") else {
+        guard let url = URL(string: API.car + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
             return
         }

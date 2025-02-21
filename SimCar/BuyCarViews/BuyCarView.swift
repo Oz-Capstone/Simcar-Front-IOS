@@ -87,7 +87,7 @@ struct BuyCarView: View {
     
     // 차량 데이터를 서버에서 받아오는 함수
     private func fetchCars() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars") else {
+        guard let url = URL(string: "http://54.180.92.197:8080/api/cars") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
@@ -166,3 +166,11 @@ struct CarRow: View {
     }
 }
 
+
+struct ContentView_Previews: PreviewProvider {
+    @StateObject static var userSettings = UserSettings()
+    static var previews: some View {
+        ContentView()
+            .environmentObject(userSettings)
+    }
+}

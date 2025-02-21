@@ -59,7 +59,9 @@ struct AICarDiagnosisView: View {
     }
     
     private func fetchDiagnosis() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/cars/\(carId)/diagnosis") else {
+        // API.car: "http://13.124.141.50:8080/api/cars/"
+        // 경로에 "\(carId)/diagnosis" 추가
+        guard let url = URL(string: API.car + "\(carId)/diagnosis") else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return

@@ -10,7 +10,7 @@ struct SignUpView: View {
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
 
-    @Environment(\.presentationMode) var presentationMode // 현재 화면을 닫기 위해 추가
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
@@ -39,7 +39,7 @@ struct SignUpView: View {
                 Alert(title: Text("알림"),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("확인")) {
-                          presentationMode.wrappedValue.dismiss() // 회원가입 성공 후 마이페이지로 이동
+                          presentationMode.wrappedValue.dismiss()
                       })
             }
         }
@@ -54,7 +54,12 @@ struct SignUpView: View {
         isLoading = true
         errorMessage = nil
         
-        let url = URL(string: "http://13.124.141.50:8080/api/members/join")!
+        guard let url = URL(string: API.join) else {
+            errorMessage = "잘못된 URL입니다."
+            isLoading = false
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -103,5 +108,3 @@ struct SignUpView: View {
         task.resume()
     }
 }
-
-

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B0638792D6854FB009B406C /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0638782D6854FB009B406C /* API.swift */; };
 		4B5F2BEB2D42A2EF0076DA60 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */; };
 		4B74E9922D5A596A00EE0393 /* CarManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B74E9912D5A596A00EE0393 /* CarManageView.swift */; };
 		4B74E9942D5A5B3900EE0393 /* MySellCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B74E9932D5A5B3900EE0393 /* MySellCarView.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B0638782D6854FB009B406C /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		4B5F2BEA2D42A2EF0076DA60 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		4B74E9912D5A596A00EE0393 /* CarManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarManageView.swift; sourceTree = "<group>"; };
 		4B74E9932D5A5B3900EE0393 /* MySellCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySellCarView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				4BDD53B52D34C89300248FDC /* SimCarApp.swift */,
 				4BDD53B72D34C89300248FDC /* ContentView.swift */,
 				4B9F1B402D436AB7007A9336 /* Car.swift */,
+				4B0638782D6854FB009B406C /* API.swift */,
 				4BDD53EB2D3550C900248FDC /* MyPageViews */,
 				4BDD53F42D35566F00248FDC /* BuyCarViews */,
 				4BDD53F52D35574500248FDC /* SellCarViews */,
@@ -336,6 +339,7 @@
 				4B9F1B432D439357007A9336 /* CarSearchView.swift in Sources */,
 				4B74E9962D5B00B400EE0393 /* EditCarView.swift in Sources */,
 				4BDD53F32D35550100248FDC /* FavoriteCarView.swift in Sources */,
+				4B0638792D6854FB009B406C /* API.swift in Sources */,
 				4B9F1B412D436AB7007A9336 /* Car.swift in Sources */,
 				4BDD53F72D35587400248FDC /* DetailCarView.swift in Sources */,
 				4BDD53EA2D354F9F00248FDC /* SignUpView.swift in Sources */,

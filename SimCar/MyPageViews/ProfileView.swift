@@ -32,8 +32,12 @@ struct ProfileView: View {
         isLoading = true
         errorMessage = nil
         
-        // API 요청
-        let url = URL(string: "http://13.124.141.50:8080/api/members/profile")!
+        guard let url = URL(string: API.profile) else {
+            errorMessage = "잘못된 URL입니다."
+            isLoading = false
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -50,11 +54,14 @@ struct ProfileView: View {
                 return
             }
             
-            // 응답 처리
-            if let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+            if let data = data,
+               let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode == 200 {
                 do {
-                    // JSON 데이터 파싱
-                    member = try JSONDecoder().decode(MemberProfileResponse.self, from: data)
+                    let decodedMember = try JSONDecoder().decode(MemberProfileResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        member = decodedMember
+                    }
                 } catch {
                     DispatchQueue.main.async {
                         errorMessage = "데이터 변환 오류"
@@ -76,6 +83,4 @@ struct MemberProfileResponse: Codable {
     let email: String
     let name: String
     let phone: String
-    
-
 }

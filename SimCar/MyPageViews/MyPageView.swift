@@ -8,7 +8,7 @@ struct MyPageView: View {
     @State private var errorMessage: String?
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
-    @Binding var selectedTab: Int                  // ContentView에서 전달받은 바텀 탭 상태
+    @Binding var selectedTab: Int  // ContentView에서 전달받은 바텀 탭 상태
 
     var body: some View {
         NavigationView {
@@ -20,8 +20,6 @@ struct MyPageView: View {
                         .bold()
                     
                     VStack(spacing: 20) {
-                        
-                        
                         NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab)) {
                             Text("찜한 차량 조회")
                                 .padding()
@@ -42,7 +40,6 @@ struct MyPageView: View {
                                 .cornerRadius(8)
                                 .padding(.horizontal)
                         }
-                        
                         
                         NavigationLink(destination: ProfileView()) {
                             Text("회원 정보 조회")
@@ -74,7 +71,6 @@ struct MyPageView: View {
                                 .padding(.horizontal)
                                 .padding(.bottom)
                         }
-                        
                     }
                     .padding()
                     .background(Color.white)
@@ -84,15 +80,11 @@ struct MyPageView: View {
                     
                 } else {
                     // 로그인되지 않은 상태
-
                     Text("SIM Car")
                         .font(.largeTitle)
                         .bold()
                     
                     VStack(spacing: 20) {
-                        
-                        
-                        
                         TextField("이메일", text: $email)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .autocapitalization(.none)
@@ -132,7 +124,7 @@ struct MyPageView: View {
                     }
                     .padding()
                     .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 25)) // 둥근 테두리 적용
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
                     .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
                     .padding()
                 }
@@ -143,7 +135,6 @@ struct MyPageView: View {
                 Alert(title: Text("알림"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
             }
         }
-            
     }
     
     private func login() {
@@ -155,7 +146,12 @@ struct MyPageView: View {
         isLoading = true
         errorMessage = nil
         
-        let url = URL(string: "http://13.124.141.50:8080/api/members/login")!
+        guard let url = URL(string: API.login) else {
+            errorMessage = "잘못된 URL입니다."
+            isLoading = false
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -204,7 +200,7 @@ struct MyPageView: View {
     }
     
     private func logout() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/members/logout") else { return }
+        guard let url = URL(string: API.logout) else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -227,6 +223,3 @@ struct MyPageView: View {
         task.resume()
     }
 }
-
-
-

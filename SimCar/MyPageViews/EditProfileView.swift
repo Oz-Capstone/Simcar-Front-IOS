@@ -44,7 +44,12 @@ struct EditProfileView: View {
     private func fetchProfile() {
         isLoading = true
         
-        let url = URL(string: "http://13.124.141.50:8080/api/members/profile")!
+        guard let url = URL(string: API.profile) else {
+            errorMessage = "잘못된 URL입니다."
+            isLoading = false
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -62,9 +67,10 @@ struct EditProfileView: View {
             }
             
             // 응답 처리
-            if let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+            if let data = data,
+               let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode == 200 {
                 do {
-                    // JSON 데이터 파싱
                     let memberProfile = try JSONDecoder().decode(MemberProfileResponse.self, from: data)
                     DispatchQueue.main.async {
                         email = memberProfile.email
@@ -91,18 +97,25 @@ struct EditProfileView: View {
         errorMessage = nil
         successMessage = nil
         
-        // API 요청
-        let url = URL(string: "http://13.124.141.50:8080/api/members/profile")!
+        guard let url = URL(string: API.profile) else {
+            errorMessage = "잘못된 URL입니다."
+            isLoading = false
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let parameters: [String: Any] = [
+        // 비밀번호가 비어있으면 parameters에서 제거합니다.
+        var parameters: [String: Any] = [
             "email": email,
-            "password": password.isEmpty ? nil : password,
             "name": name,
             "phone": phone
         ]
+        if !password.isEmpty {
+            parameters["password"] = password
+        }
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
@@ -124,7 +137,6 @@ struct EditProfileView: View {
                 return
             }
             
-            // 응답 처리
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     DispatchQueue.main.async {
@@ -141,4 +153,3 @@ struct EditProfileView: View {
         task.resume()
     }
 }
-

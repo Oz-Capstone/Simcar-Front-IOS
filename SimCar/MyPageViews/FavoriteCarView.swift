@@ -9,7 +9,6 @@ struct FavoriteCarView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                
                 if isLoading {
                     ProgressView("찜한 차량 목록 불러오는 중...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -18,7 +17,6 @@ struct FavoriteCarView: View {
                         .foregroundColor(.red)
                         .padding()
                 } else if favorites.isEmpty {
-                    // 찜한 차량 목록이 비어 있을 경우 표시할 텍스트
                     Text("찜한 차량이 없습니다")
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -41,7 +39,7 @@ struct FavoriteCarView: View {
     
     /// 찜한 차량 목록을 서버에서 가져오는 함수
     private func fetchFavorites() {
-        guard let url = URL(string: "http://13.124.141.50:8080/api/members/favorites") else {
+        guard let url = URL(string: API.members_favorites) else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
