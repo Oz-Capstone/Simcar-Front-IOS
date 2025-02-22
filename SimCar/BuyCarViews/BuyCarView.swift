@@ -41,10 +41,53 @@ struct BuyCarView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                Text("SIM Car")
-                    .font(.largeTitle)
-                    .bold()
                 
+                HStack {
+                        Image("SimCarLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 70)
+                        
+                        Spacer()
+                        
+                    // 돋보기 아이콘 버튼: 차량 검색 화면으로 네비게이트
+                    NavigationLink(destination: CarSearchView(
+                        manufacturer: $searchManufacturer,
+                        model: $searchModel,
+                        year: $searchYear,
+                        type: $searchType,
+                        region: $searchRegion,
+                        price: $searchPrice
+                    )) {
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 27, weight: .bold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .padding(.trailing, 10)
+                    }
+
+                        
+                    // 하트 아이콘 버튼: 찜한 차량 목록으로 네비게이트
+                    NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab)) {
+                        Image(systemName: "heart.fill")
+                            .font(.system(size: 27, weight: .bold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.purple, Color.indigo]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .padding(.trailing, 10)
+                    }
+
+                }
+                    
                 // 차량 검색 버튼: 검색 조건의 바인딩을 CarSearchView로 전달
                 NavigationLink(destination: CarSearchView(
                     manufacturer: $searchManufacturer,
@@ -54,15 +97,31 @@ struct BuyCarView: View {
                     region: $searchRegion,
                     price: $searchPrice
                 )) {
-                    Text("차량 검색")
+                    Text("차량 검색하기")
                         .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.black) // 흰색 배경 위에 대비되는 검은 텍스트
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .background(Color.white) // 가운데 부분을 흰색으로 채움
+                        .overlay(
+                            // 외곽에 그라데이션 테두리 적용
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                    lineWidth: 20
+                                )
+                        )
+                        .cornerRadius(30)
+                        .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0) // 그림자 효과 추가
                 }
-                
+                .padding(5)
+
+
                 // 로딩 중, 오류 발생, 또는 필터링된 차량 리스트 표시
                 if isLoading {
                     ProgressView("차량 목록 불러오는 중...")
@@ -74,8 +133,10 @@ struct BuyCarView: View {
                 } else {
                     List(filteredCars) { car in
                         CarRow(car: car, selectedTab: $selectedTab)
+                            .listRowSeparator(.hidden)
                     }
                     .listStyle(PlainListStyle())
+                    .scrollIndicators(.hidden)
                 }
             }
             .padding(.horizontal)
@@ -85,46 +146,38 @@ struct BuyCarView: View {
         }
     }
     
-    // 차량 데이터를 서버에서 받아오는 함수
+    // 차량 데이터를 서버에서 받아오는 함수 (async/await 사용)
     private func fetchCars() {
-        guard let url = URL(string: "http://54.180.92.197:8080/api/cars") else {
+        guard let url = URL(string: API.cars) else {
             errorMessage = "잘못된 URL입니다."
             isLoading = false
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
+        Task {
+            do {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    DispatchQueue.main.async {
+                        errorMessage = "서버 오류"
+                        isLoading = false
+                    }
+                    return
+                }
+                
+                let decodedCars = try JSONDecoder().decode([CarModel].self, from: data)
+                DispatchQueue.main.async {
+                    self.cars = decodedCars.reversed()
+                    isLoading = false
+                }
+            } catch {
+                DispatchQueue.main.async {
                     errorMessage = "네트워크 오류: \(error.localizedDescription)"
                     isLoading = false
-                    return
                 }
-                
-                if let httpResponse = response as? HTTPURLResponse,
-                   !(200...299).contains(httpResponse.statusCode) {
-                    errorMessage = "서버 오류: \(httpResponse.statusCode)"
-                    isLoading = false
-                    return
-                }
-                
-                guard let data = data else {
-                    errorMessage = "데이터를 받을 수 없습니다."
-                    isLoading = false
-                    return
-                }
-                
-                do {
-                    let decodedCars = try JSONDecoder().decode([CarModel].self, from: data)
-                    // 최신순으로 표시하기 위해 배열을 뒤집음
-                    self.cars = decodedCars.reversed()
-                } catch {
-                    errorMessage = "데이터 파싱 오류: \(error.localizedDescription)"
-                }
-                
-                isLoading = false
             }
-        }.resume()
+        }
     }
 }
 
@@ -142,7 +195,8 @@ struct CarRow: View {
                             .resizable()
                             .scaledToFit()
                             .cornerRadius(10)
-                            .frame(width: 100, height: 100)
+                            .frame(width: 130, height: 100)
+                            .padding(5)
                     } placeholder: {
                         ProgressView()
                             .frame(width: 100, height: 100)
@@ -167,10 +221,10 @@ struct CarRow: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject static var userSettings = UserSettings()
-    static var previews: some View {
-        ContentView()
-            .environmentObject(userSettings)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}

@@ -5,14 +5,7 @@ struct ContentView: View {
     @State private var selectedTab = 0
 
     init() {
-        // 탭 바의 배경색을 흰색으로 설정
-        UITabBar.appearance().backgroundColor = UIColor.white
-        // barTintColor 도 설정할 수 있습니다.
-        UITabBar.appearance().barTintColor = UIColor.white
-        // 선택되지 않은 아이콘 색상 (원하는 색으로 조정)
-        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
-        // 선택된 탭의 아이콘 및 텍스트 색상
-        UITabBar.appearance().tintColor = UIColor.black
+        configureTabBarAppearance()
     }
     
     var body: some View {
@@ -36,8 +29,36 @@ struct ContentView: View {
                 .tag(2)
         }
     }
+    
+    /// iOS 15+에서 Tab Bar Appearance를 커스터마이징하는 메서드
+    private func configureTabBarAppearance() {
+        // TabBarAppearance 인스턴스 생성
+        let appearance = UITabBarAppearance()
+        // 배경색/불투명도 설정
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        
+        // 기본 테두리(Shadow) 제거
+        appearance.shadowColor = .clear
+        
+        // 탭 아이콘 색상
+        // (선택/비선택 상태는 StackedLayoutAppearance에 지정)
+        appearance.stackedLayoutAppearance.normal.iconColor = .gray
+        appearance.stackedLayoutAppearance.selected.iconColor = .black
+        
+        // 텍스트 컬러
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.black]
+        
+        // TabBarAppearance를 적용
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+        UITabBar.appearance().standardAppearance = appearance
+
+    }
 }
-//
+
 //struct ContentView_Previews: PreviewProvider {
 //    @StateObject static var userSettings = UserSettings()
 //    static var previews: some View {

@@ -110,3 +110,11 @@ struct LogInView: View {
         task.resume()
     }
 }
+
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}

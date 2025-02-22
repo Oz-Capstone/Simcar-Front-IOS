@@ -20,57 +20,38 @@ struct MyPageView: View {
                         .bold()
                     
                     VStack(spacing: 20) {
+                        // 찜한 차량 조회
                         NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab)) {
-                            Text("찜한 차량 조회")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                                .padding(.top)
-                                .padding(.horizontal)
+                            gradientButtonLabel("찜한 차량 조회")
                         }
-                        
+                        .padding(.top)
+                        .padding(.horizontal)
+
+                        // 회원 정보 수정
                         NavigationLink(destination: EditProfileView()) {
-                            Text("회원 정보 수정")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                                .padding(.horizontal)
+                            gradientButtonLabel("회원 정보 수정")
                         }
-                        
+                        .padding(.horizontal)
+
+                        // 회원 정보 조회
                         NavigationLink(destination: ProfileView()) {
-                            Text("회원 정보 조회")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                                .padding(.horizontal)
+                            gradientButtonLabel("회원 정보 조회")
                         }
-                        
+                        .padding(.horizontal)
+
+                        // 회원 탈퇴
                         NavigationLink(destination: DeleteAccountView()) {
-                            Text("회원 탈퇴")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                                .padding(.horizontal)
+                            gradientButtonLabel("회원 탈퇴")
                         }
-                        
+                        .padding(.horizontal)
+
+                        // 로그아웃 (빨간색 계열 그라데이션 예시)
                         Button(action: logout) {
-                            Text("로그아웃")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.red)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                                .padding(.horizontal)
-                                .padding(.bottom)
+                            gradientButtonLabel("로그아웃",
+                                                colors: [Color.red, Color.orange])
                         }
+                        .padding(.horizontal)
+                        .padding(.bottom)
                     }
                     .padding()
                     .background(Color.white)
@@ -96,23 +77,15 @@ struct MyPageView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(.horizontal)
                         
+                        // 로그인 버튼
                         Button(action: login) {
-                            Text("로그인")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
+                            gradientButtonLabel("로그인")
                         }
                         .padding(.horizontal)
                         
+                        // 회원가입 버튼
                         NavigationLink(destination: SignUpView()) {
-                            Text("회원가입")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
+                            gradientButtonLabel("회원가입")
                         }
                         .padding(.horizontal)
                         .padding(.bottom)
@@ -132,11 +105,34 @@ struct MyPageView: View {
             .padding()
             .overlay(isLoading ? ProgressView() : nil)
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("알림"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
+                Alert(title: Text("알림"),
+                      message: Text(alertMessage),
+                      dismissButton: .default(Text("확인")))
             }
         }
     }
     
+    // MARK: - 공용 그라데이션 버튼 라벨
+    private func gradientButtonLabel(_ title: String,
+                                     colors: [Color] = [Color.blue, Color.purple]) -> some View {
+        Text(title)
+            .font(.title2)
+            .bold()
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: colors),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .cornerRadius(12)
+            .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
+    }
+    
+    // MARK: - 로그인
     private func login() {
         guard !email.isEmpty, !password.isEmpty else {
             errorMessage = "모든 필드를 입력하세요."
@@ -199,6 +195,7 @@ struct MyPageView: View {
         task.resume()
     }
     
+    // MARK: - 로그아웃
     private func logout() {
         guard let url = URL(string: API.logout) else { return }
         
@@ -223,3 +220,12 @@ struct MyPageView: View {
         task.resume()
     }
 }
+
+
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}

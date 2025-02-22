@@ -11,21 +11,11 @@ struct SellCarView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                // 빈 NavigationLink들을 이용하여 프로그래밍 방식의 네비게이션 구현
-                NavigationLink(
-                    destination: RegistrationCarView(),
-                    isActive: $navigateToRegistration
-                ) {
-                    EmptyView()
-                }
+
                 
-                NavigationLink(
-                    destination: MySellCarView(selectedTab: $selectedTab),
-                    isActive: $navigateToMySellCar
-                ) {
-                    EmptyView()
-                }
+
                 
+                // 차량 등록 버튼
                 Button(action: {
                     if userSettings.isLoggedIn {
                         navigateToRegistration = true
@@ -35,13 +25,27 @@ struct SellCarView: View {
                     }
                 }) {
                     Text("차량 등록")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
+                        .font(.largeTitle)
+                        .bold()
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(10)
+                        .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
+                .padding(5)
+
                 
+                
+                
+                // 내가 판매중인 차량 버튼
                 Button(action: {
                     if userSettings.isLoggedIn {
                         navigateToMySellCar = true
@@ -51,15 +55,44 @@ struct SellCarView: View {
                     }
                 }) {
                     Text("내가 판매중인 차량")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
+                        .font(.largeTitle)
+                        .bold()
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(10)
+                        .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
+                .padding(5)
+                
+                //빈 NavigationLink들을 이용하여 프로그래밍 방식의 네비게이션 구현
+               NavigationLink(
+                   destination: RegistrationCarView(),
+                   isActive: $navigateToRegistration
+               ) {
+                   EmptyView()
+               }
+                
+                NavigationLink(
+                    destination: MySellCarView(selectedTab: $selectedTab),
+                    isActive: $navigateToMySellCar
+                ) {
+                    EmptyView()
+                }
+                
             }
             .padding()
-            .navigationTitle("내 차 팔기")
+            // 네비게이션 타이틀 제거: .navigationTitle("내 차 팔기")를 삭제하거나 빈 문자열로 설정
+            .navigationTitle("차량을 판매하세요!")
+            // 혹은 전체 네비게이션 바를 숨기려면:
+            // .navigationBarHidden(true)
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("알림"),
@@ -73,3 +106,24 @@ struct SellCarView: View {
         }
     }
 }
+
+struct ExtendedDiagonal: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        // 예: 왼쪽 아래 → 오른쪽 위 → 오른쪽 아래 순으로 삼각형을 그립니다.
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.closeSubpath()
+        return path
+    }
+}
+
+
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}
