@@ -59,7 +59,7 @@ struct BuyCarView: View {
                         region: $searchRegion,
                         price: $searchPrice
                     )) {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: "magnifyingglass.circle.fill")
                             .font(.system(size: 27, weight: .bold))
                             .foregroundStyle(
                                 LinearGradient(
@@ -97,29 +97,34 @@ struct BuyCarView: View {
                     region: $searchRegion,
                     price: $searchPrice
                 )) {
-                    Text("차량 검색하기")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.black) // 흰색 배경 위에 대비되는 검은 텍스트
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.white) // 가운데 부분을 흰색으로 채움
-                        .overlay(
-                            // 외곽에 그라데이션 테두리 적용
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.blue, Color.purple]),
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    ),
-                                    lineWidth: 20
-                                )
-                        )
-                        .cornerRadius(30)
-                        .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0) // 그림자 효과 추가
+                    HStack {
+                        Text("   어떤 차를 찾고 있나요?")
+                            .font(.system(size: 22))
+                            .foregroundColor(.gray)
+                        Spacer()
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size:30, weight: .bold))
+                            .foregroundColor(.purple)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 30)
+                            .stroke(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                ),
+                                lineWidth: 20
+                            )
+                    )
+                    .cornerRadius(30)
+                    .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
                 .padding(5)
+
 
 
                 // 로딩 중, 오류 발생, 또는 필터링된 차량 리스트 표시
