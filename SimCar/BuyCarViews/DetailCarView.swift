@@ -303,10 +303,10 @@ struct DetailCarView: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject static var userSettings = UserSettings()
-    static var previews: some View {
-        ContentView()
-            .environmentObject(userSettings)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}
