@@ -17,6 +17,7 @@ struct MyPageView: View {
                     Text("마이페이지")
                         .font(.largeTitle)
                         .bold()
+                        .foregroundColor(Color(hex: "#9575CD"))
                     
                     VStack(spacing: 20) {
                         // 찜한 차량 조회
@@ -28,26 +29,29 @@ struct MyPageView: View {
 
                         // 회원 정보 수정
                         NavigationLink(destination: EditProfileView()) {
-                            gradientButtonLabel("회원 정보 수정")
+                            gradientButtonLabel("회원 정보 수정",
+                                                colors: [Color.purple, Color.pink])
                         }
                         .padding(.horizontal)
 
                         // 회원 정보 조회
                         NavigationLink(destination: ProfileView()) {
-                            gradientButtonLabel("회원 정보 조회")
+                            gradientButtonLabel("회원 정보 조회",
+                                                colors: [Color.purple, Color.pink])
                         }
                         .padding(.horizontal)
 
                         // 회원 탈퇴
                         NavigationLink(destination: DeleteAccountView()) {
-                            gradientButtonLabel("회원 탈퇴")
+                            gradientButtonLabel("회원 탈퇴",
+                                                colors: [Color.black, Color.black])
                         }
                         .padding(.horizontal)
 
                         // 로그아웃 (빨간색 계열 그라데이션 예시)
                         Button(action: logout) {
                             gradientButtonLabel("로그아웃",
-                                                colors: [Color.red, Color.orange])
+                                                colors: [Color.red, Color.red])
                         }
                         .padding(.horizontal)
                         .padding(.bottom)
@@ -123,7 +127,7 @@ struct MyPageView: View {
             .padding()
             .overlay(isLoading ? ProgressView() : nil)
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("이런!"),
+                Alert(title: Text(""),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("확인")))
             }
@@ -149,6 +153,7 @@ struct MyPageView: View {
             .cornerRadius(12)
             .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
     }
+    
     
     // MARK: - 로그인
     private func login() {
@@ -243,10 +248,10 @@ struct MyPageView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    @StateObject static var userSettings = UserSettings()
-//    static var previews: some View {
-//        ContentView()
-//            .environmentObject(userSettings)
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    @StateObject static var userSettings = UserSettings()
+    static var previews: some View {
+        ContentView()
+            .environmentObject(userSettings)
+    }
+}

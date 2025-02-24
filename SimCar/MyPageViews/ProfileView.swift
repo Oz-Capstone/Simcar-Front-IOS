@@ -7,23 +7,68 @@ struct ProfileView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                if isLoading {
-                    ProgressView()
-                } else if let member = member {
-                    Form {
-                        Section(header: Text("회원 정보")) {
-                            Text("이메일: \(member.email)")
-                            Text("이름: \(member.name)")
-                            Text("전화번호: \(member.phone)")
+            ZStack {
+                Color.white
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack(spacing: 20) {
+                    Text("회원 정보")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding(.top, 20)
+                        .foregroundColor(Color(hex: "#9575CD"))
+                    
+                    if isLoading {
+                        ProgressView()
+                            .padding()
+                    } else if let member = member {
+                        VStack(spacing: 20) {
+                            HStack {
+                                Text("이메일:")
+                                    .font(.title2)
+                                    .bold()
+                                    .frame(width: 100, alignment: .trailing)
+                                Text(member.email)
+                                    .font(.title2)
+                                    .bold()
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            HStack {
+                                Text("이름:")
+                                    .font(.title2)
+                                    .bold()
+                                    .frame(width: 100, alignment: .trailing)
+                                Text(member.name)
+                                    .font(.title2)
+                                    .bold()
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            HStack {
+                                Text("전화번호:")
+                                    .font(.title2)
+                                    .bold()
+                                    .frame(width: 100, alignment: .trailing)
+                                Text(member.phone)
+                                    .font(.title2)
+                                    .bold()
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
                         }
+                        .padding()
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 25))
+                        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        .padding(.horizontal, 30)
+                    } else if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
                     }
-                } else if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
+                    
+                    Spacer()
                 }
             }
-            .navigationTitle("회원 정보")
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: fetchMemberProfile)
         }
     }
@@ -43,9 +88,7 @@ struct ProfileView: View {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                isLoading = false
-            }
+            DispatchQueue.main.async { isLoading = false }
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -59,9 +102,7 @@ struct ProfileView: View {
                httpResponse.statusCode == 200 {
                 do {
                     let decodedMember = try JSONDecoder().decode(MemberProfileResponse.self, from: data)
-                    DispatchQueue.main.async {
-                        member = decodedMember
-                    }
+                    DispatchQueue.main.async { member = decodedMember }
                 } catch {
                     DispatchQueue.main.async {
                         errorMessage = "데이터 변환 오류"
@@ -84,3 +125,4 @@ struct MemberProfileResponse: Codable {
     let name: String
     let phone: String
 }
+

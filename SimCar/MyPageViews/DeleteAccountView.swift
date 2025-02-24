@@ -15,6 +15,7 @@ struct DeleteAccountView: View {
                 Text("회원을 탈퇴하시겠습니까?")
                     .font(.largeTitle)
                     .padding()
+                
 
                 Button(action: deleteAccount) {
                     Text("회원 탈퇴")

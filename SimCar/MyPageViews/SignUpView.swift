@@ -18,6 +18,7 @@ struct SignUpView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding(.top, 20)
+                    .foregroundColor(Color(hex: "#9575CD"))
                 
                 VStack(spacing: 20) {
                     TextField("  이메일", text: $email)
@@ -83,7 +84,7 @@ struct SignUpView: View {
             .overlay(isLoading ? ProgressView() : nil)
             .navigationBarTitleDisplayMode(.inline)
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("이런!"),
+                Alert(title: Text(""),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("확인")) {
 //                          presentationMode.wrappedValue.dismiss()
@@ -178,10 +179,10 @@ struct SignUpView: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject static var userSettings = UserSettings()
-    static var previews: some View {
-        ContentView()
-            .environmentObject(userSettings)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}

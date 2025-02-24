@@ -112,7 +112,7 @@ struct SellCarView: View {
             .navigationBarHidden(true)
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("이런!"),
+                    title: Text(""),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("확인"), action: {
                         // 확인 버튼 클릭 시 MyPageView로 이동 (탭 전환)

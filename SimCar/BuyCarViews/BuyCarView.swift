@@ -187,7 +187,7 @@ struct BuyCarView: View {
                 fetchCars()  // 화면이 나타날 때 서버에서 데이터 로드
             }
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("이런!"),
+                Alert(title: Text(""),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("확인"), action: {
                           // 확인 버튼 클릭 시 로그인 화면으로 이동하도록 설정 (예: selectedTab을 MyPageView 탭으로 변경)
