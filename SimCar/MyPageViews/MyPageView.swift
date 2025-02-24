@@ -5,7 +5,6 @@ struct MyPageView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isLoading: Bool = false
-    @State private var errorMessage: String?
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
     @Binding var selectedTab: Int  // ContentView에서 전달받은 바텀 탭 상태
@@ -61,21 +60,33 @@ struct MyPageView: View {
                     
                 } else {
                     // 로그인되지 않은 상태
-                    Text("SIM Car")
-                        .font(.largeTitle)
-                        .bold()
+                    Image("SimCarLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150)
                     
                     VStack(spacing: 20) {
-                        TextField("이메일", text: $email)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .autocapitalization(.none)
-                            .keyboardType(.emailAddress)
-                            .padding(.top)
-                            .padding(.horizontal)
-                        
-                        SecureField("비밀번호", text: $password)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        TextField("  이메일", text: $email)
+                            .padding(.vertical, 10)
+                            .overlay(
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.gray)
+                                    .padding(.top, 35),
+                                alignment: .bottom
+                            )
+                            .padding(.horizontal, 30)
+
+                        SecureField("  비밀번호", text: $password)
+                            .padding(.vertical, 10)
+                            .overlay(
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.gray)
+                                    .padding(.top, 35),
+                                alignment: .bottom
+                            )
+                            .padding(.horizontal, 30)
                         
                         // 로그인 버튼
                         Button(action: login) {
@@ -83,16 +94,23 @@ struct MyPageView: View {
                         }
                         .padding(.horizontal)
                         
-                        // 회원가입 버튼
-                        NavigationLink(destination: SignUpView()) {
-                            gradientButtonLabel("회원가입")
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom)
-                        
-                        if let errorMessage = errorMessage {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
+                        HStack {
+                            Text("심카가 처음이시라면?")
+                                .font(.system(size: 15))
+                                .padding(.leading, 20)
+                            
+                            // 회원가입 버튼 (기본 검은색 단색)
+                            NavigationLink(destination: SignUpView()) {
+                                Text("회원가입")
+                                    .font(.system(size: 17))
+                                    .bold()
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.horizontal)
                         }
                     }
                     .padding()
@@ -105,7 +123,7 @@ struct MyPageView: View {
             .padding()
             .overlay(isLoading ? ProgressView() : nil)
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("알림"),
+                Alert(title: Text("이런!"),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("확인")))
             }
@@ -124,26 +142,27 @@ struct MyPageView: View {
             .background(
                 LinearGradient(
                     gradient: Gradient(colors: colors),
-                    startPoint: .leading,
-                    endPoint: .trailing
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 )
             )
             .cornerRadius(12)
-            .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
+            .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
     }
     
     // MARK: - 로그인
     private func login() {
         guard !email.isEmpty, !password.isEmpty else {
-            errorMessage = "모든 필드를 입력하세요."
+            alertMessage = "모든 필드를 입력하세요."
+            showAlert = true
             return
         }
         
         isLoading = true
-        errorMessage = nil
         
         guard let url = URL(string: API.login) else {
-            errorMessage = "잘못된 URL입니다."
+            alertMessage = "잘못된 URL입니다."
+            showAlert = true
             isLoading = false
             return
         }
@@ -160,7 +179,8 @@ struct MyPageView: View {
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
-            errorMessage = "데이터 변환 오류"
+            alertMessage = "데이터 변환 오류"
+            showAlert = true
             isLoading = false
             return
         }
@@ -172,7 +192,8 @@ struct MyPageView: View {
             
             if let error = error {
                 DispatchQueue.main.async {
-                    errorMessage = "로그인 실패: \(error.localizedDescription)"
+                    alertMessage = "로그인 실패: \(error.localizedDescription)"
+                    showAlert = true
                 }
                 return
             }
@@ -186,7 +207,8 @@ struct MyPageView: View {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        errorMessage = "로그인 실패"
+                        alertMessage = "로그인 실패"
+                        showAlert = true
                     }
                 }
             }
@@ -220,7 +242,6 @@ struct MyPageView: View {
         task.resume()
     }
 }
-
 
 //struct ContentView_Previews: PreviewProvider {
 //    @StateObject static var userSettings = UserSettings()

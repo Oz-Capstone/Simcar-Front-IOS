@@ -12,7 +12,11 @@ struct SellCarView: View {
         NavigationView {
             VStack(spacing: 20) {
 
-                
+                Text("차량을 판매하세요!")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(Color(hex: "#9575CD"))
+//                    .padding(.leading, 25)
 
                 
                 // 차량 등록 버튼
@@ -24,23 +28,36 @@ struct SellCarView: View {
                         showAlert = true
                     }
                 }) {
-                    Text("차량 등록")
+                    Text("판매 차량 등록")
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
+                        .frame(width: 300, height: 200)
                         .padding()
                         .background(
                             LinearGradient(
                                 gradient: Gradient(colors: [Color.blue, Color.purple]),
-                                startPoint: .leading,
-                                endPoint: .trailing
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
                         .cornerRadius(10)
-                        .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
+                        .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
                 .padding(5)
+
+                // 구분선 추가
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.blue, Color.purple]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(width: 320, height: 10) // 원하는 두께와 너비로 조정
+                    .cornerRadius(3)
+                    
 
                 
                 
@@ -54,21 +71,21 @@ struct SellCarView: View {
                         showAlert = true
                     }
                 }) {
-                    Text("내가 판매중인 차량")
+                    Text("판매중인 차량 조회")
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
+                        .frame(width: 300, height: 200)
                         .padding()
                         .background(
                             LinearGradient(
-                                gradient: Gradient(colors: [Color.blue, Color.purple]),
-                                startPoint: .leading,
-                                endPoint: .trailing
+                                gradient: Gradient(colors: [Color.purple, Color.indigo]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
                         .cornerRadius(10)
-                        .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
+                        .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
                 .padding(5)
                 
@@ -90,12 +107,12 @@ struct SellCarView: View {
             }
             .padding()
             // 네비게이션 타이틀 제거: .navigationTitle("내 차 팔기")를 삭제하거나 빈 문자열로 설정
-            .navigationTitle("차량을 판매하세요!")
+            //.navigationTitle("차량을 판매하세요!")
             // 혹은 전체 네비게이션 바를 숨기려면:
-            // .navigationBarHidden(true)
+            .navigationBarHidden(true)
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("알림"),
+                    title: Text("이런!"),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("확인"), action: {
                         // 확인 버튼 클릭 시 MyPageView로 이동 (탭 전환)
