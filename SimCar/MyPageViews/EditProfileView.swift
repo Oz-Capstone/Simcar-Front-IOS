@@ -21,18 +21,18 @@ struct EditProfileView: View {
                 VStack(spacing: 20) {
                     TextField("  이메일", text: $email)
                         .keyboardType(.emailAddress)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
                                 .foregroundColor(.gray)
-                                .padding(.top, 35),
+                                .padding(.top, 50),
                             alignment: .bottom
                         )
                         .padding(.horizontal, 30)
                     
                     SecureField("  비밀번호 (변경 시 입력)", text: $password)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
@@ -43,7 +43,7 @@ struct EditProfileView: View {
                         .padding(.horizontal, 30)
                     
                     TextField("  이름", text: $name)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
@@ -55,7 +55,7 @@ struct EditProfileView: View {
                     
                     TextField("  전화번호", text: $phone)
                         .keyboardType(.phonePad)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)

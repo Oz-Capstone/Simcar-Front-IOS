@@ -25,7 +25,7 @@ struct DetailCarView: View {
                     .padding()
             } else if let car = car {
                 VStack(alignment: .leading, spacing: 16) {
-                    // 이미지 영역: TabView로 여러 이미지를 좌우 스와이프로 확인 (높이: 200)
+                    // 이미지 영역: 여러 이미지를 탭뷰로 보여줌
                     ZStack(alignment: .topTrailing) {
                         if let images = car.images, !images.isEmpty {
                             TabView {
@@ -60,7 +60,7 @@ struct DetailCarView: View {
                                 .clipped()
                         }
                         
-                        // 찜하기 버튼 (오른쪽 상단 오버레이)
+                        // 찜하기 버튼
                         Button(action: {
                             if userSettings.isLoggedIn {
                                 if isFavorite {
@@ -83,38 +83,76 @@ struct DetailCarView: View {
                         .padding(.trailing, 16)
                     }
                     
-                    // 차량 정보
+                    // 제조사와 모델명: 색상 #9575CD 적용
                     Text("\(car.brand) \(car.model)")
                         .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(Color(hex: "#9575CD"))
+                        .padding(.leading, 8)
                     
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("연식: \(car.year)")
-                        Text("키로수: \(car.mileage ?? 0) km")
-                        Text("연료: \(car.fuelType ?? "정보 없음")")
-                        Text("가격: \(car.price) 원")
-                        Text("차량 번호: \(car.carNumber)")
+                    // 나머지 차량 정보를 둥근 테두리 컨테이너로 감쌈
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("연식:")
+                                .bold()
+                            Text("\(car.year)")
+                        }
+                        HStack {
+                            Text("키로수:")
+                                .bold()
+                            Text("\(car.mileage ?? 0) km")
+                        }
+                        HStack {
+                            Text("연료:")
+                                .bold()
+                            Text(car.fuelType ?? "정보 없음")
+                        }
+                        HStack {
+                            Text("가격:")
+                                .bold()
+                            Text("\(car.price) 원")
+                        }
+                        HStack {
+                            Text("차량 번호:")
+                                .bold()
+                            Text(car.carNumber)
+                        }
+                        HStack {
+                            Text("유형:")
+                                .bold()
+                            Text(car.type)
+                        }
+                        HStack {
+                            Text("색상:")
+                                .bold()
+                            Text(car.color)
+                        }
+                        HStack {
+                            Text("변속기:")
+                                .bold()
+                            Text(car.transmission)
+                        }
+                        HStack {
+                            Text("지역:")
+                                .bold()
+                            Text(car.region ?? "미등록")
+                        }
+                        HStack {
+                            Text("연락처:")
+                                .bold()
+                            Text(car.contactNumber ?? "없음")
+                        }
                     }
-                    .font(.subheadline)
+                    .font(.system(size: 18))
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
                     
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("유형: \(car.type)")
-                        Text("색상: \(car.color)")
-                        Text("변속기: \(car.transmission)")
-                        Text("지역: \(car.region ?? "미등록")")
-                        Text("연락처: \(car.contactNumber ?? "없음")")
-                    }
-                    .font(.subheadline)
-                    
-                    // AI 차량 진단 버튼
+                    // AI 차량 진단 버튼: 그라데이션 스타일 적용
                     Button(action: {
                         showDiagnosisModal = true
                     }) {
-                        Text("AI 차량 진단")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        gradientButtonLabel("AI 차량 진단")
                     }
                     .sheet(isPresented: $showDiagnosisModal) {
                         if let car = car {
@@ -128,7 +166,7 @@ struct DetailCarView: View {
         .navigationTitle("상세 보기")
         .alert(isPresented: $showLoginAlert) {
             Alert(
-                title: Text("알림"),
+                title: Text(""),
                 message: Text("로그인 후 이용해 주세요"),
                 dismissButton: .default(Text("확인"), action: {
                     selectedTab = 2
@@ -140,8 +178,27 @@ struct DetailCarView: View {
         }
     }
     
-    // MARK: - API 호출 함수
+    // MARK: - 공용 그라데이션 버튼 라벨
+    private func gradientButtonLabel(_ title: String,
+                                     colors: [Color] = [Color.blue, Color.purple]) -> some View {
+        Text(title)
+            .font(.title2)
+            .bold()
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: colors),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .cornerRadius(12)
+            .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
+    }
     
+    // MARK: - API 호출 함수
     private func fetchCarDetail(carId: Int) {
         guard let url = URL(string: API.car + "\(carId)") else {
             errorMessage = "잘못된 URL입니다."
@@ -242,5 +299,14 @@ struct DetailCarView: View {
                 }
             }
         }.resume()
+    }
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+    @StateObject static var userSettings = UserSettings()
+    static var previews: some View {
+        ContentView()
+            .environmentObject(userSettings)
     }
 }

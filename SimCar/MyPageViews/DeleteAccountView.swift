@@ -12,10 +12,26 @@ struct DeleteAccountView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("회원을 탈퇴하시겠습니까?")
-                    .font(.largeTitle)
-                    .padding()
+                HStack {
+                    Spacer()
+                    Text("회원 탈퇴")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(Color(hex: "#9575CD"))
+                        .padding()
+                    Spacer()
+                }
                 
+                HStack {
+                    Spacer()
+                    Text("등록, 찜한 차량은 삭제됩니다")
+                        .font(.system(size: 20))
+                        .bold()
+                        .foregroundColor(Color(hex: "#9575CD"))
+                        .padding()
+                    Spacer()
+                }
+
 
                 Button(action: deleteAccount) {
                     Text("회원 탈퇴")
@@ -41,7 +57,6 @@ struct DeleteAccountView: View {
                           presentationMode.wrappedValue.dismiss()
                       }))
             }
-            .navigationTitle("회원 탈퇴")
             .overlay(isLoading ? ProgressView() : nil)
         }
     }

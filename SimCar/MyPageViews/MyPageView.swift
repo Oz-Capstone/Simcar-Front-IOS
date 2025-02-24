@@ -71,7 +71,7 @@ struct MyPageView: View {
                     
                     VStack(spacing: 20) {
                         TextField("  이메일", text: $email)
-                            .padding(.vertical, 10)
+                            .padding(.vertical, 20)
                             .overlay(
                                 Rectangle()
                                     .frame(height: 1)
@@ -82,7 +82,7 @@ struct MyPageView: View {
                             .padding(.horizontal, 30)
 
                         SecureField("  비밀번호", text: $password)
-                            .padding(.vertical, 10)
+                            .padding(.vertical, 20)
                             .overlay(
                                 Rectangle()
                                     .frame(height: 1)
@@ -248,10 +248,10 @@ struct MyPageView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject static var userSettings = UserSettings()
-    static var previews: some View {
-        ContentView()
-            .environmentObject(userSettings)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}

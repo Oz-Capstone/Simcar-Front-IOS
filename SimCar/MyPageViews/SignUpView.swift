@@ -23,7 +23,7 @@ struct SignUpView: View {
                 VStack(spacing: 20) {
                     TextField("  이메일", text: $email)
                         .keyboardType(.emailAddress)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
@@ -34,7 +34,7 @@ struct SignUpView: View {
                         .padding(.horizontal, 30)
                     
                     SecureField("  비밀번호", text: $password)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
@@ -45,7 +45,7 @@ struct SignUpView: View {
                         .padding(.horizontal, 30)
                     
                     TextField("  이름", text: $name)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
@@ -57,7 +57,7 @@ struct SignUpView: View {
                     
                     TextField("  전화번호", text: $phone)
                         .keyboardType(.phonePad)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 20)
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)

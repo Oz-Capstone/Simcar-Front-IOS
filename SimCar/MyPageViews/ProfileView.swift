@@ -32,7 +32,7 @@ struct ProfileView: View {
                                     .font(.title2)
                                     .bold()
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                            }
+                            }.padding(.vertical)
                             HStack {
                                 Text("이름:")
                                     .font(.title2)
@@ -42,7 +42,7 @@ struct ProfileView: View {
                                     .font(.title2)
                                     .bold()
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                            }
+                            }.padding(.vertical)
                             HStack {
                                 Text("전화번호:")
                                     .font(.title2)
@@ -52,7 +52,7 @@ struct ProfileView: View {
                                     .font(.title2)
                                     .bold()
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                            }
+                            }.padding(.vertical)
                         }
                         .padding()
                         .background(Color.white)

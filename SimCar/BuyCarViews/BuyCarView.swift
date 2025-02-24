@@ -162,7 +162,7 @@ struct BuyCarView: View {
                         )
                         .frame(width: 150, height: 2) // 원하는 두께와 너비로 조정
                         .padding(.leading, 10)
-                }
+                }.padding(.top, 10)
                 
                 
                 // 차량 목록 (로딩, 오류, 리스트)

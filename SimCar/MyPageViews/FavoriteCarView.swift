@@ -8,29 +8,65 @@ struct FavoriteCarView: View {
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
-                if isLoading {
-                    ProgressView("찜한 차량 목록 불러오는 중...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let errorMessage = errorMessage {
-                    Text("오류: \(errorMessage)")
-                        .foregroundColor(.red)
-                        .padding()
-                } else if favorites.isEmpty {
-                    Text("찜한 차량이 없습니다")
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    List(favorites) { car in
-                        NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
-                            CarRow(car: car, selectedTab: $selectedTab)
-                        }
+            ZStack {
+                Color.white
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    HStack {
+                        Spacer()
+                        Text("찜한 차량 조회")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundColor(Color(hex: "#9575CD"))
+                            .padding()
+                        Spacer()
                     }
-                    .listStyle(PlainListStyle())
+                    
+                    HStack {
+                        Spacer()
+                        Rectangle()
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: 400, height: 2) // 원하는 두께와 너비로 조정
+                        Spacer()
+                    }
+
+                    
+                    // 콘텐츠 영역
+                    if isLoading {
+                        ProgressView("찜한 차량 목록 불러오는 중...")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else if let errorMessage = errorMessage {
+                        Text("오류: \(errorMessage)")
+                            .foregroundColor(.red)
+                            .padding()
+                    } else if favorites.isEmpty {
+                        Text("찜한 차량이 없습니다")
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        List(favorites) { car in
+                            NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
+                                HStack {
+                                    Spacer()
+                                    CarRow(car: car, selectedTab: $selectedTab)
+                                    Spacer()
+                                }
+                            }
+                            .listRowSeparator(.hidden)
+                        }
+                        .listStyle(PlainListStyle())
+                        .scrollIndicators(.hidden)
+                    }
                 }
             }
-            .padding(.horizontal)
-            .navigationTitle("찜한 차량 조회")
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 fetchFavorites()
             }
@@ -79,3 +115,11 @@ struct FavoriteCarView: View {
         }.resume()
     }
 }
+
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}
