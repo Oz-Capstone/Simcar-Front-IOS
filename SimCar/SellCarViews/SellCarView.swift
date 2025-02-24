@@ -47,16 +47,16 @@ struct SellCarView: View {
                 .padding(5)
 
                 // 구분선 추가
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color.blue, Color.purple]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: 320, height: 10) // 원하는 두께와 너비로 조정
-                    .cornerRadius(3)
+//                Rectangle()
+//                    .fill(
+//                        LinearGradient(
+//                            gradient: Gradient(colors: [Color.blue, Color.purple]),
+//                            startPoint: .leading,
+//                            endPoint: .trailing
+//                        )
+//                    )
+//                    .frame(width: 320, height: 10) // 원하는 두께와 너비로 조정
+//                    .cornerRadius(3)
                     
 
                 

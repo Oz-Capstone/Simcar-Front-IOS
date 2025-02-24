@@ -90,56 +90,66 @@ struct DetailCarView: View {
                         .foregroundColor(Color(hex: "#9575CD"))
                         .padding(.leading, 8)
                     
-                    // 나머지 차량 정보를 둥근 테두리 컨테이너로 감쌈
+                    // 나머지 차량 정보를 둥근 테두리 컨테이너로 감싼 부분 수정
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("연식:")
                                 .bold()
+                            Spacer()
                             Text("\(car.year)")
                         }
                         HStack {
                             Text("키로수:")
                                 .bold()
+                            Spacer()
                             Text("\(car.mileage ?? 0) km")
                         }
                         HStack {
                             Text("연료:")
                                 .bold()
+                            Spacer()
                             Text(car.fuelType ?? "정보 없음")
                         }
                         HStack {
                             Text("가격:")
                                 .bold()
+                            Spacer()
                             Text("\(car.price) 원")
                         }
                         HStack {
                             Text("차량 번호:")
                                 .bold()
+                            Spacer()
                             Text(car.carNumber)
                         }
                         HStack {
                             Text("유형:")
                                 .bold()
+                            Spacer()
                             Text(car.type)
                         }
                         HStack {
                             Text("색상:")
                                 .bold()
+                            Spacer()
                             Text(car.color)
                         }
                         HStack {
                             Text("변속기:")
                                 .bold()
+                            Spacer()
                             Text(car.transmission)
                         }
                         HStack {
                             Text("지역:")
                                 .bold()
+                            Spacer()
                             Text(car.region ?? "미등록")
                         }
                         HStack {
                             Text("연락처:")
                                 .bold()
+                            Spacer()
                             Text(car.contactNumber ?? "없음")
                         }
                     }
@@ -147,6 +157,8 @@ struct DetailCarView: View {
                     .padding()
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+
                     
                     // AI 차량 진단 버튼: 그라데이션 스타일 적용
                     Button(action: {

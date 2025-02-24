@@ -40,6 +40,7 @@ struct MyPageView: View {
                                                 colors: [Color.purple, Color.pink])
                         }
                         .padding(.horizontal)
+                        .padding(.bottom)
 
                         // 회원 탈퇴
                         NavigationLink(destination: DeleteAccountView()) {
@@ -47,6 +48,7 @@ struct MyPageView: View {
                                                 colors: [Color.black, Color.black])
                         }
                         .padding(.horizontal)
+                        .padding(.top)
 
                         // 로그아웃 (빨간색 계열 그라데이션 예시)
                         Button(action: logout) {
@@ -250,10 +252,10 @@ struct MyPageView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    @StateObject static var userSettings = UserSettings()
-    static var previews: some View {
-        ContentView()
-            .environmentObject(userSettings)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    @StateObject static var userSettings = UserSettings()
+//    static var previews: some View {
+//        ContentView()
+//            .environmentObject(userSettings)
+//    }
+//}
