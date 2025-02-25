@@ -47,23 +47,23 @@ struct RegistrationCarView: View {
                             .padding(.horizontal, 30)
                         
                         VStack {
-                            customTextField(placeholder: "차량 유형 (SUV, 세단 등)", text: $type)
-                            customTextField(placeholder: "제조사", text: $brand)
-                            customTextField(placeholder: "모델", text: $model)
-                            customTextField(placeholder: "연식", text: $year, keyboardType: .numberPad)
-                            customTextField(placeholder: "주행거리", text: $mileage, keyboardType: .numberPad)
-                            customTextField(placeholder: "연료 종류", text: $fuelType)
-                            customTextField(placeholder: "가격", text: $price, keyboardType: .numberPad)
-                            
-                            customTextField(placeholder: "차량 번호", text: $carNumber)
-                            VStack {
-                                customTextField(placeholder: "보험 이력", text: $insuranceHistory, keyboardType: .numberPad)
-                                customTextField(placeholder: "검사 이력", text: $inspectionHistory, keyboardType: .numberPad)
-                                customTextField(placeholder: "색상", text: $color)
-                                customTextField(placeholder: "변속기", text: $transmission)
-                                customTextField(placeholder: "지역", text: $region)
-                                customTextField(placeholder: "연락처", text: $contactNumber)
+                            AnimatedTextField(placeholder: "차량 유형 (SUV, 세단 등)", text: $type)
+                            AnimatedTextField(placeholder: "제조사", text: $brand)
+                            AnimatedTextField(placeholder: "모델", text: $model)
+                            AnimatedTextField(placeholder: "연식", text: $year, keyboardType: .numberPad)
+                            AnimatedTextField(placeholder: "주행거리", text: $mileage, keyboardType: .numberPad)
+                            AnimatedTextField(placeholder: "연료 종류", text: $fuelType)
+                            AnimatedTextField(placeholder: "가격", text: $price, keyboardType: .numberPad)
+                            VStack{
+                                AnimatedTextField(placeholder: "차량 번호", text: $carNumber)
+                                AnimatedTextField(placeholder: "보험 이력", text: $insuranceHistory, keyboardType: .numberPad)
+                                AnimatedTextField(placeholder: "검사 이력", text: $inspectionHistory, keyboardType: .numberPad)
+                                AnimatedTextField(placeholder: "색상", text: $color)
+                                AnimatedTextField(placeholder: "변속기", text: $transmission)
+                                AnimatedTextField(placeholder: "지역", text: $region)
+                                AnimatedTextField(placeholder: "연락처", text: $contactNumber)
                             }
+                            
                         }
                     }
                     
@@ -130,20 +130,27 @@ struct RegistrationCarView: View {
         }
     }
     
-    // MARK: - Custom TextField (아래쪽 선만 표시)
-    private func customTextField(placeholder: String, text: Binding<String>, keyboardType: UIKeyboardType = .default) -> some View {
-        TextField("  \(placeholder)", text: text)
-            .font(.title3)
-            .keyboardType(keyboardType)
-            .padding(.vertical, 20)
-            .overlay(
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(.gray)
-                    .padding(.top, 35),
-                alignment: .bottom
-            )
-            .padding(.horizontal, 30)
+    // MARK: - Animated TextField View
+    /// TextField에 포커스 시 AnimatedUnderline을 오버레이하여 밑줄이 왼쪽에서 오른쪽으로 확장되는 효과 적용
+    struct AnimatedTextField: View {
+        var placeholder: String
+        @Binding var text: String
+        var keyboardType: UIKeyboardType = .default
+        @FocusState private var isFocused: Bool
+
+        var body: some View {
+            TextField("  \(placeholder)", text: $text)
+                .font(.title3)
+                .keyboardType(keyboardType)
+                .focused($isFocused)
+                .padding(.vertical, 20)
+                .overlay(
+                    AnimatedUnderline(isFocused: isFocused, gradientColors: [Color.blue, Color.purple])
+                        .padding(.top, 35),
+                    alignment: .bottom
+                )
+                .padding(.horizontal, 30)
+        }
     }
     
     // MARK: - 그라데이션 버튼
@@ -283,7 +290,6 @@ extension Data {
         }
     }
 }
-
 
 // MARK: - ImagePicker (PHPicker 사용)
 struct ImagePicker: UIViewControllerRepresentable {

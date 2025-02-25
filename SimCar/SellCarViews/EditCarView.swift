@@ -56,13 +56,14 @@ struct EditCarView: View {
                             .bold()
                             .padding(.horizontal, 30)
                         
-                        customTextField(placeholder: "차량 유형", text: $type)
-                        customTextField(placeholder: "제조사", text: $brand)
-                        customTextField(placeholder: "모델", text: $model)
-                        customTextField(placeholder: "연식", text: $year, keyboardType: .numberPad)
-                        customTextField(placeholder: "주행거리", text: $mileage, keyboardType: .numberPad)
-                        customTextField(placeholder: "연료 종류", text: $fuelType)
-                        customTextField(placeholder: "가격", text: $price, keyboardType: .numberPad)
+                        // 기존 customTextField 대신 AnimatedTextField 사용
+                        AnimatedTextField(placeholder: "차량 유형", text: $type)
+                        AnimatedTextField(placeholder: "제조사", text: $brand)
+                        AnimatedTextField(placeholder: "모델", text: $model)
+                        AnimatedTextField(placeholder: "연식", text: $year, keyboardType: .numberPad)
+                        AnimatedTextField(placeholder: "주행거리", text: $mileage, keyboardType: .numberPad)
+                        AnimatedTextField(placeholder: "연료 종류", text: $fuelType)
+                        AnimatedTextField(placeholder: "가격", text: $price, keyboardType: .numberPad)
                     }
                     
                     VStack(alignment: .leading, spacing: 20) {
@@ -71,13 +72,13 @@ struct EditCarView: View {
                             .bold()
                             .padding(.horizontal, 30)
                         
-                        customTextField(placeholder: "차량 번호", text: $carNumber)
-                        customTextField(placeholder: "보험 이력", text: $insuranceHistory, keyboardType: .numberPad)
-                        customTextField(placeholder: "검사 이력", text: $inspectionHistory, keyboardType: .numberPad)
-                        customTextField(placeholder: "색상", text: $color)
-                        customTextField(placeholder: "변속기 종류", text: $transmission)
-                        customTextField(placeholder: "지역", text: $region)
-                        customTextField(placeholder: "연락처", text: $contactNumber)
+                        AnimatedTextField(placeholder: "차량 번호", text: $carNumber)
+                        AnimatedTextField(placeholder: "보험 이력", text: $insuranceHistory, keyboardType: .numberPad)
+                        AnimatedTextField(placeholder: "검사 이력", text: $inspectionHistory, keyboardType: .numberPad)
+                        AnimatedTextField(placeholder: "색상", text: $color)
+                        AnimatedTextField(placeholder: "변속기 종류", text: $transmission)
+                        AnimatedTextField(placeholder: "지역", text: $region)
+                        AnimatedTextField(placeholder: "연락처", text: $contactNumber)
                     }
                     
                     // 이미지 관리 섹션
@@ -260,7 +261,6 @@ struct EditCarView: View {
                     })
                 )
             }
-
             .navigationBarHidden(true)
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker(selectedImages: $newImages)
@@ -269,25 +269,30 @@ struct EditCarView: View {
         .onAppear(perform: loadInitialValues)
     }
     
-    // MARK: - Custom TextField (아래쪽 선만 표시)
-    private func customTextField(placeholder: String, text: Binding<String>, keyboardType: UIKeyboardType = .default) -> some View {
-        TextField("  \(placeholder)", text: text)
-            .font(.title3)
-            .keyboardType(keyboardType)
-            .padding(.vertical, 20)
-            .overlay(
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(.gray)
-                    .padding(.top, 35),
-                alignment: .bottom
-            )
-            .padding(.horizontal, 30)
+    // MARK: - Animated TextField View
+    /// TextField에 포커스 시 AnimatedUnderline을 오버레이하여 밑줄이 왼쪽에서 오른쪽으로 확장되는 효과 적용
+    struct AnimatedTextField: View {
+        var placeholder: String
+        @Binding var text: String
+        var keyboardType: UIKeyboardType = .default
+        @FocusState private var isFocused: Bool
+
+        var body: some View {
+            TextField("  \(placeholder)", text: $text)
+                .font(.title3)
+                .keyboardType(keyboardType)
+                .focused($isFocused)
+                .padding(.vertical, 20)
+                .overlay(
+                    AnimatedUnderline(isFocused: isFocused, gradientColors: [Color.blue, Color.purple])
+                        .padding(.top, 35),
+                    alignment: .bottom
+                )
+                .padding(.horizontal, 30)
+        }
     }
     
     // MARK: - API 호출 및 기타 함수들
-
-    
     private func loadInitialValues() {
         type = car.type
         brand = car.brand
@@ -530,7 +535,6 @@ struct EditCarView: View {
             }
         }.resume()
     }
-    
     private func deleteImage(imageId: Int) {
         if let idx = currentImages.firstIndex(where: { $0.id == imageId }),
            currentImages[idx].fullImageUrl == currentRepresentativeImageUrl {
@@ -577,7 +581,6 @@ struct EditCarView: View {
     }
 }
 
-
 // MARK: - 공용 그라데이션 버튼 라벨
 private func gradientButtonLabel(_ title: String,
                                  colors: [Color] = [Color.blue, Color.purple]) -> some View {
@@ -598,10 +601,6 @@ private func gradientButtonLabel(_ title: String,
         .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    @StateObject static var userSettings = UserSettings()
-//    static var previews: some View {
-//        ContentView()
-//            .environmentObject(userSettings)
-//    }
-//}
+
+
+

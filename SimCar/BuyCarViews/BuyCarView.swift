@@ -146,12 +146,12 @@ struct BuyCarView: View {
                 
                 HStack{
                     
-                    Text("심카의 최신 차량")
-                        .font(.system(size: 22))
-                        .bold()
-                        .foregroundColor(Color(hex: "#9575CD"))
-                        .padding(.leading, 25)
-                    
+//                    Text("심카의 최신 차량")
+//                        .font(.system(size: 22))
+//                        .bold()
+//                        .foregroundColor(Color(hex: "#9575CD"))
+//                        .padding(.leading, 25)
+                    Spacer()
                     Rectangle()
                         .fill(
                             LinearGradient(
@@ -160,8 +160,8 @@ struct BuyCarView: View {
                                 endPoint: .trailing
                             )
                         )
-                        .frame(width: 150, height: 2) // 원하는 두께와 너비로 조정
-                        .padding(.leading, 10)
+                        .frame(width: 320, height: 2) // 원하는 두께와 너비로 조정
+                    Spacer()
                 }.padding(.top, 10)
                 
                 

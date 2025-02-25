@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EditProfileView: View {
-    // 이메일은 수정 API에 필요 없으므로 제거
+    // 수정할 회원 정보
     @State private var password: String = ""
     @State private var name: String = ""
     @State private var phone: String = ""
@@ -11,6 +11,11 @@ struct EditProfileView: View {
     
     // 뷰를 닫기 위한 dismiss 환경 변수
     @Environment(\.dismiss) var dismiss
+    
+    // 각 텍스트 필드의 포커스 상태
+    @FocusState private var passwordFieldIsFocused: Bool
+    @FocusState private var nameFieldIsFocused: Bool
+    @FocusState private var phoneFieldIsFocused: Bool
 
     var body: some View {
         NavigationView {
@@ -24,12 +29,11 @@ struct EditProfileView: View {
                 VStack(spacing: 20) {
                     // 비밀번호 입력 (변경 시 입력)
                     SecureField("  비밀번호 (변경 시 입력)", text: $password)
+                        .focused($passwordFieldIsFocused)
                         .font(.title3)
                         .padding(.vertical, 20)
                         .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
+                            AnimatedUnderline(isFocused: passwordFieldIsFocused, gradientColors: [Color.blue, Color.purple])
                                 .padding(.top, 35),
                             alignment: .bottom
                         )
@@ -37,12 +41,11 @@ struct EditProfileView: View {
                     
                     // 이름 입력
                     TextField("  이름", text: $name)
+                        .focused($nameFieldIsFocused)
                         .font(.title3)
                         .padding(.vertical, 20)
                         .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
+                            AnimatedUnderline(isFocused: nameFieldIsFocused, gradientColors: [Color.blue, Color.purple])
                                 .padding(.top, 35),
                             alignment: .bottom
                         )
@@ -50,13 +53,12 @@ struct EditProfileView: View {
                     
                     // 전화번호 입력
                     TextField("  전화번호", text: $phone)
+                        .focused($phoneFieldIsFocused)
                         .font(.title3)
                         .keyboardType(.phonePad)
                         .padding(.vertical, 20)
                         .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
+                            AnimatedUnderline(isFocused: phoneFieldIsFocused, gradientColors: [Color.blue, Color.purple])
                                 .padding(.top, 35),
                             alignment: .bottom
                         )

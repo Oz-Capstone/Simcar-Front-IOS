@@ -8,6 +8,10 @@ struct MyPageView: View {
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
     @Binding var selectedTab: Int  // ContentView에서 전달받은 바텀 탭 상태
+    
+    // 포커스 상태 추적
+    @FocusState private var emailFieldIsFocused: Bool
+    @FocusState private var passwordFieldIsFocused: Bool
 
     var body: some View {
         NavigationView {
@@ -60,7 +64,7 @@ struct MyPageView: View {
                     }
                     .padding()
                     .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 25)) // 둥근 테두리 적용
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
                     .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
                     .padding()
                     
@@ -73,24 +77,23 @@ struct MyPageView: View {
                     
                     VStack(spacing: 20) {
                         TextField("  이메일", text: $email)
+                            .focused($emailFieldIsFocused)
                             .font(.title3)
                             .padding(.vertical, 20)
                             .overlay(
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundColor(.gray)
+                                // 포커스 상태에 따라 애니메이션 밑줄 적용
+                                AnimatedUnderline(isFocused: emailFieldIsFocused, gradientColors: [Color.blue, Color.purple])
                                     .padding(.top, 35),
                                 alignment: .bottom
                             )
                             .padding(.horizontal, 30)
 
                         SecureField("  비밀번호", text: $password)
+                            .focused($passwordFieldIsFocused)
                             .font(.title3)
                             .padding(.vertical, 20)
                             .overlay(
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundColor(.gray)
+                                AnimatedUnderline(isFocused: passwordFieldIsFocused, gradientColors: [Color.blue, Color.purple])
                                     .padding(.top, 35),
                                 alignment: .bottom
                             )
@@ -107,7 +110,6 @@ struct MyPageView: View {
                                 .font(.system(size: 15))
                                 .padding(.leading, 20)
                             
-                            // 회원가입 버튼 (기본 검은색 단색)
                             NavigationLink(destination: SignUpView()) {
                                 Text("회원가입")
                                     .font(.system(size: 17))
@@ -251,6 +253,56 @@ struct MyPageView: View {
         task.resume()
     }
 }
+
+// MARK: - Animated Underline View
+struct AnimatedUnderline: View {
+    var isFocused: Bool
+    var gradientColors: [Color] = [Color.blue, Color.purple]
+    @State private var animatedWidth: CGFloat = 0
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                // 기본 회색 밑줄
+                Rectangle()
+                    .fill(Color.gray)
+                    .frame(height: isFocused ? 1 : 1)
+                
+                if isFocused {
+                    // 포커스되었을 때, 왼쪽에서 오른쪽으로 확장되는 그라데이션 밑줄
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: gradientColors),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: animatedWidth, height: 5)
+                        .onAppear {
+                            // 처음 포커스 시 애니메이션: 0에서 전체 너비까지
+                            animatedWidth = 0
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                animatedWidth = geometry.size.width
+                            }
+                        }
+                        .onChange(of: isFocused) { newValue in
+                            if newValue {
+                                animatedWidth = 0
+                                withAnimation(.easeInOut(duration: 1.5)) {
+                                    animatedWidth = geometry.size.width
+                                }
+                            } else {
+                                animatedWidth = 0
+                            }
+                        }
+                }
+            }
+        }
+        .frame(height: isFocused ? 3 : 1)
+    }
+}
+
 
 //struct ContentView_Previews: PreviewProvider {
 //    @StateObject static var userSettings = UserSettings()

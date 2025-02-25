@@ -27,32 +27,37 @@ struct ProfileView: View {
                                 Text("이메일:")
                                     .font(.title2)
                                     .bold()
-                                    .frame(width: 100, alignment: .trailing)
+                                    .frame(width: 100, alignment: .leading)
                                 Text(member.email)
                                     .font(.title2)
                                     .bold()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }.padding(.vertical)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                            .padding(.vertical)
+                            
                             HStack {
                                 Text("이름:")
                                     .font(.title2)
                                     .bold()
-                                    .frame(width: 100, alignment: .trailing)
+                                    .frame(width: 100, alignment: .leading)
                                 Text(member.name)
                                     .font(.title2)
                                     .bold()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }.padding(.vertical)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                            .padding(.vertical)
+                            
                             HStack {
                                 Text("전화번호:")
                                     .font(.title2)
                                     .bold()
-                                    .frame(width: 100, alignment: .trailing)
+                                    .frame(width: 100, alignment: .leading)
                                 Text(member.phone)
                                     .font(.title2)
                                     .bold()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }.padding(.vertical)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                            .padding(.vertical)
                         }
                         .padding()
                         .background(Color.white)
@@ -125,4 +130,3 @@ struct MemberProfileResponse: Codable {
     let name: String
     let phone: String
 }
-
