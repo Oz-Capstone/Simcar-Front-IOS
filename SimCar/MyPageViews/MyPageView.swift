@@ -35,20 +35,20 @@ struct MyPageView: View {
                     
                     VStack(spacing: 20) {
                         NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab)) {
-                            gradientButtonLabel("찜한 차량 조회")
+                            gradientMyPageButtonLabel("찜한 차량 조회")
                         }
                         .buttonStyle(PressableButtonStyle())
                         .padding(.top)
                         .padding(.horizontal)
 
                         NavigationLink(destination: EditProfileView()) {
-                            gradientButtonLabel("회원 정보 수정", colors: [Color.purple, Color.pink])
+                            gradientMyPageButtonLabel("회원 정보 수정", colors: [Color.purple, Color.pink])
                         }
                         .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
 
                         NavigationLink(destination: ProfileView()) {
-                            gradientButtonLabel("회원 정보 조회", colors: [Color.purple, Color.pink])
+                            gradientMyPageButtonLabel("회원 정보 조회", colors: [Color.purple, Color.pink])
                         }
                         .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
@@ -175,6 +175,26 @@ struct MyPageView: View {
             .cornerRadius(12)
             .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
     }
+    
+    // MARK: - 공용 그라데이션 버튼 라벨
+    private func gradientMyPageButtonLabel(_ title: String, colors: [Color] = [Color.blue, Color.purple]) -> some View {
+        Text(title)
+            .font(.title2)
+            .bold()
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .frame(height: 80) // 고정 높이 80 포인트 지정
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: colors),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .cornerRadius(12)
+            .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
+    }
+
     
     // MARK: - 회원 정보 조회 (GET /api/members/profile)
     private func fetchMemberProfile() {
@@ -374,3 +394,10 @@ struct PressableButtonStyle: ButtonStyle {
     }
 }
 
+struct ContentView_Previews: PreviewProvider {
+    @StateObject static var userSettings = UserSettings()
+    static var previews: some View {
+        ContentView()
+            .environmentObject(userSettings)
+    }
+}

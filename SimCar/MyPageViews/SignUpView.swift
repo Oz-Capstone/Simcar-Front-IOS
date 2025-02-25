@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 // MARK: - Custom Underlined TextField using AnimatedUnderline
 struct UnderlinedTextField: View {
     var placeholder: String
@@ -51,6 +52,7 @@ struct SignUpView: View {
                     Button(action: register) {
                         gradientButtonLabel("회원가입")
                     }
+                    .buttonStyle(PressableButtonStyle())
                     .padding(.horizontal, 30)
                 }
                 .padding()
@@ -65,9 +67,16 @@ struct SignUpView: View {
             .overlay(isLoading ? ProgressView() : nil)
             .navigationBarTitleDisplayMode(.inline)
             .alert(isPresented: $showAlert) {
-                Alert(title: Text(""),
-                      message: Text(alertMessage),
-                      dismissButton: .default(Text("확인")))
+                Alert(
+                    title: Text(""),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("확인"), action: {
+                        // 회원가입 성공 메시지일 때 화면을 닫음
+                        if alertMessage == "회원가입 성공했습니다!" {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    })
+                )
             }
         }
     }
@@ -156,4 +165,3 @@ struct SignUpView: View {
         task.resume()
     }
 }
-
