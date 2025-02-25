@@ -374,7 +374,7 @@ struct CarManageView: View {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in  // request를 사용
             DispatchQueue.main.async {
                 if let error = error {
                     errorMessage = "차량 삭제 실패: \(error.localizedDescription)"
