@@ -68,6 +68,7 @@ struct EditProfileView: View {
                     Button(action: updateProfile) {
                         gradientButtonLabel("수정하기")
                     }
+                    .buttonStyle(PressableButtonStyle())
                     .padding(.horizontal, 30)
                 }
                 .padding()

@@ -54,7 +54,8 @@ struct RegistrationCarView: View {
                             AnimatedTextField(placeholder: "주행거리", text: $mileage, keyboardType: .numberPad)
                             AnimatedTextField(placeholder: "연료 종류", text: $fuelType)
                             AnimatedTextField(placeholder: "가격", text: $price, keyboardType: .numberPad)
-                            VStack{
+                            
+                            VStack {
                                 AnimatedTextField(placeholder: "차량 번호", text: $carNumber)
                                 AnimatedTextField(placeholder: "보험 이력", text: $insuranceHistory, keyboardType: .numberPad)
                                 AnimatedTextField(placeholder: "검사 이력", text: $inspectionHistory, keyboardType: .numberPad)
@@ -63,7 +64,6 @@ struct RegistrationCarView: View {
                                 AnimatedTextField(placeholder: "지역", text: $region)
                                 AnimatedTextField(placeholder: "연락처", text: $contactNumber)
                             }
-                            
                         }
                     }
                     
@@ -100,17 +100,20 @@ struct RegistrationCarView: View {
                             }
                         }
                         
-                        gradientButtonLabel("이미지 선택", colors: [Color.gray, Color.gray])
-                            .onTapGesture {
-                                showImagePicker = true
-                            }
+                        // 이미지 선택 버튼 (Button로 감싸고 PressableButtonStyle 적용)
+                        Button(action: {
+                            showImagePicker = true
+                        }) {
+                            gradientButtonLabel("이미지 선택", colors: [Color.gray, Color.gray])
+                        }
+                        .buttonStyle(PressableButtonStyle())
                     }
                     
                     // 최종 차량 등록 버튼
-                    gradientButtonLabel("차량 등록", colors: [Color.blue, Color.purple])
-                        .onTapGesture {
-                            registerCar()
-                        }
+                    Button(action: registerCar) {
+                        gradientButtonLabel("차량 등록", colors: [Color.blue, Color.purple])
+                    }
+                    .buttonStyle(PressableButtonStyle())
                 }
                 .padding()
             }
@@ -153,7 +156,7 @@ struct RegistrationCarView: View {
         }
     }
     
-    // MARK: - 그라데이션 버튼
+    // MARK: - 그라데이션 버튼 스타일
     private func gradientButtonLabel(_ title: String, colors: [Color] = [Color.blue, Color.purple]) -> some View {
         Text(title)
             .font(.title2)
@@ -338,11 +341,3 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    @StateObject static var userSettings = UserSettings()
-//    static var previews: some View {
-//        ContentView()
-//            .environmentObject(userSettings)
-//    }
-//}

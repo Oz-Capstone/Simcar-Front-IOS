@@ -76,8 +76,10 @@ struct BuyCarView: View {
                                     endPoint: .trailing
                                 )
                             )
+                        
                             .padding(.trailing, 10)
                     }
+                    .buttonStyle(PressableButtonStyle())
                     
                     // 하트 아이콘: 찜한 차량 목록으로 네비게이트 (로그인 여부 확인)
                     Button(action: {
@@ -99,6 +101,7 @@ struct BuyCarView: View {
                             )
                             .padding(.trailing, 10)
                     }
+                    .buttonStyle(PressableButtonStyle())
                     // 숨겨진 NavigationLink를 통해 조건부 네비게이션 구현
                     NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab),
                                    isActive: $navigateToFavorites) {

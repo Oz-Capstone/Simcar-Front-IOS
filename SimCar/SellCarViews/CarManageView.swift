@@ -92,6 +92,7 @@ struct CarManageView: View {
                                 .foregroundColor(isFavorite ? .red : .white)
                                 .padding(8)
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.top, 16)
                         .padding(.trailing, 16)
                     }
@@ -103,7 +104,7 @@ struct CarManageView: View {
                         .foregroundColor(Color(hex: "#9575CD"))
                         .padding(.leading, 8)
                     
-                    // 나머지 차량 정보를 둥근 테두리 컨테이너로 감싼 부분
+                    // 차량 정보 표시
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("연식:")
@@ -172,19 +173,20 @@ struct CarManageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 0)
                     
-                    // AI 차량 진단 버튼: 그라데이션 스타일 적용 (기존 스타일 그대로)
+                    // AI 차량 진단 버튼
                     Button(action: {
                         showDiagnosisModal = true
                     }) {
                         gradientButtonLabel("AI 차량 진단")
                     }
+                    .buttonStyle(PressableButtonStyle())
                     .sheet(isPresented: $showDiagnosisModal) {
                         if let car = car {
                             AICarDiagnosisView(carId: car.id)
                         }
                     }
                     
-                    // 차량 수정 및 삭제 버튼 (각각 다른 그라데이션 적용)
+                    // 차량 수정 및 삭제 버튼
                     HStack(spacing: 20) {
                         NavigationLink(destination: EditCarView(selectedTab: $selectedTab, car: car, carId: car.id)) {
                             Text("차량 수정")
@@ -203,6 +205,7 @@ struct CarManageView: View {
                                 .cornerRadius(12)
                                 .shadow(color: Color.orange.opacity(0.8), radius: 5, x: 0, y: 0)
                         }
+                        .buttonStyle(PressableButtonStyle())
                         
                         Button(action: {
                             deleteCar(carId: car.id)
@@ -223,6 +226,7 @@ struct CarManageView: View {
                                 .cornerRadius(12)
                                 .shadow(color: Color.red.opacity(0.8), radius: 5, x: 0, y: 0)
                         }
+                        .buttonStyle(PressableButtonStyle())
                     }
                 }
                 .padding()
@@ -374,7 +378,7 @@ struct CarManageView: View {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        URLSession.shared.dataTask(with: request) { data, response, error in  // request를 사용
+        URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     errorMessage = "차량 삭제 실패: \(error.localizedDescription)"
@@ -390,5 +394,4 @@ struct CarManageView: View {
         }.resume()
     }
 }
-
 

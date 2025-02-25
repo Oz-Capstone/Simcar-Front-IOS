@@ -21,14 +21,12 @@ struct MyPageView: View {
             VStack(spacing: 20) {
                 if userSettings.isLoggedIn {
                     // 로그인된 상태
-                    // 회원 정보를 성공적으로 받아왔으면 회원의 이름으로 인사말 표시
                     if let profile = memberProfile {
                         Text("\(profile.name)님 반갑습니다!")
                             .font(.title)
                             .bold()
                             .foregroundColor(Color(hex: "#9575CD"))
                     } else {
-                        // 아직 정보를 받아오지 못한 경우 기본 텍스트 표시 또는 ProgressView 표시 가능
                         Text("마이페이지")
                             .font(.largeTitle)
                             .bold()
@@ -36,37 +34,37 @@ struct MyPageView: View {
                     }
                     
                     VStack(spacing: 20) {
-                        // 찜한 차량 조회
                         NavigationLink(destination: FavoriteCarView(selectedTab: $selectedTab)) {
                             gradientButtonLabel("찜한 차량 조회")
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.top)
                         .padding(.horizontal)
 
-                        // 회원 정보 수정
                         NavigationLink(destination: EditProfileView()) {
                             gradientButtonLabel("회원 정보 수정", colors: [Color.purple, Color.pink])
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
 
-                        // 회원 정보 조회
                         NavigationLink(destination: ProfileView()) {
                             gradientButtonLabel("회원 정보 조회", colors: [Color.purple, Color.pink])
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
                         .padding(.bottom)
 
-                        // 회원 탈퇴
                         NavigationLink(destination: DeleteAccountView()) {
                             gradientButtonLabel("회원 탈퇴", colors: [Color.black, Color.black])
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
                         .padding(.top)
 
-                        // 로그아웃
                         Button(action: logout) {
                             gradientButtonLabel("로그아웃", colors: [Color.gray, Color.gray])
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
                         .padding(.bottom)
                     }
@@ -77,7 +75,6 @@ struct MyPageView: View {
                     .padding()
                     
                 } else {
-                    // 로그인되지 않은 상태
                     Image("SimCarLogo")
                         .resizable()
                         .scaledToFit()
@@ -106,10 +103,10 @@ struct MyPageView: View {
                             )
                             .padding(.horizontal, 30)
                         
-                        // 로그인 버튼
                         Button(action: login) {
                             gradientButtonLabel("로그인")
                         }
+                        .buttonStyle(PressableButtonStyle())
                         .padding(.horizontal)
                         
                         HStack {
@@ -127,6 +124,7 @@ struct MyPageView: View {
                                     .background(Color.gray)
                                     .cornerRadius(10)
                             }
+                            .buttonStyle(PressableButtonStyle())
                             .padding(.horizontal)
                         }
                     }
@@ -144,13 +142,17 @@ struct MyPageView: View {
                     title: Text(""),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("확인"), action: {
-                        // "로그인 성공했습니다!" 메시지일 때만 상태 전환
                         if alertMessage == "로그인 성공했습니다!" {
                             userSettings.isLoggedIn = true
                             fetchMemberProfile()
                         }
                     })
                 )
+            }
+            .onAppear {
+                if userSettings.isLoggedIn {
+                    fetchMemberProfile()
+                }
             }
         }
     }
@@ -275,10 +277,8 @@ struct MyPageView: View {
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     DispatchQueue.main.async {
-                        // alertMessage와 showAlert를 먼저 설정한 후
                         alertMessage = "로그인 성공했습니다!"
                         showAlert = true
-                        // alert dismiss 액션에서 상태 변경하도록 함
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -291,7 +291,6 @@ struct MyPageView: View {
         
         task.resume()
     }
-
     
     // MARK: - 로그아웃
     private func logout() {
@@ -311,7 +310,7 @@ struct MyPageView: View {
                     userSettings.isLoggedIn = false
                     alertMessage = "로그아웃이 완료되었습니다."
                     showAlert = true
-                    memberProfile = nil  // 로그아웃 시 회원 정보 초기화
+                    memberProfile = nil
                 }
             }
         }
@@ -329,13 +328,11 @@ struct AnimatedUnderline: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                // 기본 회색 밑줄
                 Rectangle()
                     .fill(Color.gray)
                     .frame(height: isFocused ? 1 : 1)
                 
                 if isFocused {
-                    // 포커스되었을 때, 왼쪽에서 오른쪽으로 확장되는 그라데이션 밑줄
                     Rectangle()
                         .fill(
                             LinearGradient(
@@ -346,7 +343,6 @@ struct AnimatedUnderline: View {
                         )
                         .frame(width: animatedWidth, height: 5)
                         .onAppear {
-                            // 처음 포커스 시 애니메이션: 0에서 전체 너비까지
                             animatedWidth = 0
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 animatedWidth = geometry.size.width
@@ -366,6 +362,15 @@ struct AnimatedUnderline: View {
             }
         }
         .frame(height: isFocused ? 3 : 1)
+    }
+}
+
+// MARK: - Animated Button View
+struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 1.1 : 1.0)
+            .animation(.easeInOut(duration: 0.3), value: configuration.isPressed)
     }
 }
 

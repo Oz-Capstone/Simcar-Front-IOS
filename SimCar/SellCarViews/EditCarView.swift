@@ -143,10 +143,10 @@ struct EditCarView: View {
                                 .listStyle(PlainListStyle())
                                 .frame(height: max(CGFloat(imageOrder.count) * 70, 200))
                                 
-                                gradientButtonLabel("순서 저장", colors: [Color.green, Color.blue])
-                                    .onTapGesture {
-                                        updateImageOrder()
-                                    }
+                                Button(action: updateImageOrder) {
+                                    gradientButtonLabel("순서 저장", colors: [Color.green, Color.blue])
+                                }
+                                .buttonStyle(PressableButtonStyle())
                             }
                         } else {
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -225,24 +225,24 @@ struct EditCarView: View {
                         }
                         
                         // 이미지 추가 버튼
-                        gradientButtonLabel("이미지 추가", colors: [Color.gray, Color.gray])
-                            .onTapGesture {
-                                showImagePicker = true
-                            }
+                        Button(action: { showImagePicker = true }) {
+                            gradientButtonLabel("이미지 추가", colors: [Color.gray, Color.gray])
+                        }
+                        .buttonStyle(PressableButtonStyle())
                         
                         if !newImages.isEmpty {
-                            gradientButtonLabel("새 이미지 업로드", colors: [Color.black, Color.black])
-                                .onTapGesture {
-                                    addNewImages()
-                                }
+                            Button(action: addNewImages) {
+                                gradientButtonLabel("새 이미지 업로드", colors: [Color.black, Color.black])
+                            }
+                            .buttonStyle(PressableButtonStyle())
                         }
                     }
                     
                     // 최종 차량 정보 수정 버튼
-                    gradientButtonLabel("차량 정보 수정 완료", colors: [Color.purple, Color.indigo])
-                        .onTapGesture {
-                            updateCarInfo()
-                        }
+                    Button(action: updateCarInfo) {
+                        gradientButtonLabel("차량 정보 수정 완료", colors: [Color.purple, Color.indigo])
+                    }
+                    .buttonStyle(PressableButtonStyle())
                     
                     Spacer()
                 }
@@ -535,6 +535,7 @@ struct EditCarView: View {
             }
         }.resume()
     }
+    
     private func deleteImage(imageId: Int) {
         if let idx = currentImages.firstIndex(where: { $0.id == imageId }),
            currentImages[idx].fullImageUrl == currentRepresentativeImageUrl {
@@ -600,7 +601,3 @@ private func gradientButtonLabel(_ title: String,
         .cornerRadius(12)
         .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
 }
-
-
-
-

@@ -44,24 +44,9 @@ struct SellCarView: View {
                         .cornerRadius(10)
                         .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
+                .buttonStyle(PressableButtonStyle())
                 .padding(5)
-
-                // 구분선 추가
-//                Rectangle()
-//                    .fill(
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [Color.blue, Color.purple]),
-//                            startPoint: .leading,
-//                            endPoint: .trailing
-//                        )
-//                    )
-//                    .frame(width: 320, height: 10) // 원하는 두께와 너비로 조정
-//                    .cornerRadius(3)
-                    
-
-                
-                
-                
+           
                 // 내가 판매중인 차량 버튼
                 Button(action: {
                     if userSettings.isLoggedIn {
@@ -87,6 +72,7 @@ struct SellCarView: View {
                         .cornerRadius(10)
                         .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
                 }
+                .buttonStyle(PressableButtonStyle())
                 .padding(5)
                 
                 //빈 NavigationLink들을 이용하여 프로그래밍 방식의 네비게이션 구현

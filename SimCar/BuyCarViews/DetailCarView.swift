@@ -171,6 +171,7 @@ struct DetailCarView: View {
                             AICarDiagnosisView(carId: car.id)
                         }
                     }
+                    .buttonStyle(PressableButtonStyle())
                 }
                 .padding()
             }

@@ -1,5 +1,27 @@
 import SwiftUI
 
+// MARK: - Custom Underlined TextField using AnimatedUnderline
+struct UnderlinedTextField: View {
+    var placeholder: String
+    @Binding var text: String
+    var keyboardType: UIKeyboardType = .default
+
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        VStack(spacing: 0) {
+            TextField("  \(placeholder)", text: $text)
+                .font(.title3)
+                .keyboardType(keyboardType)
+                .focused($isFocused)
+                .padding(.vertical, 20)
+                .padding(.horizontal, 30)
+            AnimatedUnderline(isFocused: isFocused)
+                .padding(.horizontal, 30)
+        }
+    }
+}
+
 struct SignUpView: View {
     @State private var email: String = ""
     @State private var password: String = ""
@@ -21,55 +43,10 @@ struct SignUpView: View {
                     .foregroundColor(Color(hex: "#9575CD"))
                 
                 VStack(spacing: 20) {
-                    TextField("  이메일", text: $email)
-                        .font(.title3)
-                        .keyboardType(.emailAddress)
-                        .padding(.vertical, 20)
-                        .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
-                                .padding(.top, 35),
-                            alignment: .bottom
-                        )
-                        .padding(.horizontal, 30)
-                    
-                    SecureField("  비밀번호", text: $password)
-                        .font(.title3)
-                        .padding(.vertical, 20)
-                        .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
-                                .padding(.top, 35),
-                            alignment: .bottom
-                        )
-                        .padding(.horizontal, 30)
-                    
-                    TextField("  이름", text: $name)
-                        .font(.title3)
-                        .padding(.vertical, 20)
-                        .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
-                                .padding(.top, 35),
-                            alignment: .bottom
-                        )
-                        .padding(.horizontal, 30)
-                    
-                    TextField("  전화번호", text: $phone)
-                        .font(.title3)
-                        .keyboardType(.phonePad)
-                        .padding(.vertical, 20)
-                        .overlay(
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.gray)
-                                .padding(.top, 35),
-                            alignment: .bottom
-                        )
-                        .padding(.horizontal, 30)
+                    UnderlinedTextField(placeholder: "이메일", text: $email, keyboardType: .emailAddress)
+                    UnderlinedTextField(placeholder: "비밀번호", text: $password)
+                    UnderlinedTextField(placeholder: "이름", text: $name)
+                    UnderlinedTextField(placeholder: "전화번호", text: $phone, keyboardType: .phonePad)
                     
                     Button(action: register) {
                         gradientButtonLabel("회원가입")
@@ -90,14 +67,12 @@ struct SignUpView: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(""),
                       message: Text(alertMessage),
-                      dismissButton: .default(Text("확인")) {
-//                          presentationMode.wrappedValue.dismiss()
-                      })
+                      dismissButton: .default(Text("확인")))
             }
         }
     }
     
-    // MARK: - 공용 그라데이션 버튼 라벨
+    // MARK: - 그라데이션 버튼 라벨
     private func gradientButtonLabel(_ title: String,
                                      colors: [Color] = [Color.blue, Color.purple]) -> some View {
         Text(title)
@@ -182,11 +157,3 @@ struct SignUpView: View {
     }
 }
 
-
-//struct ContentView_Previews: PreviewProvider {
-//    @StateObject static var userSettings = UserSettings()
-//    static var previews: some View {
-//        ContentView()
-//            .environmentObject(userSettings)
-//    }
-//}
