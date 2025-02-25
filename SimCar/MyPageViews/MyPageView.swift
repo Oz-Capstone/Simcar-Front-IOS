@@ -12,16 +12,28 @@ struct MyPageView: View {
     // 포커스 상태 추적
     @FocusState private var emailFieldIsFocused: Bool
     @FocusState private var passwordFieldIsFocused: Bool
+    
+    // 서버에서 가져온 회원 정보
+    @State private var memberProfile: MemberProfileResponse?
 
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
                 if userSettings.isLoggedIn {
                     // 로그인된 상태
-                    Text("마이페이지")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(Color(hex: "#9575CD"))
+                    // 회원 정보를 성공적으로 받아왔으면 회원의 이름으로 인사말 표시
+                    if let profile = memberProfile {
+                        Text("\(profile.name)님 반갑습니다!")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(Color(hex: "#9575CD"))
+                    } else {
+                        // 아직 정보를 받아오지 못한 경우 기본 텍스트 표시 또는 ProgressView 표시 가능
+                        Text("마이페이지")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundColor(Color(hex: "#9575CD"))
+                    }
                     
                     VStack(spacing: 20) {
                         // 찜한 차량 조회
@@ -33,31 +45,27 @@ struct MyPageView: View {
 
                         // 회원 정보 수정
                         NavigationLink(destination: EditProfileView()) {
-                            gradientButtonLabel("회원 정보 수정",
-                                                colors: [Color.purple, Color.pink])
+                            gradientButtonLabel("회원 정보 수정", colors: [Color.purple, Color.pink])
                         }
                         .padding(.horizontal)
 
                         // 회원 정보 조회
                         NavigationLink(destination: ProfileView()) {
-                            gradientButtonLabel("회원 정보 조회",
-                                                colors: [Color.purple, Color.pink])
+                            gradientButtonLabel("회원 정보 조회", colors: [Color.purple, Color.pink])
                         }
                         .padding(.horizontal)
                         .padding(.bottom)
 
                         // 회원 탈퇴
                         NavigationLink(destination: DeleteAccountView()) {
-                            gradientButtonLabel("회원 탈퇴",
-                                                colors: [Color.black, Color.black])
+                            gradientButtonLabel("회원 탈퇴", colors: [Color.black, Color.black])
                         }
                         .padding(.horizontal)
                         .padding(.top)
 
                         // 로그아웃
                         Button(action: logout) {
-                            gradientButtonLabel("로그아웃",
-                                                colors: [Color.gray, Color.gray])
+                            gradientButtonLabel("로그아웃", colors: [Color.gray, Color.gray])
                         }
                         .padding(.horizontal)
                         .padding(.bottom)
@@ -81,7 +89,6 @@ struct MyPageView: View {
                             .font(.title3)
                             .padding(.vertical, 20)
                             .overlay(
-                                // 포커스 상태에 따라 애니메이션 밑줄 적용
                                 AnimatedUnderline(isFocused: emailFieldIsFocused, gradientColors: [Color.blue, Color.purple])
                                     .padding(.top, 35),
                                 alignment: .bottom
@@ -133,16 +140,23 @@ struct MyPageView: View {
             .padding()
             .overlay(isLoading ? ProgressView() : nil)
             .alert(isPresented: $showAlert) {
-                Alert(title: Text(""),
-                      message: Text(alertMessage),
-                      dismissButton: .default(Text("확인")))
+                Alert(
+                    title: Text(""),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("확인"), action: {
+                        // "로그인 성공했습니다!" 메시지일 때만 상태 전환
+                        if alertMessage == "로그인 성공했습니다!" {
+                            userSettings.isLoggedIn = true
+                            fetchMemberProfile()
+                        }
+                    })
+                )
             }
         }
     }
     
     // MARK: - 공용 그라데이션 버튼 라벨
-    private func gradientButtonLabel(_ title: String,
-                                     colors: [Color] = [Color.blue, Color.purple]) -> some View {
+    private func gradientButtonLabel(_ title: String, colors: [Color] = [Color.blue, Color.purple]) -> some View {
         Text(title)
             .font(.title2)
             .bold()
@@ -160,6 +174,55 @@ struct MyPageView: View {
             .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
     }
     
+    // MARK: - 회원 정보 조회 (GET /api/members/profile)
+    private func fetchMemberProfile() {
+        isLoading = true
+        alertMessage = ""
+        
+        guard let url = URL(string: API.profile) else {
+            alertMessage = "잘못된 URL입니다."
+            isLoading = false
+            showAlert = true
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async { isLoading = false }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    alertMessage = "회원 정보 조회 실패: \(error.localizedDescription)"
+                    showAlert = true
+                }
+                return
+            }
+            
+            if let data = data,
+               let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode == 200 {
+                do {
+                    let decodedMember = try JSONDecoder().decode(MemberProfileResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        memberProfile = decodedMember
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        alertMessage = "데이터 변환 오류"
+                        showAlert = true
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    alertMessage = "회원 정보 조회 실패"
+                    showAlert = true
+                }
+            }
+        }.resume()
+    }
     
     // MARK: - 로그인
     private func login() {
@@ -212,9 +275,10 @@ struct MyPageView: View {
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     DispatchQueue.main.async {
-                        userSettings.isLoggedIn = true
+                        // alertMessage와 showAlert를 먼저 설정한 후
                         alertMessage = "로그인 성공했습니다!"
                         showAlert = true
+                        // alert dismiss 액션에서 상태 변경하도록 함
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -227,6 +291,7 @@ struct MyPageView: View {
         
         task.resume()
     }
+
     
     // MARK: - 로그아웃
     private func logout() {
@@ -246,6 +311,7 @@ struct MyPageView: View {
                     userSettings.isLoggedIn = false
                     alertMessage = "로그아웃이 완료되었습니다."
                     showAlert = true
+                    memberProfile = nil  // 로그아웃 시 회원 정보 초기화
                 }
             }
         }
@@ -303,11 +369,3 @@ struct AnimatedUnderline: View {
     }
 }
 
-
-//struct ContentView_Previews: PreviewProvider {
-//    @StateObject static var userSettings = UserSettings()
-//    static var previews: some View {
-//        ContentView()
-//            .environmentObject(userSettings)
-//    }
-//}
