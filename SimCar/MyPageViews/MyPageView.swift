@@ -50,10 +50,10 @@ struct MyPageView: View {
                         .padding(.horizontal)
                         .padding(.top)
 
-                        // 로그아웃 (빨간색 계열 그라데이션 예시)
+                        // 로그아웃
                         Button(action: logout) {
                             gradientButtonLabel("로그아웃",
-                                                colors: [Color.red, Color.red])
+                                                colors: [Color.gray, Color.gray])
                         }
                         .padding(.horizontal)
                         .padding(.bottom)

@@ -10,33 +10,74 @@ struct MySellCarView: View {
         _selectedTab = selectedTab
         UITableView.appearance().tableHeaderView = UIView(frame: .zero)
     }
-
+    
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
+            ZStack {
+                Color.white
+                    .edgesIgnoringSafeArea(.all)
                 
-                if isLoading {
-                    ProgressView("차량 목록 불러오는 중...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let errorMessage = errorMessage {
-                    Text("오류: \(errorMessage)")
-                        .foregroundColor(.red)
-                        .padding()
-                } else {
-                    List(cars) { car in
-                        NavigationLink(destination: CarManageView(carId: car.id, selectedTab: $selectedTab)) {
-                            CarRow(car: car, selectedTab: $selectedTab)
-                        }
+                VStack(alignment: .leading, spacing: 20) {
+                    // 헤더 영역
+                    HStack {
+                        Spacer()
+                        Text("판매중인 차량 조회")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundColor(Color(hex: "#9575CD"))
+                            .padding()
+                        Spacer()
                     }
-                    .listStyle(PlainListStyle())
+                    
+                    HStack {
+                        Spacer()
+                        Rectangle()
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: 400, height: 2)
+                        Spacer()
+                    }
+                    
+                    // 콘텐츠 영역
+                    if isLoading {
+                        ProgressView("차량 목록 불러오는 중...")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else if let errorMessage = errorMessage {
+                        Text("오류: \(errorMessage)")
+                            .foregroundColor(.red)
+                            .padding()
+                    } else if cars.isEmpty {
+                        Text("등록한 차량이 없습니다")
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        List(cars) { car in
+                            NavigationLink(destination: CarManageView(carId: car.id, selectedTab: $selectedTab)) {
+                                HStack {
+                                    Spacer()
+                                    CarRow(car: car, selectedTab: $selectedTab)
+                                    Spacer()
+                                }
+                            }
+                            .listRowSeparator(.hidden)
+                        }
+                        .listStyle(PlainListStyle())
+                        .scrollIndicators(.hidden)
+                    }
+                    
+                    Spacer()
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-            .navigationTitle("내가 등록한 차량")
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 fetchMySellCars()
             }
-            .navigationBarHidden(true)
         }
     }
     
@@ -81,3 +122,6 @@ struct MySellCarView: View {
         }.resume()
     }
 }
+
+
+

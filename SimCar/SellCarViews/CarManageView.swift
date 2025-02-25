@@ -26,7 +26,7 @@ struct CarManageView: View {
                     .padding()
             } else if let car = car {
                 VStack(alignment: .leading, spacing: 20) {
-                    // 차량 이미지 영역: car.images가 있을 경우 TabView로 여러 이미지를 스와이프 가능하도록 표시
+                    // 차량 이미지 영역
                     ZStack(alignment: .topTrailing) {
                         if let images = car.images, !images.isEmpty {
                             TabView {
@@ -96,39 +96,87 @@ struct CarManageView: View {
                         .padding(.trailing, 16)
                     }
                     
+                    // 제조사와 모델명: 색상 #9575CD 적용
                     Text("\(car.brand) \(car.model)")
                         .font(.largeTitle)
-                        .padding(.top, 10)
+                        .bold()
+                        .foregroundColor(Color(hex: "#9575CD"))
+                        .padding(.leading, 8)
                     
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("연식: \(car.year)")
-                        Text("키로수: \(car.mileage ?? 0) km")
-                        Text("연료: \(car.fuelType ?? "정보 없음")")
-                        Text("가격: \(car.price) 원")
-                        Text("차량 번호: \(car.carNumber)")
+                    // 나머지 차량 정보를 둥근 테두리 컨테이너로 감싼 부분
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("연식:")
+                                .bold()
+                            Spacer()
+                            Text("\(car.year)")
+                        }
+                        HStack {
+                            Text("키로수:")
+                                .bold()
+                            Spacer()
+                            Text("\(car.mileage ?? 0) km")
+                        }
+                        HStack {
+                            Text("연료:")
+                                .bold()
+                            Spacer()
+                            Text(car.fuelType ?? "정보 없음")
+                        }
+                        HStack {
+                            Text("가격:")
+                                .bold()
+                            Spacer()
+                            Text("\(car.price) 원")
+                        }
+                        HStack {
+                            Text("차량 번호:")
+                                .bold()
+                            Spacer()
+                            Text(car.carNumber)
+                        }
+                        HStack {
+                            Text("유형:")
+                                .bold()
+                            Spacer()
+                            Text(car.type)
+                        }
+                        HStack {
+                            Text("색상:")
+                                .bold()
+                            Spacer()
+                            Text(car.color)
+                        }
+                        HStack {
+                            Text("변속기:")
+                                .bold()
+                            Spacer()
+                            Text(car.transmission)
+                        }
+                        HStack {
+                            Text("지역:")
+                                .bold()
+                            Spacer()
+                            Text(car.region ?? "미등록")
+                        }
+                        HStack {
+                            Text("연락처:")
+                                .bold()
+                            Spacer()
+                            Text(car.contactNumber ?? "없음")
+                        }
                     }
-                    .font(.subheadline)
+                    .font(.system(size: 18))
+                    .padding()
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 0)
                     
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("유형: \(car.type)")
-                        Text("색상: \(car.color)")
-                        Text("변속기: \(car.transmission)")
-                        Text("지역: \(car.region ?? "미등록")")
-                        Text("연락처: \(car.contactNumber ?? "없음")")
-                    }
-                    .font(.subheadline)
-                    
-                    // AI 차량 진단 버튼
+                    // AI 차량 진단 버튼: 그라데이션 스타일 적용 (기존 스타일 그대로)
                     Button(action: {
                         showDiagnosisModal = true
                     }) {
-                        Text("AI 차량 진단")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                            .padding(.top, 10)
+                        gradientButtonLabel("AI 차량 진단")
                     }
                     .sheet(isPresented: $showDiagnosisModal) {
                         if let car = car {
@@ -136,26 +184,44 @@ struct CarManageView: View {
                         }
                     }
                     
-                    // 차량 수정 및 제거 버튼
+                    // 차량 수정 및 삭제 버튼 (각각 다른 그라데이션 적용)
                     HStack(spacing: 20) {
                         NavigationLink(destination: EditCarView(selectedTab: $selectedTab, car: car, carId: car.id)) {
                             Text("차량 수정")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.orange)
+                                .font(.title2)
+                                .bold()
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .cornerRadius(12)
+                                .shadow(color: Color.orange.opacity(0.8), radius: 5, x: 0, y: 0)
                         }
                         
                         Button(action: {
                             deleteCar(carId: car.id)
                         }) {
                             Text("차량 제거")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.red)
+                                .font(.title2)
+                                .bold()
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.red, Color.pink]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .cornerRadius(12)
+                                .shadow(color: Color.red.opacity(0.8), radius: 5, x: 0, y: 0)
                         }
                     }
                 }
@@ -175,6 +241,26 @@ struct CarManageView: View {
         .onAppear {
             fetchCarDetail(carId: carId)
         }
+    }
+    
+    // MARK: - 공용 그라데이션 버튼 라벨 (기존 스타일)
+    private func gradientButtonLabel(_ title: String,
+                                     colors: [Color] = [Color.blue, Color.purple]) -> some View {
+        Text(title)
+            .font(.title2)
+            .bold()
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: colors),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .cornerRadius(12)
+            .shadow(color: Color.gray.opacity(0.8), radius: 5, x: 0, y: 0)
     }
     
     // MARK: - API 호출 함수들
@@ -227,7 +313,9 @@ struct CarManageView: View {
                         if let currentCar = self.car {
                             self.isFavorite = favoritesList.contains(where: { $0.id == currentCar.id })
                         }
-                    } catch { }
+                    } catch {
+                        // 오류 처리 생략
+                    }
                 }
             }
         }.resume()
@@ -302,3 +390,5 @@ struct CarManageView: View {
         }.resume()
     }
 }
+
+

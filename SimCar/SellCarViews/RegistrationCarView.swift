@@ -30,87 +30,90 @@ struct RegistrationCarView: View {
 
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("차량 정보 입력")) {
-                    VStack {
-                        TextField("차량 유형 (SUV, 세단 등)", text: $type)
-                        TextField("제조사 (brand)", text: $brand)
-                        TextField("모델 (model)", text: $model)
-                        TextField("연식 (year)", text: $year)
-                            .keyboardType(.numberPad)
-                        TextField("주행거리 (mileage)", text: $mileage)
-                            .keyboardType(.numberPad)
-                        TextField("연료 종류 (fuelType)", text: $fuelType)
-                        TextField("가격 (price)", text: $price)
-                            .keyboardType(.numberPad)
-                    }
-                    VStack {
-                        TextField("차량 번호 (carNumber)", text: $carNumber)
-                        TextField("보험 이력 (insuranceHistory)", text: $insuranceHistory)
-                            .keyboardType(.numberPad)
-                        TextField("검사 이력 (inspectionHistory)", text: $inspectionHistory)
-                            .keyboardType(.numberPad)
-                        TextField("색상 (color)", text: $color)
-                        TextField("변속기 (transmission)", text: $transmission)
-                        TextField("지역 (region)", text: $region)
-                        TextField("연락처 (contactNumber)", text: $contactNumber)
-                    }
-                }
-                
-                Section(header: Text("이미지 추가")) {
-                    // 새로 추가할 이미지를 보여줌 (제거 버튼 포함)
-                    if !newImages.isEmpty {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(newImages.indices, id: \.self) { index in
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: newImages[index])
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 100, height: 100)
-                                            .clipped()
-                                        
-                                        // 제거 버튼: 누르면 해당 이미지 삭제
-                                        Button(action: {
-                                            newImages.remove(at: index)
-                                        }) {
-                                            Image(systemName: "minus.circle.fill")
-                                                .foregroundColor(.red)
-                                                .background(Color.white)
-                                                .clipShape(Circle())
-                                        }
-                                        .offset(x: 5, y: -5)
-                                    }
-                                }
+            ScrollView {
+                VStack(spacing: 30) {
+                    // 헤더
+                    Text("차량 등록")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(Color(hex: "#9575CD"))
+                        .padding(.top, 20)
+                    
+                    // 차량 정보 입력 섹션
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("차량 정보 입력")
+                            .font(.title3)
+                            .bold()
+                            .padding(.horizontal, 30)
+                        
+                        VStack {
+                            customTextField(placeholder: "차량 유형 (SUV, 세단 등)", text: $type)
+                            customTextField(placeholder: "제조사", text: $brand)
+                            customTextField(placeholder: "모델", text: $model)
+                            customTextField(placeholder: "연식", text: $year, keyboardType: .numberPad)
+                            customTextField(placeholder: "주행거리", text: $mileage, keyboardType: .numberPad)
+                            customTextField(placeholder: "연료 종류", text: $fuelType)
+                            customTextField(placeholder: "가격", text: $price, keyboardType: .numberPad)
+                            
+                            customTextField(placeholder: "차량 번호", text: $carNumber)
+                            VStack {
+                                customTextField(placeholder: "보험 이력", text: $insuranceHistory, keyboardType: .numberPad)
+                                customTextField(placeholder: "검사 이력", text: $inspectionHistory, keyboardType: .numberPad)
+                                customTextField(placeholder: "색상", text: $color)
+                                customTextField(placeholder: "변속기", text: $transmission)
+                                customTextField(placeholder: "지역", text: $region)
+                                customTextField(placeholder: "연락처", text: $contactNumber)
                             }
                         }
                     }
                     
-                    Button(action: {
-                        showImagePicker = true
-                    }) {
-                        HStack {
-                            Image(systemName: "plus")
-                            Text("이미지 선택")
+                    // 이미지 추가 섹션
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("이미지 추가")
+                            .font(.title3)
+                            .bold()
+                            .padding(.horizontal, 30)
+                        
+                        if !newImages.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    ForEach(newImages.indices, id: \.self) { index in
+                                        ZStack(alignment: .topTrailing) {
+                                            Image(uiImage: newImages[index])
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 100, height: 100)
+                                                .clipped()
+                                                .cornerRadius(8)
+                                            Button(action: {
+                                                newImages.remove(at: index)
+                                            }) {
+                                                Image(systemName: "minus.circle.fill")
+                                                    .foregroundColor(.red)
+                                                    .background(Color.white)
+                                                    .clipShape(Circle())
+                                            }
+                                            .offset(x: -5, y: 5)
+                                        }
+                                    }
+                                }
+                            }
                         }
+                        
+                        gradientButtonLabel("이미지 선택", colors: [Color.gray, Color.gray])
+                            .onTapGesture {
+                                showImagePicker = true
+                            }
                     }
+                    
+                    // 최종 차량 등록 버튼
+                    gradientButtonLabel("차량 등록", colors: [Color.blue, Color.purple])
+                        .onTapGesture {
+                            registerCar()
+                        }
                 }
-
-                Button(action: registerCar) {
-                    Text("차량 등록")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                
-                if !registrationMessage.isEmpty {
-                    Text(registrationMessage)
-                        .foregroundColor(.red)
-                }
+                .padding()
             }
-            .navigationTitle("차량 등록")
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("등록 결과"),
@@ -127,9 +130,44 @@ struct RegistrationCarView: View {
         }
     }
     
-    // MARK: - 차량 등록 버튼 액션
+    // MARK: - Custom TextField (아래쪽 선만 표시)
+    private func customTextField(placeholder: String, text: Binding<String>, keyboardType: UIKeyboardType = .default) -> some View {
+        TextField("  \(placeholder)", text: text)
+            .font(.title3)
+            .keyboardType(keyboardType)
+            .padding(.vertical, 20)
+            .overlay(
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(.gray)
+                    .padding(.top, 35),
+                alignment: .bottom
+            )
+            .padding(.horizontal, 30)
+    }
+    
+    // MARK: - 그라데이션 버튼
+    private func gradientButtonLabel(_ title: String, colors: [Color] = [Color.blue, Color.purple]) -> some View {
+        Text(title)
+            .font(.title2)
+            .bold()
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: colors),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .cornerRadius(12)
+            .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
+    }
+    
+    // MARK: - 차량 등록 함수
     private func registerCar() {
-        // 필수 입력 항목 체크
+        // 필수 입력 체크
         let requiredFields = [
             type, brand, model, fuelType, carNumber,
             insuranceHistory, inspectionHistory, color,
@@ -137,10 +175,10 @@ struct RegistrationCarView: View {
         ]
         if requiredFields.contains(where: { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
             registrationMessage = "모든 필드를 입력해주세요."
+            showAlert = true
             return
         }
         
-        // 숫자 필드 변환
         guard let yearInt = Int(year),
               let mileageInt = Int(mileage),
               let priceInt = Int(price),
@@ -148,6 +186,7 @@ struct RegistrationCarView: View {
               let inspectionHistoryInt = Int(inspectionHistory)
         else {
             registrationMessage = "올바른 숫자를 입력하세요."
+            showAlert = true
             return
         }
         
@@ -172,18 +211,16 @@ struct RegistrationCarView: View {
         sendCarRegistrationRequest(carData: carData, images: newImages)
     }
     
-    // MARK: - 서버 전송 함수 (multipart/form-data)
+    // MARK: - 서버 전송 (multipart/form-data)
     private func sendCarRegistrationRequest(carData: [String: Any], images: [UIImage]) {
-        // API.cars를 사용하여 차량 등록 URL 관리
         guard let url = URL(string: API.cars) else {
             registrationMessage = "잘못된 서버 주소입니다."
+            showAlert = true
             return
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
-        // multipart/form-data 전송을 위한 boundary
         let boundary = "Boundary-\(UUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
@@ -199,6 +236,7 @@ struct RegistrationCarView: View {
             body.append("\r\n")
         } catch {
             registrationMessage = "데이터 변환 오류"
+            showAlert = true
             return
         }
         
@@ -213,36 +251,31 @@ struct RegistrationCarView: View {
             }
         }
         
-        // 파트 종료
         body.append("--\(boundary)--\r\n")
-        
         request.httpBody = body
         
-        // URLSession 전송
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     registrationMessage = "네트워크 오류: \(error.localizedDescription)"
-                    print("🚨 네트워크 오류: \(error.localizedDescription)")
+                    showAlert = true
                     return
                 }
                 
                 if let httpResponse = response as? HTTPURLResponse,
                    (200...299).contains(httpResponse.statusCode) {
                     registrationMessage = "차량이 성공적으로 등록되었습니다."
-                    print("✅ 차량 등록 성공")
-                    showAlert = true  // 성공 시 알림창 표시
+                    showAlert = true
                 } else {
-                    let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "알 수 없는 오류"
-                    registrationMessage = "차량 등록 실패: \(errorMessage)"
-                    print("🚨 서버 오류: \(errorMessage)")
+                    let errMsg = data.flatMap { String(data: $0, encoding: .utf8) } ?? "알 수 없는 오류"
+                    registrationMessage = "차량 등록 실패: \(errMsg)"
+                    showAlert = true
                 }
             }
         }.resume()
     }
 }
 
-// Data에 String 추가 확장 함수
 extension Data {
     mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {
@@ -250,6 +283,7 @@ extension Data {
         }
     }
 }
+
 
 // MARK: - ImagePicker (PHPicker 사용)
 struct ImagePicker: UIViewControllerRepresentable {
@@ -296,5 +330,13 @@ struct ImagePicker: UIViewControllerRepresentable {
                 }
             }
         }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    @StateObject static var userSettings = UserSettings()
+    static var previews: some View {
+        ContentView()
+            .environmentObject(userSettings)
     }
 }
