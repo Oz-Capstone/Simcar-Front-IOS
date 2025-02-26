@@ -393,11 +393,3 @@ struct PressableButtonStyle: ButtonStyle {
             .animation(.easeInOut(duration: 0.3), value: configuration.isPressed)
     }
 }
-
-struct ContentView_Previews: PreviewProvider {
-    @StateObject static var userSettings = UserSettings()
-    static var previews: some View {
-        ContentView()
-            .environmentObject(userSettings)
-    }
-}
