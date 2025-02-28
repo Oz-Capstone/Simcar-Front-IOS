@@ -39,7 +39,7 @@ struct CarModel: Identifiable, Codable {
         if imageUrl.hasPrefix("http") {
             return imageUrl
         } else {
-            return "http://54.180.92.197:8080" + imageUrl
+            return "https://simcar.kro.kr" + imageUrl
         }
     }
 }
@@ -52,7 +52,8 @@ struct CarImage: Identifiable, Codable {
 
     // 상대 경로에 base URL을 붙여 전체 URL 생성
     var fullImageUrl: String {
-        return "http://54.180.92.197:8080" + filePath
+        return "https://simcar.kro.kr" + filePath
+        // https://simcar.kro.kr
     }
 }
 

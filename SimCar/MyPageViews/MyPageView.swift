@@ -173,7 +173,7 @@ struct MyPageView: View {
                 )
             )
             .cornerRadius(12)
-            .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
+            //.shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
     }
     
     // MARK: - 공용 그라데이션 버튼 라벨
@@ -192,7 +192,7 @@ struct MyPageView: View {
                 )
             )
             .cornerRadius(12)
-            .shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
+            //.shadow(color: Color.blue.opacity(0.8), radius: 5, x: 0, y: 0)
     }
 
     

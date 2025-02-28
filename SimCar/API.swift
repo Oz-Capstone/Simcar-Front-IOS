@@ -1,5 +1,5 @@
 struct API {
-    static let baseURL = "http://54.180.92.197:8080/api"
+    static let baseURL = "https://simcar.kro.kr/api"
     // http://simcar.kro.kr
     
     // Member-Controller

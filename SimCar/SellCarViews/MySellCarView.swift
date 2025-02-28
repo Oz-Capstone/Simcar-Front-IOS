@@ -63,6 +63,7 @@ struct MySellCarView: View {
                                     CarRow(car: car, selectedTab: $selectedTab)
                                     Spacer()
                                 }
+                                .padding(.leading, 20)
                             }
                             .listRowSeparator(.hidden)
                         }

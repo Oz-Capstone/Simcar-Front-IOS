@@ -242,37 +242,46 @@ struct CarRow: View {
 
     var body: some View {
         NavigationLink(destination: DetailCarView(carId: car.id, selectedTab: $selectedTab)) {
-            HStack {
+            VStack(alignment: .leading, spacing: 10) {
+                // 차량 이미지
                 if let url = URL(string: car.fullImageUrl) {
                     AsyncImage(url: url) { image in
                         image
                             .resizable()
-                            .scaledToFit()
+                            .frame(minWidth: 350, maxHeight: 220)
+                            .clipped()
                             .cornerRadius(10)
-                            .frame(width: 130, height: 100)
-                            .padding(5)
+                            .padding(.leading )
                     } placeholder: {
                         ProgressView()
-                            .frame(width: 100, height: 100)
+                            .frame(maxWidth: .infinity, minHeight: 220)
                     }
                 } else {
                     Image(systemName: "photo")
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, minHeight: 220)
+                        .clipped()
+                        .cornerRadius(10)
                         .foregroundColor(.gray)
                 }
                 
-                VStack(alignment: .leading) {
+                // 차량 정보
+                VStack(alignment: .leading, spacing: 4) {
                     Text("\(car.brand) \(car.model)")
                         .font(.headline)
                     Text("\(car.year) · \(car.type) · \(car.region ?? "정보 없음") · \(car.price) 원")
                         .font(.subheadline)
                 }
+                .padding(.horizontal, 8)
+                .padding(.leading)
             }
+            .padding(.horizontal)
         }
     }
 }
+
+
 
 //struct ContentView_Previews: PreviewProvider {
 //    @StateObject static var userSettings = UserSettings()

@@ -35,40 +35,40 @@ struct CarManageView: View {
                                         AsyncImage(url: url) { img in
                                             img
                                                 .resizable()
-                                                .frame(height: 200)
+                                                .frame(height: 230)
                                                 .cornerRadius(20)
                                                 .clipped()
                                         } placeholder: {
                                             ProgressView()
-                                                .frame(height: 200)
+                                                .frame(height: 230)
                                         }
                                     } else {
                                         Image(systemName: "photo")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: 200)
+                                            .frame(height: 230)
                                     }
                                 }
                             }
                             .tabViewStyle(PageTabViewStyle())
-                            .frame(height: 200)
+                            .frame(height: 230)
                         } else if let urlString = car.representativeImageUrl,
                                   let url = URL(string: urlString) {
                             AsyncImage(url: url) { image in
                                 image
                                     .resizable()
-                                    .frame(height: 200)
+                                    .frame(height: 230)
                                     .cornerRadius(20)
                                     .clipped()
                             } placeholder: {
                                 ProgressView()
-                                    .frame(height: 200)
+                                    .frame(height: 230)
                             }
                         } else {
                             Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 200)
+                                .frame(height: 230)
                                 .cornerRadius(20)
                                 .clipped()
                         }
@@ -181,10 +181,10 @@ struct CarManageView: View {
                     }
                     .buttonStyle(PressableButtonStyle())
                     .sheet(isPresented: $showDiagnosisModal) {
-                        if let car = car {
-                            AICarDiagnosisView(carId: car.id)
-                        }
+                        AICarDiagnosisView(carId: car.id)
                     }
+
+
                     
                     // 차량 수정 및 삭제 버튼
                     HStack(spacing: 20) {

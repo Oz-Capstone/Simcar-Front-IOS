@@ -34,23 +34,23 @@ struct DetailCarView: View {
                                         AsyncImage(url: url) { img in
                                             img
                                                 .resizable()
-                                                .frame(height: 200)
+                                                .frame(height: 230)
                                                 .cornerRadius(20)
                                                 .clipped()
                                         } placeholder: {
                                             ProgressView()
-                                                .frame(height: 200)
+                                                .frame(height: 230)
                                         }
                                     } else {
                                         Image(systemName: "photo")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: 200)
+                                            .frame(height: 230)
                                     }
                                 }
                             }
                             .tabViewStyle(PageTabViewStyle())
-                            .frame(height: 200)
+                            .frame(height: 230)
                         } else {
                             Image(systemName: "photo")
                                 .resizable()
@@ -167,10 +167,9 @@ struct DetailCarView: View {
                         gradientButtonLabel("AI 차량 진단")
                     }
                     .sheet(isPresented: $showDiagnosisModal) {
-                        if let car = car {
-                            AICarDiagnosisView(carId: car.id)
-                        }
+                        AICarDiagnosisView(carId: car.id)
                     }
+
                     .buttonStyle(PressableButtonStyle())
                 }
                 .padding()

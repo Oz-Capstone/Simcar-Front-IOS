@@ -75,6 +75,7 @@ struct CarSearchView: View {
                     }) {
                         gradientButtonLabel("검색")
                     }
+                    .buttonStyle(PressableButtonStyle())
                     .padding(.horizontal, 30)
                     .padding(.top, 20)
                     
